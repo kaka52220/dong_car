@@ -1,7 +1,7 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.4                      
 ******************************************************************************
->> Linked Tue May 19 10:16:07 2026
+>> Linked Tue May 19 10:28:33 2026
 
 OUTPUT FILE NAME:   <dong_car.out>
 ENTRY POINT SYMBOL: "_c_int00_noinit_noargs"  address: 00000175
