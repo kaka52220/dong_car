@@ -1,0 +1,40 @@
+# 1. IDE 配置文件（.theia 相关）
+.theia/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 2. 编译生成的 Debug/Release 产物（CCS/嵌入式项目通用）
+Debug/
+Release/
+*.out
+*.elf
+*.hex
+*.bin
+*.map
+*.obj
+*.o
+*.d
+*.lst
+*.sym
+*.ini
+*.opt
+*.cmd.genlibs
+*.linkInfo.xml
+*.dep
+*.mk
+Event.dot
+
+# 3. 临时文件/日志
+*.log
+*.tmp
+*.temp
+.cache/
+build/
+dist/
+
+# 4. 系统/隐藏文件
+.DS_Store
+Thumbs.db
