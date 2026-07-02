@@ -120,6 +120,4 @@ GEN_OPTS__QUOTED :=
 SUBDIRS := \
 . \
 BSP \
-OLED/csrc \
-OLED \
 

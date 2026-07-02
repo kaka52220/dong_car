@@ -30,9 +30,9 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ti_msp_dl_config.h"
+// #include "ti_msp_dl_config.h"
 
-//自定义延时（不精确）
+// //自定义延时（不精确）
 void delay_ms(unsigned int ms)
 {
     unsigned int i, j;
@@ -48,14 +48,40 @@ void delay_ms(unsigned int ms)
     }
 }
 
+// int main(void)
+// {
+//     SYSCFG_DL_init();
+//     while (1)
+//     {
+//         DL_GPIO_clearPins(LED1_PORT,LED1_PIN_22_PIN);//输出低电平
+//         delay_ms(1000);//延时大概1S
+//         DL_GPIO_setPins(LED1_PORT,LED1_PIN_22_PIN);  //输出高电平
+//         delay_ms(1000);//延时大概1S
+//     }
+// }
+#include "ti_msp_dl_config.h"
+#include "board.h"
+#include "hc05.h"
+
 int main(void)
 {
     SYSCFG_DL_init();
+
+    Bluetooth_Init();
+    delay_ms(100);
+
+    printf("HC05 Bluetooth Init!!\r\n");
+
     while (1)
     {
-        DL_GPIO_clearPins(LED1_PORT,LED1_PIN_22_PIN);//输出低电平
-        delay_ms(1000);//延时大概1S
-        DL_GPIO_setPins(LED1_PORT,LED1_PIN_22_PIN);  //输出高电平
-        delay_ms(1000);//延时大概1S
+        int8_t M = 0;
+        //发送数据到蓝牙
+        //BLE_send_String((uint8_t *)"TMX MSPM0G3507!!\n");
+        BLE_send_String("M\n");
+        //如果接收到蓝牙数据则通过串口显示
+        Receive_Bluetooth_Data();
+        M += 1;
+        delay_ms(1000);
+
     }
 }

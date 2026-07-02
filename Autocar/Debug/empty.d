@@ -82,7 +82,9 @@ empty.o: ../empty.c ti_msp_dl_config.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_vref.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_wwdt.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h \
- G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h
+ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h \
+ G:/dong_car_code/Autocar/BSP/board.h \
+ G:/dong_car_code/Autocar/BSP/hc05.h
 ti_msp_dl_config.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h:
@@ -166,3 +168,5 @@ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_vref.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_wwdt.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h:
+G:/dong_car_code/Autocar/BSP/board.h:
+G:/dong_car_code/Autocar/BSP/hc05.h:

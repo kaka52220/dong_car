@@ -77,6 +77,26 @@ extern "C" {
 
 
 
+/* Defines for UART_2 */
+#define UART_2_INST                                                        UART2
+#define UART_2_INST_FREQUENCY                                            8000000
+#define UART_2_INST_IRQHandler                                  UART2_IRQHandler
+#define UART_2_INST_INT_IRQN                                      UART2_INT_IRQn
+#define GPIO_UART_2_RX_PORT                                                GPIOB
+#define GPIO_UART_2_TX_PORT                                                GPIOB
+#define GPIO_UART_2_RX_PIN                                        DL_GPIO_PIN_16
+#define GPIO_UART_2_TX_PIN                                        DL_GPIO_PIN_15
+#define GPIO_UART_2_IOMUX_RX                                     (IOMUX_PINCM33)
+#define GPIO_UART_2_IOMUX_TX                                     (IOMUX_PINCM32)
+#define GPIO_UART_2_IOMUX_RX_FUNC                      IOMUX_PINCM33_PF_UART2_RX
+#define GPIO_UART_2_IOMUX_TX_FUNC                      IOMUX_PINCM32_PF_UART2_TX
+#define UART_2_BAUD_RATE                                                  (9600)
+#define UART_2_IBRD_8_MHZ_9600_BAUD                                         (52)
+#define UART_2_FBRD_8_MHZ_9600_BAUD                                          (5)
+
+
+
+
 
 /* Port definition for Pin Group LED1 */
 #define LED1_PORT                                                        (GPIOB)
@@ -84,6 +104,18 @@ extern "C" {
 /* Defines for PIN_22: GPIOB.22 with pinCMx 50 on package pin 21 */
 #define LED1_PIN_22_PIN                                         (DL_GPIO_PIN_22)
 #define LED1_PIN_22_IOMUX                                        (IOMUX_PINCM50)
+/* Port definition for Pin Group GPIO_GRP_0 */
+#define GPIO_GRP_0_PORT                                                  (GPIOB)
+
+/* Defines for PIN_0: GPIOB.13 with pinCMx 30 on package pin 1 */
+#define GPIO_GRP_0_PIN_0_PIN                                    (DL_GPIO_PIN_13)
+#define GPIO_GRP_0_PIN_0_IOMUX                                   (IOMUX_PINCM30)
+/* Port definition for Pin Group HC05 */
+#define HC05_PORT                                                        (GPIOA)
+
+/* Defines for STATE: GPIOA.7 with pinCMx 14 on package pin 49 */
+#define HC05_STATE_PIN                                           (DL_GPIO_PIN_7)
+#define HC05_STATE_IOMUX                                         (IOMUX_PINCM14)
 
 
 /* clang-format on */
@@ -92,8 +124,11 @@ void SYSCFG_DL_init(void);
 void SYSCFG_DL_initPower(void);
 void SYSCFG_DL_GPIO_init(void);
 void SYSCFG_DL_SYSCTL_init(void);
+void SYSCFG_DL_UART_2_init(void);
 
 
+bool SYSCFG_DL_saveConfiguration(void);
+bool SYSCFG_DL_restoreConfiguration(void);
 
 #ifdef __cplusplus
 }
