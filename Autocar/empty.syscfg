@@ -9,10 +9,12 @@
 /**
  * Import the modules used in this configuration.
  */
+const Board  = scripting.addModule("/ti/driverlib/Board");
 const GPIO   = scripting.addModule("/ti/driverlib/GPIO", {}, false);
 const GPIO1  = GPIO.addInstance();
 const GPIO2  = GPIO.addInstance();
 const GPIO3  = GPIO.addInstance();
+const GPIO4  = GPIO.addInstance();
 const SYSCTL = scripting.addModule("/ti/driverlib/SYSCTL");
 const UART   = scripting.addModule("/ti/driverlib/UART", {}, false);
 const UART1  = UART.addInstance();
@@ -20,14 +22,13 @@ const UART1  = UART.addInstance();
 /**
  * Write custom configuration values to the imported modules.
  */
+
 GPIO1.$name                              = "LED1";
 GPIO1.port                               = "PORTB";
 GPIO1.associatedPins[0].$name            = "PIN_22";
 GPIO1.associatedPins[0].internalResistor = "PULL_DOWN";
 GPIO1.associatedPins[0].assignedPin      = "22";
 GPIO1.associatedPins[0].pin.$assign      = "PB22";
-
-const Board = scripting.addModule("/ti/driverlib/Board", {}, false);
 
 GPIO2.$name                   = "GPIO_GRP_0";
 GPIO2.associatedPins[0].$name = "PIN_0";
@@ -39,16 +40,41 @@ GPIO3.associatedPins[0].direction   = "INPUT";
 GPIO3.associatedPins[0].assignedPin = "7";
 GPIO3.associatedPins[0].pin.$assign = "PA7";
 
+GPIO4.$name                          = "KEY";
+GPIO4.associatedPins.create(4);
+GPIO4.associatedPins[0].$name        = "KEY1";
+GPIO4.associatedPins[0].direction    = "INPUT";
+GPIO4.associatedPins[0].assignedPort = "PORTB";
+GPIO4.associatedPins[0].assignedPin  = "18";
+GPIO4.associatedPins[0].interruptEn  = true;
+GPIO4.associatedPins[0].polarity     = "RISE";
+GPIO4.associatedPins[1].direction    = "INPUT";
+GPIO4.associatedPins[1].interruptEn  = true;
+GPIO4.associatedPins[1].assignedPort = "PORTA";
+GPIO4.associatedPins[1].assignedPin  = "13";
+GPIO4.associatedPins[1].$name        = "KEY2";
+GPIO4.associatedPins[1].polarity     = "RISE";
+GPIO4.associatedPins[2].$name        = "PB21";
+GPIO4.associatedPins[2].direction    = "INPUT";
+GPIO4.associatedPins[2].assignedPort = "PORTB";
+GPIO4.associatedPins[2].assignedPin  = "21";
+GPIO4.associatedPins[2].polarity     = "FALL";
+GPIO4.associatedPins[2].interruptEn  = true;
+GPIO4.associatedPins[3].direction    = "INPUT";
+GPIO4.associatedPins[3].$name        = "KEY4";
+GPIO4.associatedPins[3].assignedPort = "PORTB";
+GPIO4.associatedPins[3].assignedPin  = "1";
+GPIO4.associatedPins[3].interruptEn  = true;
+GPIO4.associatedPins[3].polarity     = "RISE";
+
 SYSCTL.forceDefaultClkConfig = true;
 
 UART1.$name                            = "UART_2";
 UART1.rxFifoThreshold                  = "DL_UART_RX_FIFO_LEVEL_ONE_ENTRY";
 UART1.enableDMARX                      = false;
 UART1.enableDMATX                      = false;
-UART1.uartClkSrc                       = "BUSCLK";
 UART1.uartClkDiv                       = "4";
 UART1.enableFIFO                       = true;
-UART1.ovsRate                          = "16";
 UART1.enabledInterrupts                = ["RX"];
 UART1.peripheral.$assign               = "UART2";
 UART1.peripheral.rxPin.$assign         = "PB16";
@@ -72,4 +98,8 @@ Board.peripheral.$suggestSolution            = "DEBUGSS";
 Board.peripheral.swclkPin.$suggestSolution   = "PA20";
 Board.peripheral.swdioPin.$suggestSolution   = "PA19";
 GPIO2.associatedPins[0].pin.$suggestSolution = "PB13";
+GPIO4.associatedPins[0].pin.$suggestSolution = "PB18";
+GPIO4.associatedPins[1].pin.$suggestSolution = "PA13";
+GPIO4.associatedPins[2].pin.$suggestSolution = "PB21";
+GPIO4.associatedPins[3].pin.$suggestSolution = "PB1";
 SYSCTL.peripheral.$suggestSolution           = "SYSCTL";

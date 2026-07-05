@@ -116,6 +116,32 @@ extern "C" {
 /* Defines for STATE: GPIOA.7 with pinCMx 14 on package pin 49 */
 #define HC05_STATE_PIN                                           (DL_GPIO_PIN_7)
 #define HC05_STATE_IOMUX                                         (IOMUX_PINCM14)
+/* Defines for KEY1: GPIOB.18 with pinCMx 44 on package pin 15 */
+#define KEY_KEY1_PORT                                                    (GPIOB)
+// pins affected by this interrupt request:["KEY1","PB21","KEY4"]
+#define KEY_GPIOB_INT_IRQN                                      (GPIOB_INT_IRQn)
+#define KEY_GPIOB_INT_IIDX                      (DL_INTERRUPT_GROUP1_IIDX_GPIOB)
+#define KEY_KEY1_IIDX                                       (DL_GPIO_IIDX_DIO18)
+#define KEY_KEY1_PIN                                            (DL_GPIO_PIN_18)
+#define KEY_KEY1_IOMUX                                           (IOMUX_PINCM44)
+/* Defines for KEY2: GPIOA.13 with pinCMx 35 on package pin 6 */
+#define KEY_KEY2_PORT                                                    (GPIOA)
+// pins affected by this interrupt request:["KEY2"]
+#define KEY_GPIOA_INT_IRQN                                      (GPIOA_INT_IRQn)
+#define KEY_GPIOA_INT_IIDX                      (DL_INTERRUPT_GROUP1_IIDX_GPIOA)
+#define KEY_KEY2_IIDX                                       (DL_GPIO_IIDX_DIO13)
+#define KEY_KEY2_PIN                                            (DL_GPIO_PIN_13)
+#define KEY_KEY2_IOMUX                                           (IOMUX_PINCM35)
+/* Defines for PB21: GPIOB.21 with pinCMx 49 on package pin 20 */
+#define KEY_PB21_PORT                                                    (GPIOB)
+#define KEY_PB21_IIDX                                       (DL_GPIO_IIDX_DIO21)
+#define KEY_PB21_PIN                                            (DL_GPIO_PIN_21)
+#define KEY_PB21_IOMUX                                           (IOMUX_PINCM49)
+/* Defines for KEY4: GPIOB.1 with pinCMx 13 on package pin 48 */
+#define KEY_KEY4_PORT                                                    (GPIOB)
+#define KEY_KEY4_IIDX                                        (DL_GPIO_IIDX_DIO1)
+#define KEY_KEY4_PIN                                             (DL_GPIO_PIN_1)
+#define KEY_KEY4_IOMUX                                           (IOMUX_PINCM13)
 
 
 /* clang-format on */

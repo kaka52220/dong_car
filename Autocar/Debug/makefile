@@ -13,6 +13,7 @@ ORDERED_OBJS += \
 "./empty.o" \
 "./ti_msp_dl_config.o" \
 "./startup_mspm0g350x_ticlang.o" \
+"./APPLICATION/key.o" \
 "./BSP/bsp_oled.o" \
 "./BSP/bsp_sw_i2c.o" \
 "./BSP/hc05.o" \
@@ -28,8 +29,10 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include APPLICATION/subdir_vars.mk
 -include BSP/subdir_vars.mk
 -include subdir_rules.mk
+-include APPLICATION/subdir_rules.mk
 -include BSP/subdir_rules.mk
 -include objects.mk
 
@@ -135,15 +138,15 @@ all: $(OBJS) $(GEN_CMDS)
 Autocar.out: $(OBJS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"G:/MSPM0 3507/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O2 -gdwarf-3 -Wall -Wl,-m"Autocar.map" -Wl,-i"G:/MSPM0 3507/CCS/mspm0_sdk_2_10_00_04/source" -Wl,-i"G:/dong_car_code/Autocar" -Wl,-i"G:/dong_car_code/Autocar/Debug/syscfg" -Wl,-i"G:/MSPM0 3507/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="Autocar_linkInfo.xml" -Wl,--rom_model -o "Autocar.out" $(ORDERED_OBJS)
+	"G:/MSPM0 3507/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O2 -gdwarf-3 -Wall -Wl,-m"Autocar.map" -Wl,-i"G:/MSPM0 3507/CCS/mspm0_sdk_2_10_00_04/source" -Wl,-i"G:/dong_car_code/Autocar/APPLICATION" -Wl,-i"G:/dong_car_code/Autocar" -Wl,-i"G:/dong_car_code/Autocar/Debug/syscfg" -Wl,-i"G:/MSPM0 3507/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="Autocar_linkInfo.xml" -Wl,--rom_model -o "Autocar.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "BSP\bsp_oled.o" "BSP\bsp_sw_i2c.o" "BSP\hc05.o" 
-	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "BSP\bsp_oled.d" "BSP\bsp_sw_i2c.d" "BSP\hc05.d" 
+	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "APPLICATION\key.o" "BSP\bsp_oled.o" "BSP\bsp_sw_i2c.o" "BSP\hc05.o" 
+	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "APPLICATION\key.d" "BSP\bsp_oled.d" "BSP\bsp_sw_i2c.d" "BSP\hc05.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

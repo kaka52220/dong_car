@@ -62,26 +62,52 @@ void delay_ms(unsigned int ms)
 #include "ti_msp_dl_config.h"
 #include "board.h"
 #include "hc05.h"
+#include "APPLICATION/key.h"
 
 int main(void)
 {
     SYSCFG_DL_init();
 
-    Bluetooth_Init();
-    delay_ms(100);
-
-    printf("HC05 Bluetooth Init!!\r\n");
+   // Bluetooth_Init();
+   Key_Init();
+    //delay_ms(100);
 
     while (1)
     {
-        int8_t M = 0;
-        //发送数据到蓝牙
-        //BLE_send_String((uint8_t *)"TMX MSPM0G3507!!\n");
-        BLE_send_String("M\n");
-        //如果接收到蓝牙数据则通过串口显示
-        Receive_Bluetooth_Data();
-        M += 1;
-        delay_ms(1000);
+        // int8_t M = 0;
+        // //发送数据到蓝牙
+        // //BLE_send_String((uint8_t *)"TMX MSPM0G3507!!\n");
+        // BLE_send_String("M\n");
+        // //如果接收到蓝牙数据则通过串口显示
+        // Receive_Bluetooth_Data();
+        // M += 1;
+        // delay_ms(1000);
 
     }
 }
+// int main(void)
+// {
+//     SYSCFG_DL_init();
+//     NVIC_EnableIRQ(KEY_INT_IRQN);//开启按键引脚的GPIOA端口中断
+//     while (1)
+//     {
+
+//     }
+// }
+
+// void GROUP1_IRQHandler(void)//Group1的中断服务函数
+// {
+//     //读取Group1的中断寄存器并清除中断标志位
+//     switch( DL_Interrupt_getPendingGroup(DL_INTERRUPT_GROUP_1) )
+//     {
+//         //检查是否是KEY的GPIOB端口中断，注意是INT_IIDX，不是PIN_22_IIDX
+//         case KEY_INT_IIDX:
+//             //如果按键按下变为低电平
+//             if( DL_GPIO_readPins(KEY_PORT, KEY_PIN_21_PIN) == 0 )
+//             {
+//                 //设置LED引脚状态翻转
+//                 DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
+//             }
+//         break;
+//     }
+// }

@@ -1,6 +1,7 @@
 "./empty.o"
 "./ti_msp_dl_config.o"
 "./startup_mspm0g350x_ticlang.o"
+"./APPLICATION/key.o"
 "./BSP/bsp_oled.o"
 "./BSP/bsp_sw_i2c.o"
 "./BSP/hc05.o"
