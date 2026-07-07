@@ -68,21 +68,15 @@ int main(void)
 {
     SYSCFG_DL_init();
 
-   // Bluetooth_Init();
-   Key_Init();
+    Bluetooth_Init();
+    Key_Init();
     //delay_ms(100);
 
     while (1)
     {
-        // int8_t M = 0;
-        // //发送数据到蓝牙
-        // //BLE_send_String((uint8_t *)"TMX MSPM0G3507!!\n");
-        // BLE_send_String("M\n");
-        // //如果接收到蓝牙数据则通过串口显示
-        // Receive_Bluetooth_Data();
-        // M += 1;
-        // delay_ms(1000);
+        Key_Process();
 
+        /* 未来在此处添加更多后台任务 */
     }
 }
 // int main(void)

@@ -16,7 +16,9 @@ ORDERED_OBJS += \
 "./APPLICATION/key.o" \
 "./BSP/bsp_oled.o" \
 "./BSP/bsp_sw_i2c.o" \
+"./BSP/electrical_machinery.o" \
 "./BSP/hc05.o" \
+"./BSP/interrupt.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
 -Wl,-llibc.a \
@@ -145,8 +147,8 @@ Autocar.out: $(OBJS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "APPLICATION\key.o" "BSP\bsp_oled.o" "BSP\bsp_sw_i2c.o" "BSP\hc05.o" 
-	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "APPLICATION\key.d" "BSP\bsp_oled.d" "BSP\bsp_sw_i2c.d" "BSP\hc05.d" 
+	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "APPLICATION\key.o" "BSP\bsp_oled.o" "BSP\bsp_sw_i2c.o" "BSP\electrical_machinery.o" "BSP\hc05.o" "BSP\interrupt.o" 
+	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "APPLICATION\key.d" "BSP\bsp_oled.d" "BSP\bsp_sw_i2c.d" "BSP\electrical_machinery.d" "BSP\hc05.d" "BSP\interrupt.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

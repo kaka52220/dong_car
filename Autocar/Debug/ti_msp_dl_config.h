@@ -73,13 +73,79 @@ extern "C" {
 #define POWER_STARTUP_DELAY                                                (16)
 
 
-#define CPUCLK_FREQ                                                     32000000
+
+#define CPUCLK_FREQ                                                     80000000
+/* Defines for SYSPLL_ERR_01 Workaround */
+/* Represent 1.000 as 1000 */
+#define FLOAT_TO_INT_SCALE                                               (1000U)
+#define FCC_EXPECTED_RATIO                                                  2500
+#define FCC_UPPER_BOUND                       (FCC_EXPECTED_RATIO * (1 + 0.003))
+#define FCC_LOWER_BOUND                       (FCC_EXPECTED_RATIO * (1 - 0.003))
+
+bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
+
+
+/* Defines for PWMA */
+#define PWMA_INST                                                          TIMG8
+#define PWMA_INST_IRQHandler                                    TIMG8_IRQHandler
+#define PWMA_INST_INT_IRQN                                      (TIMG8_INT_IRQn)
+#define PWMA_INST_CLK_FREQ                                              10000000
+/* GPIO defines for channel 0 */
+#define GPIO_PWMA_C0_PORT                                                  GPIOA
+#define GPIO_PWMA_C0_PIN                                          DL_GPIO_PIN_26
+#define GPIO_PWMA_C0_IOMUX                                       (IOMUX_PINCM59)
+#define GPIO_PWMA_C0_IOMUX_FUNC                      IOMUX_PINCM59_PF_TIMG8_CCP0
+#define GPIO_PWMA_C0_IDX                                     DL_TIMER_CC_0_INDEX
+
+/* Defines for PWMB */
+#define PWMB_INST                                                          TIMG7
+#define PWMB_INST_IRQHandler                                    TIMG7_IRQHandler
+#define PWMB_INST_INT_IRQN                                      (TIMG7_INT_IRQn)
+#define PWMB_INST_CLK_FREQ                                              10000000
+/* GPIO defines for channel 1 */
+#define GPIO_PWMB_C1_PORT                                                  GPIOA
+#define GPIO_PWMB_C1_PIN                                          DL_GPIO_PIN_18
+#define GPIO_PWMB_C1_IOMUX                                       (IOMUX_PINCM40)
+#define GPIO_PWMB_C1_IOMUX_FUNC                      IOMUX_PINCM40_PF_TIMG7_CCP1
+#define GPIO_PWMB_C1_IDX                                     DL_TIMER_CC_1_INDEX
+
+/* Defines for PWMC */
+#define PWMC_INST                                                         TIMG12
+#define PWMC_INST_IRQHandler                                   TIMG12_IRQHandler
+#define PWMC_INST_INT_IRQN                                     (TIMG12_INT_IRQn)
+#define PWMC_INST_CLK_FREQ                                              10000000
+/* GPIO defines for channel 1 */
+#define GPIO_PWMC_C1_PORT                                                  GPIOB
+#define GPIO_PWMC_C1_PIN                                          DL_GPIO_PIN_24
+#define GPIO_PWMC_C1_IOMUX                                       (IOMUX_PINCM52)
+#define GPIO_PWMC_C1_IOMUX_FUNC                     IOMUX_PINCM52_PF_TIMG12_CCP1
+#define GPIO_PWMC_C1_IDX                                     DL_TIMER_CC_1_INDEX
+
+/* Defines for PWMD */
+#define PWMD_INST                                                          TIMG6
+#define PWMD_INST_IRQHandler                                    TIMG6_IRQHandler
+#define PWMD_INST_INT_IRQN                                      (TIMG6_INT_IRQn)
+#define PWMD_INST_CLK_FREQ                                              10000000
+/* GPIO defines for channel 1 */
+#define GPIO_PWMD_C1_PORT                                                  GPIOA
+#define GPIO_PWMD_C1_PIN                                          DL_GPIO_PIN_22
+#define GPIO_PWMD_C1_IOMUX                                       (IOMUX_PINCM47)
+#define GPIO_PWMD_C1_IOMUX_FUNC                      IOMUX_PINCM47_PF_TIMG6_CCP1
+#define GPIO_PWMD_C1_IDX                                     DL_TIMER_CC_1_INDEX
+
+
+
+/* Defines for TIMER_TICK */
+#define TIMER_TICK_INST                                                  (TIMG0)
+#define TIMER_TICK_INST_IRQHandler                              TIMG0_IRQHandler
+#define TIMER_TICK_INST_INT_IRQN                                (TIMG0_INT_IRQn)
+#define TIMER_TICK_INST_LOAD_VALUE                                       (9999U)
 
 
 
 /* Defines for UART_2 */
 #define UART_2_INST                                                        UART2
-#define UART_2_INST_FREQUENCY                                            8000000
+#define UART_2_INST_FREQUENCY                                           10000000
 #define UART_2_INST_IRQHandler                                  UART2_IRQHandler
 #define UART_2_INST_INT_IRQN                                      UART2_INT_IRQn
 #define GPIO_UART_2_RX_PORT                                                GPIOB
@@ -91,8 +157,8 @@ extern "C" {
 #define GPIO_UART_2_IOMUX_RX_FUNC                      IOMUX_PINCM33_PF_UART2_RX
 #define GPIO_UART_2_IOMUX_TX_FUNC                      IOMUX_PINCM32_PF_UART2_TX
 #define UART_2_BAUD_RATE                                                  (9600)
-#define UART_2_IBRD_8_MHZ_9600_BAUD                                         (52)
-#define UART_2_FBRD_8_MHZ_9600_BAUD                                          (5)
+#define UART_2_IBRD_10_MHZ_9600_BAUD                                        (65)
+#define UART_2_FBRD_10_MHZ_9600_BAUD                                         (7)
 
 
 
@@ -150,6 +216,13 @@ void SYSCFG_DL_init(void);
 void SYSCFG_DL_initPower(void);
 void SYSCFG_DL_GPIO_init(void);
 void SYSCFG_DL_SYSCTL_init(void);
+
+bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
+void SYSCFG_DL_PWMA_init(void);
+void SYSCFG_DL_PWMB_init(void);
+void SYSCFG_DL_PWMC_init(void);
+void SYSCFG_DL_PWMD_init(void);
+void SYSCFG_DL_TIMER_TICK_init(void);
 void SYSCFG_DL_UART_2_init(void);
 
 

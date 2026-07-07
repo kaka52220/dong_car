@@ -4,7 +4,9 @@
 "./APPLICATION/key.o"
 "./BSP/bsp_oled.o"
 "./BSP/bsp_sw_i2c.o"
+"./BSP/electrical_machinery.o"
 "./BSP/hc05.o"
+"./BSP/interrupt.o"
 -l"./device_linker.cmd"
 -ldevice.cmd.genlibs
 -llibc.a
