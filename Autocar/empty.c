@@ -63,20 +63,42 @@ void delay_ms(unsigned int ms)
 #include "board.h"
 #include "hc05.h"
 #include "APPLICATION/key.h"
+#include "clock.h"
+#include "interrupt.h"//中断
+#include "electrical_machinery.h"//小车控制
+#include "motor_test.h"
+void MSPM0_Init(){
+    SYSCFG_DL_init();
+    SysTick_Init();
+    NVIC_ClearPendingIRQ(GPIOA_INT_IRQn);
+	NVIC_ClearPendingIRQ(GPIOB_INT_IRQn);
+    NVIC_EnableIRQ(GPIOA_INT_IRQn);
+    NVIC_EnableIRQ(GPIOB_INT_IRQn);
+}
 
 int main(void)
 {
     SYSCFG_DL_init();
-
-    Bluetooth_Init();
-    Key_Init();
+    //Bluetooth_Init();
+    //Key_Init();
     //delay_ms(100);
-
-    while (1)
+SysTick_Init();              // ← 新
+  MotorTest_Init();            // ← 新增
+    DL_GPIO_setPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);
+    // DL_GPIO_clearPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);
+    while(1)
     {
-        Key_Process();
-
-        /* 未来在此处添加更多后台任务 */
+    //    car_run(100,0);
+      MotorTest_Forward(500);  // ← 替换
+      delay_ms(2000);
+         MotorTest_Stop();
+         delay_ms(2000);
+    //       delay_ms(1000);
+    MotorTest_Reverse(500);
+     delay_ms(2000);
+    //         delay_ms(2000);
+    //           MotorTest_Stop();
+    //            delay_ms(1000);
     }
 }
 // int main(void)

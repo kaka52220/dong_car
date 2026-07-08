@@ -11,29 +11,29 @@ void Key_Init(void)
     #endif
 }
 
-/* ── ISR：只标记端口事件，不读引脚电平（避免短脉冲丢失）── */
-void GROUP1_IRQHandler(void)
-{
-    switch (DL_Interrupt_getPendingGroup(DL_INTERRUPT_GROUP_1))
-    {
-        case KEY_GPIOB_INT_IIDX:
-            /* 不再读电平 → 边沿 = 一定触发，用后处理区分具体按键 */
-            key_events |= (KEY_EVENT_KEY1 | KEY_EVENT_PB21 | KEY_EVENT_KEY4);
+// /* ── ISR：只标记端口事件，不读引脚电平（避免短脉冲丢失）── */
+// void GROUP1_IRQHandler(void)
+// {
+//     switch (DL_Interrupt_getPendingGroup(DL_INTERRUPT_GROUP_1))
+//     {
+//         case KEY_GPIOB_INT_IIDX:
+//             /* 不再读电平 → 边沿 = 一定触发，用后处理区分具体按键 */
+//             key_events |= (KEY_EVENT_KEY1 | KEY_EVENT_PB21 | KEY_EVENT_KEY4);
 
-            DL_GPIO_clearInterruptStatus(GPIOB,
-                KEY_KEY1_PIN | KEY_PB21_PIN | KEY_KEY4_PIN);
-            break;
+//             DL_GPIO_clearInterruptStatus(GPIOB,
+//                 KEY_KEY1_PIN | KEY_PB21_PIN | KEY_KEY4_PIN);
+//             break;
 
-        case KEY_GPIOA_INT_IIDX:
-            key_events |= KEY_EVENT_KEY2;
+//         case KEY_GPIOA_INT_IIDX:
+//             key_events |= KEY_EVENT_KEY2;
 
-            DL_GPIO_clearInterruptStatus(GPIOA, KEY_KEY2_PIN);
-            break;
+//             DL_GPIO_clearInterruptStatus(GPIOA, KEY_KEY2_PIN);
+//             break;
 
-        default:
-            break;
-    }
-}
+//         default:
+//             break;
+//     }
+// }
 
 /* ── 主循环调用：读电平区分按键 + 执行动作 ── */
 void Key_Process(void)

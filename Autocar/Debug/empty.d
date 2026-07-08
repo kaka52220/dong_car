@@ -84,7 +84,11 @@ empty.o: ../empty.c ti_msp_dl_config.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h \
  G:/dong_car_code/Autocar/BSP/board.h \
- G:/dong_car_code/Autocar/BSP/hc05.h ../APPLICATION/key.h
+ G:/dong_car_code/Autocar/BSP/hc05.h ../APPLICATION/key.h \
+ G:/dong_car_code/Autocar/BSP/clock.h \
+ G:/dong_car_code/Autocar/BSP/interrupt.h \
+ G:/dong_car_code/Autocar/BSP/electrical_machinery.h \
+ G:/dong_car_code/Autocar/BSP/motor_test.h
 ti_msp_dl_config.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h:
@@ -171,3 +175,7 @@ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h:
 G:/dong_car_code/Autocar/BSP/board.h:
 G:/dong_car_code/Autocar/BSP/hc05.h:
 ../APPLICATION/key.h:
+G:/dong_car_code/Autocar/BSP/clock.h:
+G:/dong_car_code/Autocar/BSP/interrupt.h:
+G:/dong_car_code/Autocar/BSP/electrical_machinery.h:
+G:/dong_car_code/Autocar/BSP/motor_test.h:

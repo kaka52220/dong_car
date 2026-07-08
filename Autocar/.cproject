@@ -68,6 +68,8 @@
                                     <listOptionValue value="${SYSCONFIG_TOOL_LIBRARY_PATH}"/>
                                     <listOptionValue value="${COM_TI_MSPM0_SDK_INSTALL_DIR}/source"/>
                                     <listOptionValue value="${PROJECT_ROOT}/APPLICATION"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/OLED/csrc"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/OLED"/>
                                     <listOptionValue value="${PROJECT_ROOT}"/>
                                     <listOptionValue value="${PROJECT_BUILD_DIR}/syscfg"/>
                                     <listOptionValue value="${CG_TOOL_ROOT}/lib"/>
