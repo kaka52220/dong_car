@@ -4,9 +4,9 @@
 #include "stdio.h"
 #include "interrupt.h"
 #include "ti_msp_dl_config.h"
-#include "line_follower.h"
-#include "uart.h"
-#include "mpu6050.h"
+//#include "line_follower.h"
+//#include "uart.h"
+//include "mpu6050.h"
 
 //目录级数
 #define DIRECTORY 2
