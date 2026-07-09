@@ -6,7 +6,7 @@
 
 #define delay_ms  mspm0_delay_ms
 
-extern volatile unsigned long tick_ms;
+extern volatile unsigned long tick_ms;//interrupt.c中调用 tick_ms++;
 
 int mspm0_delay_ms(unsigned long num_ms);
 int mspm0_get_clock_ms(unsigned long *count);

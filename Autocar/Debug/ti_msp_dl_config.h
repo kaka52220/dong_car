@@ -143,6 +143,22 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 
 
 
+
+/* Defines for I2C_BUS */
+#define I2C_BUS_INST                                                        I2C0
+#define I2C_BUS_INST_IRQHandler                                  I2C0_IRQHandler
+#define I2C_BUS_INST_INT_IRQN                                      I2C0_INT_IRQn
+#define I2C_BUS_BUS_SPEED_HZ                                              400000
+#define GPIO_I2C_BUS_SDA_PORT                                              GPIOA
+#define GPIO_I2C_BUS_SDA_PIN                                      DL_GPIO_PIN_28
+#define GPIO_I2C_BUS_IOMUX_SDA                                    (IOMUX_PINCM3)
+#define GPIO_I2C_BUS_IOMUX_SDA_FUNC                     IOMUX_PINCM3_PF_I2C0_SDA
+#define GPIO_I2C_BUS_SCL_PORT                                              GPIOA
+#define GPIO_I2C_BUS_SCL_PIN                                      DL_GPIO_PIN_31
+#define GPIO_I2C_BUS_IOMUX_SCL                                    (IOMUX_PINCM6)
+#define GPIO_I2C_BUS_IOMUX_SCL_FUNC                     IOMUX_PINCM6_PF_I2C0_SCL
+
+
 /* Defines for UART_2 */
 #define UART_2_INST                                                        UART2
 #define UART_2_INST_FREQUENCY                                           10000000
@@ -206,7 +222,7 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 /* Defines for KEY2: GPIOA.13 with pinCMx 35 on package pin 6 */
 #define KEY_KEY2_PORT                                                    (GPIOA)
 // groups represented: ["GPIO_ENCODER","KEY"]
-// pins affected: ["E1A","E1B","E2A","E2B","KEY2"]
+// pins affected: ["E1A","E1B","E2A","E2B","KEY2","KEY3"]
 #define GPIO_MULTIPLE_GPIOA_INT_IRQN                            (GPIOA_INT_IRQn)
 #define GPIO_MULTIPLE_GPIOA_INT_IIDX            (DL_INTERRUPT_GROUP1_IIDX_GPIOA)
 #define KEY_KEY2_IIDX                                       (DL_GPIO_IIDX_DIO13)
@@ -222,6 +238,11 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 #define KEY_KEY4_IIDX                                        (DL_GPIO_IIDX_DIO1)
 #define KEY_KEY4_PIN                                             (DL_GPIO_PIN_1)
 #define KEY_KEY4_IOMUX                                           (IOMUX_PINCM13)
+/* Defines for KEY3: GPIOA.29 with pinCMx 4 on package pin 36 */
+#define KEY_KEY3_PORT                                                    (GPIOA)
+#define KEY_KEY3_IIDX                                       (DL_GPIO_IIDX_DIO29)
+#define KEY_KEY3_PIN                                            (DL_GPIO_PIN_29)
+#define KEY_KEY3_IOMUX                                            (IOMUX_PINCM4)
 /* Defines for E1A: GPIOA.0 with pinCMx 1 on package pin 33 */
 #define GPIO_ENCODER_E1A_PORT                                            (GPIOA)
 #define GPIO_ENCODER_E1A_IIDX                                (DL_GPIO_IIDX_DIO0)
@@ -313,6 +334,7 @@ void SYSCFG_DL_PWMB_init(void);
 void SYSCFG_DL_PWMC_init(void);
 void SYSCFG_DL_PWMD_init(void);
 void SYSCFG_DL_TIMER_TICK_init(void);
+void SYSCFG_DL_I2C_BUS_init(void);
 void SYSCFG_DL_UART_2_init(void);
 
 

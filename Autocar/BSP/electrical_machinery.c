@@ -146,7 +146,7 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
 	DL_TimerG_setCaptureCompareValue(PWMD_INST, 999-ControlVelocity_D, GPIO_PWMD_C1_IDX);
 }
 
-void car_run(int base_speed, int differential)
+void car_run(int base_speed, int differential)//diff > 0 左转
 {
 	int left_speed = base_speed - differential / 2;
 	int right_speed = base_speed + differential / 2;
@@ -155,7 +155,7 @@ void car_run(int base_speed, int differential)
 	if(right_speed > 100)right_speed = 100;
 	else if(right_speed < -100)right_speed = -100;
     MOTOR_CONTROL(right_speed, right_speed,
-                        left_speed, left_speed);
+                        left_speed, left_speed);//pi增量控制,ControlVelocity_A = Velocity_A(right_speed, get_encoder_count('A'));
 }
 void car_stop()
 {

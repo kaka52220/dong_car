@@ -12,7 +12,8 @@ C_SRCS += \
 ../BSP/electrical_machinery.c \
 ../BSP/hc05.c \
 ../BSP/interrupt.c \
-../BSP/motor_test.c 
+../BSP/motor_test.c \
+../BSP/mspm0_motor_i2c.c 
 
 C_DEPS += \
 ./BSP/bsp_oled.d \
@@ -21,7 +22,8 @@ C_DEPS += \
 ./BSP/electrical_machinery.d \
 ./BSP/hc05.d \
 ./BSP/interrupt.d \
-./BSP/motor_test.d 
+./BSP/motor_test.d \
+./BSP/mspm0_motor_i2c.d 
 
 OBJS += \
 ./BSP/bsp_oled.o \
@@ -30,7 +32,8 @@ OBJS += \
 ./BSP/electrical_machinery.o \
 ./BSP/hc05.o \
 ./BSP/interrupt.o \
-./BSP/motor_test.o 
+./BSP/motor_test.o \
+./BSP/mspm0_motor_i2c.o 
 
 OBJS__QUOTED += \
 "BSP\bsp_oled.o" \
@@ -39,7 +42,8 @@ OBJS__QUOTED += \
 "BSP\electrical_machinery.o" \
 "BSP\hc05.o" \
 "BSP\interrupt.o" \
-"BSP\motor_test.o" 
+"BSP\motor_test.o" \
+"BSP\mspm0_motor_i2c.o" 
 
 C_DEPS__QUOTED += \
 "BSP\bsp_oled.d" \
@@ -48,7 +52,8 @@ C_DEPS__QUOTED += \
 "BSP\electrical_machinery.d" \
 "BSP\hc05.d" \
 "BSP\interrupt.d" \
-"BSP\motor_test.d" 
+"BSP\motor_test.d" \
+"BSP\mspm0_motor_i2c.d" 
 
 C_SRCS__QUOTED += \
 "../BSP/bsp_oled.c" \
@@ -57,6 +62,7 @@ C_SRCS__QUOTED += \
 "../BSP/electrical_machinery.c" \
 "../BSP/hc05.c" \
 "../BSP/interrupt.c" \
-"../BSP/motor_test.c" 
+"../BSP/motor_test.c" \
+"../BSP/mspm0_motor_i2c.c" 
 
 

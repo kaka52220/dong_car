@@ -33,20 +33,20 @@
 // #include "ti_msp_dl_config.h"
 
 // //自定义延时（不精确）
-void delay_ms(unsigned int ms)
-{
-    unsigned int i, j;
-    // 下面的嵌套循环的次数是根据主控频率和编译器生成的指令周期大致计算出来的，
-    // 需要通过实际测试调整来达到所需的延时。
-    for (i = 0; i < ms; i++)
-    {
-        for (j = 0; j < 8000; j++)
-        {
-            // 仅执行一个足够简单以致于可以预测其执行时间的操作
-            __asm__("nop"); // "nop" 代表“无操作”，在大多数架构中，这会消耗一个或几个时钟周期
-        }
-    }
-}
+// void delay_ms(unsigned int ms)
+// {
+//     unsigned int i, j;
+//     // 下面的嵌套循环的次数是根据主控频率和编译器生成的指令周期大致计算出来的，
+//     // 需要通过实际测试调整来达到所需的延时。
+//     for (i = 0; i < ms; i++)
+//     {
+//         for (j = 0; j < 8000; j++)
+//         {
+//             // 仅执行一个足够简单以致于可以预测其执行时间的操作
+//             __asm__("nop"); // "nop" 代表“无操作”，在大多数架构中，这会消耗一个或几个时钟周期
+//         }
+//     }
+// }
 
 // int main(void)
 // {
@@ -67,9 +67,11 @@ void delay_ms(unsigned int ms)
 #include "interrupt.h"//中断
 #include "electrical_machinery.h"//小车控制
 #include "motor_test.h"
+#include "APPLICATION/line_follower.h"
 void MSPM0_Init(){
     SYSCFG_DL_init();
-    SysTick_Init();
+    SysTick_Init();//系统1ms定时器和编码器20ms定时
+    //编码器和key中断,位于interrupt.c
     NVIC_ClearPendingIRQ(GPIOA_INT_IRQn);
 	NVIC_ClearPendingIRQ(GPIOB_INT_IRQn);
     NVIC_EnableIRQ(GPIOA_INT_IRQn);
@@ -78,27 +80,16 @@ void MSPM0_Init(){
 
 int main(void)
 {
-    SYSCFG_DL_init();
     //Bluetooth_Init();
     //Key_Init();
-    //delay_ms(100);
-SysTick_Init();              // ← 新
-  MotorTest_Init();            // ← 新增
-    DL_GPIO_setPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);
-    // DL_GPIO_clearPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);
+    MSPM0_Init();  
+    DL_GPIO_setPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);  // ← 加这  
     while(1)
     {
-    //    car_run(100,0);
-      MotorTest_Forward(500);  // ← 替换
-      delay_ms(2000);
-         MotorTest_Stop();
-         delay_ms(2000);
-    //       delay_ms(1000);
-    MotorTest_Reverse(500);
-     delay_ms(2000);
-    //         delay_ms(2000);
-    //           MotorTest_Stop();
-    //            delay_ms(1000);
+   //  car_run(40,0);
+// if(stop_flag)car_stop();
+//         else CAR_CONTROL();
+ line_follower_update();
     }
 }
 // int main(void)
