@@ -76,7 +76,7 @@ void TIMER_TICK_INST_IRQHandler(void)
         motor_encoderC.dir = ( motor_encoderC.count >= 0 ) ? FORWARD : REVERSAL;
         motor_encoderD.dir = ( motor_encoderD.count >= 0 ) ? FORWARD : REVERSAL;
         //编码器计数值清零
-        motor_encoderA.temp_count = 0;
+        motor_encoderA.temp_count = 0; 
         motor_encoderB.temp_count = 0;
         motor_encoderC.temp_count = 0;
         motor_encoderD.temp_count = 0;
@@ -172,7 +172,7 @@ void GROUP1_IRQHandler(void)
                      }
                       DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
                     break;
-                // case KEY_PB21_IIDX://天猛星开发板按键
+                // case KEY_PB21_IIDX://天猛星开发板按键,这里跟其他按键一起使用可能会出现问题,暂未排查,先停止使用
                 //     ;   
                 //     static uint32_t PB21_start_time = 0;
                 //     if(tick_ms - PB21_start_time >= 300)
@@ -240,3 +240,4 @@ void GROUP1_IRQHandler(void)
             break;
     }
 }
+

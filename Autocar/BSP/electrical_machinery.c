@@ -71,6 +71,10 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     int ControlVelocity_B = Velocity_B(TargetVelocity_B, get_encoder_count('B'));
     int ControlVelocity_C = Velocity_C(TargetVelocity_C, get_encoder_count('C'));
     int ControlVelocity_D = Velocity_D(TargetVelocity_D, get_encoder_count('D'));
+	// int ControlVelocity_A = TargetVelocity_A;
+    // int ControlVelocity_B = TargetVelocity_B;
+    // int ControlVelocity_C =  TargetVelocity_C;
+    // int ControlVelocity_D = TargetVelocity_D;
     
 	if(ControlVelocity_A > 0)
 	{
@@ -91,9 +95,8 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
 
 	if(ControlVelocity_B > 0)
 	{
-        DL_GPIO_setPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
-        DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
-        
+		DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);    
     }
     else if (ControlVelocity_B == 0) 
 	{
@@ -101,9 +104,9 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
         DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
     }
     else if (ControlVelocity_B < 0) 
-	{
-		DL_GPIO_clearPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
+	{	
 		DL_GPIO_setPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
+		DL_GPIO_clearPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
         ControlVelocity_B = -ControlVelocity_B;
     }
 

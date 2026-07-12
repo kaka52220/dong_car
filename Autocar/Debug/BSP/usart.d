@@ -1,7 +1,6 @@
 # FIXED
 
-APPLICATION/line_follower.o: ../APPLICATION/line_follower.c \
- ../APPLICATION/line_follower.h \
+BSP/usart.o: ../BSP/usart.c ../BSP/usart.h \
  ti_msp_dl_config.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h \
@@ -84,12 +83,8 @@ APPLICATION/line_follower.o: ../APPLICATION/line_follower.c \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_vref.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_wwdt.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h \
- G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h \
- G:/dong_car_code/Autocar/BSP/mspm0_motor_i2c.h \
- G:/dong_car_code/Autocar/BSP/usart.h \
- G:/dong_car_code/Autocar/BSP/clock.h \
- G:/dong_car_code/Autocar/BSP/electrical_machinery.h
-../APPLICATION/line_follower.h:
+ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h
+../BSP/usart.h:
 ti_msp_dl_config.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h:
@@ -173,7 +168,3 @@ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_vref.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_wwdt.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h:
-G:/dong_car_code/Autocar/BSP/mspm0_motor_i2c.h:
-G:/dong_car_code/Autocar/BSP/usart.h:
-G:/dong_car_code/Autocar/BSP/clock.h:
-G:/dong_car_code/Autocar/BSP/electrical_machinery.h:

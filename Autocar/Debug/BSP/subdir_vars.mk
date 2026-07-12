@@ -13,7 +13,8 @@ C_SRCS += \
 ../BSP/hc05.c \
 ../BSP/interrupt.c \
 ../BSP/motor_test.c \
-../BSP/mspm0_motor_i2c.c 
+../BSP/mspm0_motor_i2c.c \
+../BSP/usart.c 
 
 C_DEPS += \
 ./BSP/bsp_oled.d \
@@ -23,7 +24,8 @@ C_DEPS += \
 ./BSP/hc05.d \
 ./BSP/interrupt.d \
 ./BSP/motor_test.d \
-./BSP/mspm0_motor_i2c.d 
+./BSP/mspm0_motor_i2c.d \
+./BSP/usart.d 
 
 OBJS += \
 ./BSP/bsp_oled.o \
@@ -33,7 +35,8 @@ OBJS += \
 ./BSP/hc05.o \
 ./BSP/interrupt.o \
 ./BSP/motor_test.o \
-./BSP/mspm0_motor_i2c.o 
+./BSP/mspm0_motor_i2c.o \
+./BSP/usart.o 
 
 OBJS__QUOTED += \
 "BSP\bsp_oled.o" \
@@ -43,7 +46,8 @@ OBJS__QUOTED += \
 "BSP\hc05.o" \
 "BSP\interrupt.o" \
 "BSP\motor_test.o" \
-"BSP\mspm0_motor_i2c.o" 
+"BSP\mspm0_motor_i2c.o" \
+"BSP\usart.o" 
 
 C_DEPS__QUOTED += \
 "BSP\bsp_oled.d" \
@@ -53,7 +57,8 @@ C_DEPS__QUOTED += \
 "BSP\hc05.d" \
 "BSP\interrupt.d" \
 "BSP\motor_test.d" \
-"BSP\mspm0_motor_i2c.d" 
+"BSP\mspm0_motor_i2c.d" \
+"BSP\usart.d" 
 
 C_SRCS__QUOTED += \
 "../BSP/bsp_oled.c" \
@@ -63,6 +68,7 @@ C_SRCS__QUOTED += \
 "../BSP/hc05.c" \
 "../BSP/interrupt.c" \
 "../BSP/motor_test.c" \
-"../BSP/mspm0_motor_i2c.c" 
+"../BSP/mspm0_motor_i2c.c" \
+"../BSP/usart.c" 
 
 

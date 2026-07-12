@@ -1,6 +1,7 @@
 "./empty.o"
 "./ti_msp_dl_config.o"
 "./startup_mspm0g350x_ticlang.o"
+"./APPLICATION/grayscale_sensor.o"
 "./APPLICATION/key.o"
 "./APPLICATION/line_follower.o"
 "./BSP/bsp_oled.o"
@@ -11,6 +12,7 @@
 "./BSP/interrupt.o"
 "./BSP/motor_test.o"
 "./BSP/mspm0_motor_i2c.o"
+"./BSP/usart.o"
 -l"./device_linker.cmd"
 -ldevice.cmd.genlibs
 -llibc.a

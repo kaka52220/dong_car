@@ -89,7 +89,8 @@ empty.o: ../empty.c ti_msp_dl_config.h \
  G:/dong_car_code/Autocar/BSP/interrupt.h \
  G:/dong_car_code/Autocar/BSP/electrical_machinery.h \
  G:/dong_car_code/Autocar/BSP/motor_test.h \
- ../APPLICATION/line_follower.h
+ ../APPLICATION/line_follower.h ../APPLICATION/grayscale_sensor.h \
+ G:/dong_car_code/Autocar/BSP/usart.h
 ti_msp_dl_config.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h:
@@ -181,3 +182,5 @@ G:/dong_car_code/Autocar/BSP/interrupt.h:
 G:/dong_car_code/Autocar/BSP/electrical_machinery.h:
 G:/dong_car_code/Autocar/BSP/motor_test.h:
 ../APPLICATION/line_follower.h:
+../APPLICATION/grayscale_sensor.h:
+G:/dong_car_code/Autocar/BSP/usart.h:

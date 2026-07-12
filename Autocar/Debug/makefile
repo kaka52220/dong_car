@@ -13,6 +13,7 @@ ORDERED_OBJS += \
 "./empty.o" \
 "./ti_msp_dl_config.o" \
 "./startup_mspm0g350x_ticlang.o" \
+"./APPLICATION/grayscale_sensor.o" \
 "./APPLICATION/key.o" \
 "./APPLICATION/line_follower.o" \
 "./BSP/bsp_oled.o" \
@@ -23,6 +24,7 @@ ORDERED_OBJS += \
 "./BSP/interrupt.o" \
 "./BSP/motor_test.o" \
 "./BSP/mspm0_motor_i2c.o" \
+"./BSP/usart.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
 -Wl,-llibc.a \
@@ -151,8 +153,8 @@ Autocar.out: $(OBJS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "APPLICATION\key.o" "APPLICATION\line_follower.o" "BSP\bsp_oled.o" "BSP\bsp_sw_i2c.o" "BSP\clock.o" "BSP\electrical_machinery.o" "BSP\hc05.o" "BSP\interrupt.o" "BSP\motor_test.o" "BSP\mspm0_motor_i2c.o" 
-	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "APPLICATION\key.d" "APPLICATION\line_follower.d" "BSP\bsp_oled.d" "BSP\bsp_sw_i2c.d" "BSP\clock.d" "BSP\electrical_machinery.d" "BSP\hc05.d" "BSP\interrupt.d" "BSP\motor_test.d" "BSP\mspm0_motor_i2c.d" 
+	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "APPLICATION\grayscale_sensor.o" "APPLICATION\key.o" "APPLICATION\line_follower.o" "BSP\bsp_oled.o" "BSP\bsp_sw_i2c.o" "BSP\clock.o" "BSP\electrical_machinery.o" "BSP\hc05.o" "BSP\interrupt.o" "BSP\motor_test.o" "BSP\mspm0_motor_i2c.o" "BSP\usart.o" 
+	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "APPLICATION\grayscale_sensor.d" "APPLICATION\key.d" "APPLICATION\line_follower.d" "BSP\bsp_oled.d" "BSP\bsp_sw_i2c.d" "BSP\clock.d" "BSP\electrical_machinery.d" "BSP\hc05.d" "BSP\interrupt.d" "BSP\motor_test.d" "BSP\mspm0_motor_i2c.d" "BSP\usart.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

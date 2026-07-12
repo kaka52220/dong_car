@@ -37,7 +37,7 @@
 // {
 //     unsigned int i, j;
 //     // 下面的嵌套循环的次数是根据主控频率和编译器生成的指令周期大致计算出来的，
-//     // 需要通过实际测试调整来达到所需的延时。
+//     // 需要通过实际测试调整来达到所需的延时�?
 //     for (i = 0; i < ms; i++)
 //     {
 //         for (j = 0; j < 8000; j++)
@@ -53,9 +53,9 @@
 //     SYSCFG_DL_init();
 //     while (1)
 //     {
-//         DL_GPIO_clearPins(LED1_PORT,LED1_PIN_22_PIN);//输出低电平
+//         DL_GPIO_clearPins(LED1_PORT,LED1_PIN_22_PIN);//输出低电�?
 //         delay_ms(1000);//延时大概1S
-//         DL_GPIO_setPins(LED1_PORT,LED1_PIN_22_PIN);  //输出高电平
+//         DL_GPIO_setPins(LED1_PORT,LED1_PIN_22_PIN);  //输出高电�?
 //         delay_ms(1000);//延时大概1S
 //     }
 // }
@@ -68,53 +68,42 @@
 #include "electrical_machinery.h"//小车控制
 #include "motor_test.h"
 #include "APPLICATION/line_follower.h"
+#include "APPLICATION/grayscale_sensor.h"
+#include "usart.h"
 void MSPM0_Init(){
     SYSCFG_DL_init();
-    SysTick_Init();//系统1ms定时器和编码器20ms定时
-    //编码器和key中断,位于interrupt.c
+    SysTick_Init();//系统1ms定时器和编码�?20ms定时//编码器和key中断,位于interrupt.c
+    
     NVIC_ClearPendingIRQ(GPIOA_INT_IRQn);
 	NVIC_ClearPendingIRQ(GPIOB_INT_IRQn);
     NVIC_EnableIRQ(GPIOA_INT_IRQn);
     NVIC_EnableIRQ(GPIOB_INT_IRQn);
 }
 
+
+// uint8_t g_sensor_data[GRAYSCALE_SENSOR_CHANNELS];
+// int i;
+uint8_t test[8] = {0};
 int main(void)
 {
     //Bluetooth_Init();
+    MSPM0_Init();
+   // USART_Init();
     //Key_Init();
-    MSPM0_Init();  
-    DL_GPIO_setPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);  // ← 加这  
+   
+   DL_GPIO_setPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);  // �? 加这  
     while(1)
     {
-   //  car_run(40,0);
-// if(stop_flag)car_stop();
-//         else CAR_CONTROL();
- line_follower_update();
+      
+     if(stop_flag)car_stop();
+             else CAR_CONTROL();
+	// Grayscale_Sensor_Read_All(g_sensor_data);  
+    //     for (i = 0; i < GRAYSCALE_SENSOR_CHANNELS; i++)
+    //     {
+    //         USART_SendData(g_sensor_data[i] + '0');
+    //     }
+    //          USART_SendString("\r\n");    
+	// 	delay_ms(30);
+
     }
 }
-// int main(void)
-// {
-//     SYSCFG_DL_init();
-//     NVIC_EnableIRQ(KEY_INT_IRQN);//开启按键引脚的GPIOA端口中断
-//     while (1)
-//     {
-
-//     }
-// }
-
-// void GROUP1_IRQHandler(void)//Group1的中断服务函数
-// {
-//     //读取Group1的中断寄存器并清除中断标志位
-//     switch( DL_Interrupt_getPendingGroup(DL_INTERRUPT_GROUP_1) )
-//     {
-//         //检查是否是KEY的GPIOB端口中断，注意是INT_IIDX，不是PIN_22_IIDX
-//         case KEY_INT_IIDX:
-//             //如果按键按下变为低电平
-//             if( DL_GPIO_readPins(KEY_PORT, KEY_PIN_21_PIN) == 0 )
-//             {
-//                 //设置LED引脚状态翻转
-//                 DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
-//             }
-//         break;
-//     }
-// }

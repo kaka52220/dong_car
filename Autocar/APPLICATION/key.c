@@ -36,38 +36,38 @@ void Key_Init(void)
 // }
 
 /* ── 主循环调用：读电平区分按键 + 执行动作 ── */
-void Key_Process(void)
-{
-    uint8_t events;
+// void Key_Process(void)
+// {
+//     uint8_t events;
 
-    /* 临界区保护：防止 ISR 在读写之间插入 */
-    __disable_irq();
-    events = key_events;
-    key_events = 0;
-    __enable_irq();
+//     /* 临界区保护：防止 ISR 在读写之间插入 */
+//     __disable_irq();
+//     events = key_events;
+//     key_events = 0;
+//     __enable_irq();
 
-    if (events == 0)
-        return;
+//     if (events == 0)
+//         return;
 
-    /* ─── 诊断模式：每个按键发不同蓝牙消息 ─── */
-    if (events & KEY_EVENT_KEY1)
-    {
-        BLE_send_String((uint8_t *)"[KEY1] PB18\r\n");
-        DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
-    }
-    if (events & KEY_EVENT_KEY2)
-    {
-        BLE_send_String((uint8_t *)"[KEY2] PA13\r\n");
-        DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
-    }
-    if (events & KEY_EVENT_PB21)
-    {
-        BLE_send_String((uint8_t *)"[KEY3] PB21\r\n");
-        DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
-    }
-    if (events & KEY_EVENT_KEY4)
-    {
-        BLE_send_String((uint8_t *)"[KEY4] PB1\r\n");
-        DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
-    }
-}
+//     /* ─── 诊断模式：每个按键发不同蓝牙消息 ─── */
+//     if (events & KEY_EVENT_KEY1)
+//     {
+//         BLE_send_String((uint8_t *)"[KEY1] PB18\r\n");
+//         DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
+//     }
+//     if (events & KEY_EVENT_KEY2)
+//     {
+//         BLE_send_String((uint8_t *)"[KEY2] PA13\r\n");
+//         DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
+//     }
+//     if (events & KEY_EVENT_PB21)
+//     {
+//         BLE_send_String((uint8_t *)"[KEY3] PB21\r\n");
+//         DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
+//     }
+//     if (events & KEY_EVENT_KEY4)
+//     {
+//         BLE_send_String((uint8_t *)"[KEY4] PB1\r\n");
+//         DL_GPIO_togglePins(LED1_PORT, LED1_PIN_22_PIN);
+//     }
+// }

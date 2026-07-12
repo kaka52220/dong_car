@@ -1,3 +1,5 @@
+//注意
+// 串口3RX引脚 PA24 与 PWMB 引脚冲突 
 // #ifndef __HC05_H__
 // #define __HC05_H__
 

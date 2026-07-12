@@ -1,7 +1,7 @@
 #include "line_follower.h"
 #include "ti_msp_dl_config.h"
 #include "mspm0_motor_i2c.h"
-//#include "uart.h"
+#include "usart.h"
 //#include "draw.h"
 #include "clock.h"
 #include "electrical_machinery.h"
@@ -10,7 +10,7 @@
 float kp = 7.0;
 float ki = 0.2;
 float kd = 0.5;
-int8_t base_speed = 40;
+int8_t base_speed = 20;
 bool   stop_flag = false;
 
 
@@ -18,8 +18,9 @@ unsigned char IRbuf[2];
 uint8_t s1, s2, s3, s4, s5, s6, s7, s8;
 uint8_t out_num = 0;
 uint8_t actual_speed;
-
 static float error = 0, last_error = 0, integral = 0;
+
+int i = 0;
 
 bool left_flage = false;
 bool trun_flage = false;
@@ -28,16 +29,32 @@ void line_follower_update(void)
 {
     mspm0_motor_i2c_read(IIC_ADDRESS, REGISTER_READ_ADDRESS, 2, IRbuf);
 	
-	s1 = (IRbuf[0]>>7)&0x01;
-	s2 = (IRbuf[0]>>6)&0x01;
-	s3 = (IRbuf[0]>>5)&0x01; 
-	s4 = (IRbuf[0]>>4)&0x01;
-	s5 = (IRbuf[0]>>3)&0x01;
-	s6 = (IRbuf[0]>>2)&0x01;
-	s7 = (IRbuf[0]>>1)&0x01;
-	s8 = (IRbuf[0]>>0)&0x01;
+	s1 = !((IRbuf[0]>>7)&0x01);
+	s2 = !((IRbuf[0]>>5)&0x01); 
+	s4 = !((IRbuf[0]>>4)&0x01);
+	s5 = !((IRbuf[0]>>3)&0x01);
+	s6 = !((IRbuf[0]>>2)&0x01);
+	s7 = !((IRbuf[0]>>1)&0x01);
+	s8 = !((IRbuf[0]>>0)&0x01);
 }
+void dayin(uint8_t *test)
+{
+    test[0] = s1;
+    test[1] = s2;
+    test[2] = s3;
+    test[3] = s4;
+    test[4] = s5;
+    test[5] = s6;
+    test[6] = s7;
+    test[7] = s8;
 
+ for (i = 0; i < 8; i++)
+   {
+         USART_SendData(test[i] + '0');
+   }
+       USART_SendString("\r\n");    
+	delay_ms(100);
+}
 float line_folower(float kp, float ki, float kd)
 {
     actual_speed = base_speed;
@@ -149,7 +166,7 @@ float line_folower(float kp, float ki, float kd)
 void car_trun(int8_t trun_speed)
 {
     car_run(0, trun_speed);
-    if(!s4 || !s5)
+    if(s4 || s5)
     {
         trun_flage = false;
     }
@@ -167,11 +184,11 @@ void CAR_CONTROL(void)
     {
         if(left_flage)
         {
-            car_trun(15); 
+            car_trun(1); 
         }
         else 
         {
-            car_trun(-15);
+            car_trun(-1);
         }
     }
 }
