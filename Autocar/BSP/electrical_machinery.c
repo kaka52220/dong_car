@@ -1,13 +1,15 @@
 #include "electrical_machinery.h"
 #include "ti_msp_dl_config.h"
-//#include "uart.h"
+#include "usart.h"
 //#include "draw.h"
 #include "interrupt.h"
+#include "clock.h"
+#include "stdio.h"
 
 int MAX=0;
 int MIN=0;
 
-float Velcity_Kp=7,  Velcity_Ki=5,  Velcity_Kd;
+float Velcity_Kp=0.2,  Velcity_Ki=0.05,  Velcity_Kd;
 
 int Velocity_A(int TargetVelocity, int CurrentVelocity)
 {  
@@ -67,19 +69,19 @@ int Velocity_D(int TargetVelocity, int CurrentVelocity)
 
 void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocity_C, int TargetVelocity_D)
 {
-    int ControlVelocity_A = Velocity_A(TargetVelocity_A, get_encoder_count('A'));
-    int ControlVelocity_B = Velocity_B(TargetVelocity_B, get_encoder_count('B'));
-    int ControlVelocity_C = Velocity_C(TargetVelocity_C, get_encoder_count('C'));
-    int ControlVelocity_D = Velocity_D(TargetVelocity_D, get_encoder_count('D'));
-	// int ControlVelocity_A = TargetVelocity_A;
-    // int ControlVelocity_B = TargetVelocity_B;
-    // int ControlVelocity_C =  TargetVelocity_C;
-    // int ControlVelocity_D = TargetVelocity_D;
-    
-	if(ControlVelocity_A > 0)
+    // int ControlVelocity_A = Velocity_A(TargetVelocity_A, get_encoder_count('A'));
+    // int ControlVelocity_B = Velocity_B(TargetVelocity_B, get_encoder_count('B'));
+    // int ControlVelocity_C = Velocity_C(TargetVelocity_C, get_encoder_count('C'));
+    // int ControlVelocity_D = Velocity_D(TargetVelocity_D, get_encoder_count('D'));
+	int ControlVelocity_A = TargetVelocity_A;
+    int ControlVelocity_B = TargetVelocity_B;
+    int ControlVelocity_C =  TargetVelocity_C;
+    int ControlVelocity_D = TargetVelocity_D;
+
+		if(ControlVelocity_A > 0)
 	{
-        DL_GPIO_clearPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
         DL_GPIO_setPins(GPIO_MOTOR_AIN2_PORT, GPIO_MOTOR_AIN2_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
     }
     else if (ControlVelocity_A == 0) 
 	{
@@ -88,15 +90,16 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     }
     else if (ControlVelocity_A < 0) 
 	{
-        DL_GPIO_setPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
         DL_GPIO_clearPins(GPIO_MOTOR_AIN2_PORT, GPIO_MOTOR_AIN2_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
         ControlVelocity_A = -ControlVelocity_A;
     }
 
 	if(ControlVelocity_B > 0)
 	{
-		DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
-        DL_GPIO_setPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);    
+        DL_GPIO_setPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
+        
     }
     else if (ControlVelocity_B == 0) 
 	{
@@ -104,9 +107,9 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
         DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
     }
     else if (ControlVelocity_B < 0) 
-	{	
-		DL_GPIO_setPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
+	{
 		DL_GPIO_clearPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
+		DL_GPIO_setPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
         ControlVelocity_B = -ControlVelocity_B;
     }
 
@@ -129,8 +132,8 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
 
 	if(ControlVelocity_D > 0)
 	{
-        DL_GPIO_clearPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
         DL_GPIO_setPins(GPIO_MOTOR_DIN2_PORT, GPIO_MOTOR_DIN2_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
     }
     else if (ControlVelocity_D == 0) 
 	{
@@ -139,14 +142,28 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     }
     else if (ControlVelocity_D < 0) 
 	{
-        DL_GPIO_setPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
         DL_GPIO_clearPins(GPIO_MOTOR_DIN2_PORT, GPIO_MOTOR_DIN2_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
         ControlVelocity_D = -ControlVelocity_D;
     }
-    DL_TimerG_setCaptureCompareValue(PWMA_INST, 999-ControlVelocity_A, GPIO_PWMA_C0_IDX);
-	DL_TimerG_setCaptureCompareValue(PWMB_INST, 999-ControlVelocity_B, GPIO_PWMB_C1_IDX);
-	DL_TimerG_setCaptureCompareValue(PWMC_INST, 999-ControlVelocity_C, GPIO_PWMC_C1_IDX);
-	DL_TimerG_setCaptureCompareValue(PWMD_INST, 999-ControlVelocity_D, GPIO_PWMD_C1_IDX);
+    // ===== 每 50ms 打印 PID 输出（调试用） =====
+    {//独立作用域
+        static uint32_t last_print = 0;
+        if (tick_ms - last_print >= 50)
+        {
+            last_print = tick_ms;
+            char buf[60];
+            sprintf(buf, "A=%d B=%d C=%d D=%d\r\n",
+                ControlVelocity_A, ControlVelocity_B,
+                ControlVelocity_C, ControlVelocity_D);
+            USART_SendString((unsigned char*)buf);
+        }
+    }
+
+    DL_TimerG_setCaptureCompareValue(PWMA_INST, ControlVelocity_A, GPIO_PWMA_C0_IDX);
+	DL_TimerG_setCaptureCompareValue(PWMB_INST, ControlVelocity_B, GPIO_PWMB_C1_IDX);
+	DL_TimerG_setCaptureCompareValue(PWMC_INST, ControlVelocity_C, GPIO_PWMC_C1_IDX);
+	DL_TimerG_setCaptureCompareValue(PWMD_INST, ControlVelocity_D, GPIO_PWMD_C1_IDX);
 }
 
 void car_run(int base_speed, int differential)//diff > 0 左转

@@ -444,7 +444,7 @@ static const DL_TimerG_ClockConfig gPWMAClockConfig = {
 };
 
 static const DL_TimerG_PWMConfig gPWMAConfig = {
-    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN,
+    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN_UP,
     .period = 1000,
     .isTimerWithFourCC = false,
     .startTimer = DL_TIMER_START,
@@ -466,7 +466,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_PWMA_init(void) {
 		DL_TIMERG_CAPTURE_COMPARE_0_INDEX);
 
     DL_TimerG_setCaptCompUpdateMethod(PWMA_INST, DL_TIMER_CC_UPDATE_METHOD_IMMEDIATE, DL_TIMERG_CAPTURE_COMPARE_0_INDEX);
-    DL_TimerG_setCaptureCompareValue(PWMA_INST, 1000, DL_TIMER_CC_0_INDEX);
+    DL_TimerG_setCaptureCompareValue(PWMA_INST, 0, DL_TIMER_CC_0_INDEX);
 
     DL_TimerG_enableClock(PWMA_INST);
 
@@ -488,7 +488,7 @@ static const DL_TimerG_ClockConfig gPWMBClockConfig = {
 };
 
 static const DL_TimerG_PWMConfig gPWMBConfig = {
-    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN,
+    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN_UP,
     .period = 1000,
     .isTimerWithFourCC = false,
     .startTimer = DL_TIMER_START,
@@ -510,7 +510,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_PWMB_init(void) {
 		DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
 
     DL_TimerG_setCaptCompUpdateMethod(PWMB_INST, DL_TIMER_CC_UPDATE_METHOD_IMMEDIATE, DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
-    DL_TimerG_setCaptureCompareValue(PWMB_INST, 1000, DL_TIMER_CC_1_INDEX);
+    DL_TimerG_setCaptureCompareValue(PWMB_INST, 0, DL_TIMER_CC_1_INDEX);
 
     DL_TimerG_enableClock(PWMB_INST);
 
@@ -532,7 +532,7 @@ static const DL_TimerG_ClockConfig gPWMCClockConfig = {
 };
 
 static const DL_TimerG_PWMConfig gPWMCConfig = {
-    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN,
+    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN_UP,
     .period = 1000,
     .isTimerWithFourCC = false,
     .startTimer = DL_TIMER_START,
@@ -554,7 +554,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_PWMC_init(void) {
 		DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
 
     DL_TimerG_setCaptCompUpdateMethod(PWMC_INST, DL_TIMER_CC_UPDATE_METHOD_IMMEDIATE, DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
-    DL_TimerG_setCaptureCompareValue(PWMC_INST, 1000, DL_TIMER_CC_1_INDEX);
+    DL_TimerG_setCaptureCompareValue(PWMC_INST, 0, DL_TIMER_CC_1_INDEX);
 
     DL_TimerG_enableClock(PWMC_INST);
 
@@ -576,7 +576,7 @@ static const DL_TimerG_ClockConfig gPWMDClockConfig = {
 };
 
 static const DL_TimerG_PWMConfig gPWMDConfig = {
-    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN,
+    .pwmMode = DL_TIMER_PWM_MODE_EDGE_ALIGN_UP,
     .period = 1000,
     .isTimerWithFourCC = false,
     .startTimer = DL_TIMER_START,
@@ -593,12 +593,12 @@ SYSCONFIG_WEAK void SYSCFG_DL_PWMD_init(void) {
     // Set Counter control to the smallest CC index being used
     DL_TimerG_setCounterControl(PWMD_INST,DL_TIMER_CZC_CCCTL1_ZCOND,DL_TIMER_CAC_CCCTL1_ACOND,DL_TIMER_CLC_CCCTL1_LCOND);
 
-    DL_TimerG_setCaptureCompareOutCtl(PWMD_INST, DL_TIMER_CC_OCTL_INIT_VAL_LOW,
+    DL_TimerG_setCaptureCompareOutCtl(PWMD_INST, DL_TIMER_CC_OCTL_INIT_VAL_HIGH,
 		DL_TIMER_CC_OCTL_INV_OUT_DISABLED, DL_TIMER_CC_OCTL_SRC_FUNCVAL,
 		DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
 
     DL_TimerG_setCaptCompUpdateMethod(PWMD_INST, DL_TIMER_CC_UPDATE_METHOD_IMMEDIATE, DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
-    DL_TimerG_setCaptureCompareValue(PWMD_INST, 1000, DL_TIMER_CC_1_INDEX);
+    DL_TimerG_setCaptureCompareValue(PWMD_INST, 0, DL_TIMER_CC_1_INDEX);
 
     DL_TimerG_enableClock(PWMD_INST);
 
@@ -699,11 +699,11 @@ SYSCONFIG_WEAK void SYSCFG_DL_UART_0_init(void)
     DL_UART_Main_init(UART_0_INST, (DL_UART_Main_Config *) &gUART_0Config);
     /*
      * Configure baud rate by setting oversampling and baud rate divisors.
-     *  Target baud rate: 115200
-     *  Actual baud rate: 115273.78
+     *  Target baud rate: 9600
+     *  Actual baud rate: 9599.23
      */
     DL_UART_Main_setOversampling(UART_0_INST, DL_UART_OVERSAMPLING_RATE_16X);
-    DL_UART_Main_setBaudRateDivisor(UART_0_INST, UART_0_IBRD_10_MHZ_115200_BAUD, UART_0_FBRD_10_MHZ_115200_BAUD);
+    DL_UART_Main_setBaudRateDivisor(UART_0_INST, UART_0_IBRD_10_MHZ_9600_BAUD, UART_0_FBRD_10_MHZ_9600_BAUD);
 
 
     /* Configure Interrupts */

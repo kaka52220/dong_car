@@ -158,6 +158,7 @@ void GROUP1_IRQHandler(void)
                 default:
                     break;
             }
+             break;
         // pins affected: ["KEY1","KEY4","E3A","E3B","E4A","E4B"]
         case DL_INTERRUPT_GROUP1_IIDX_GPIOB:
             switch (DL_GPIO_getPendingInterrupt(GPIOB))
@@ -196,7 +197,7 @@ void GROUP1_IRQHandler(void)
                 case GPIO_ENCODER_E3A_IIDX:
                     if(!DL_GPIO_readPins(GPIOB, GPIO_ENCODER_E3B_PIN))
                     {
-                        motor_encoderC.temp_count++;
+                        motor_encoderC.temp_count++;;
                     }
                     else
                     {

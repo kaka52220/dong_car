@@ -10,7 +10,7 @@
 float kp = 7.0;
 float ki = 0.2;
 float kd = 0.5;
-int8_t base_speed = 20;
+int8_t base_speed = 2;
 bool   stop_flag = false;
 
 
@@ -52,7 +52,7 @@ void dayin(uint8_t *test)
    {
          USART_SendData(test[i] + '0');
    }
-       USART_SendString("\r\n");    
+     //  USART_SendString("\r\n");    
 	delay_ms(100);
 }
 float line_folower(float kp, float ki, float kd)
