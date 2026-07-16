@@ -56,6 +56,30 @@ int puts(const char* _ptr)
  return 0;
 }
 
+/*===================================================================
+ *  VOFA+ JustFloat 协议
+ *  每帧: N×float(4字节大端?) + 帧尾 0x00 0x00 0x80 0x7F
+ *
+ *  注意: ARM Cortex-M 是小端, float 在内存中就是小端字节序,
+ *        VOFA+ JustFloat 也是小端, 所以直接按字节发送即可。
+ *===================================================================*/
+void VOFA_SendFrame(float *data, uint8_t count)
+{
+    uint8_t *p;
+    for (uint8_t i = 0; i < count; i++) {
+        p = (uint8_t *)&data[i];
+        USART_SendData(p[0]);
+        USART_SendData(p[1]);
+        USART_SendData(p[2]);
+        USART_SendData(p[3]);
+    }
+    /* JustFloat 帧尾 */
+    USART_SendData(0x00);
+    USART_SendData(0x00);
+    USART_SendData(0x80);
+    USART_SendData(0x7F);
+}
+
 void UART_0_INST_IRQHandler(void)
 {
 	uint8_t receivedData = 0;

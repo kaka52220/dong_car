@@ -70,6 +70,11 @@
 #include "APPLICATION/line_follower.h"
 #include "APPLICATION/grayscale_sensor.h"
 #include "usart.h"
+#include "APPLICATION/velocity_pid.h"
+#include "oled.h"
+#include "draw.h"//显示内容
+
+
 void MSPM0_Init(){
     SYSCFG_DL_init();
     SysTick_Init();//系统1ms定时器和编码�?20ms定时//编码器和key中断,位于interrupt.c
@@ -85,56 +90,12 @@ void MSPM0_Init(){
 // int i;
 uint8_t test[8] = {0};
 
-// 开环驱动单个电机（不经过 PID）
-// void motor_raw(int ch, int16_t speed)
-// {
-//     GPIO_Regs* in1_port, *in2_port;
-//     uint32_t in1_pin, in2_pin;
-//     GPTIMER_Regs* pwm_inst;
-//     DL_TIMER_CC_INDEX ccp_idx;
-
-//     switch (ch) {
-//         case 'A':
-//             in1_port = GPIO_MOTOR_AIN1_PORT; in1_pin = GPIO_MOTOR_AIN1_PIN;
-//             in2_port = GPIO_MOTOR_AIN2_PORT; in2_pin = GPIO_MOTOR_AIN2_PIN;
-//             pwm_inst = PWMA_INST; ccp_idx = GPIO_PWMA_C0_IDX;
-//             break;
-//         case 'B':
-//             in1_port = GPIO_MOTOR_BIN1_PORT; in1_pin = GPIO_MOTOR_BIN1_PIN;
-//             in2_port = GPIO_MOTOR_BIN2_PORT; in2_pin = GPIO_MOTOR_BIN2_PIN;
-//             pwm_inst = PWMB_INST; ccp_idx = GPIO_PWMB_C1_IDX;
-//             break;
-//         case 'C':
-//             in1_port = GPIO_MOTOR_CIN1_PORT; in1_pin = GPIO_MOTOR_CIN1_PIN;
-//             in2_port = GPIO_MOTOR_CIN2_PORT; in2_pin = GPIO_MOTOR_CIN2_PIN;
-//             pwm_inst = PWMC_INST; ccp_idx = GPIO_PWMC_C1_IDX;
-//             break;
-//         case 'D':
-//             in1_port = GPIO_MOTOR_DIN1_PORT; in1_pin = GPIO_MOTOR_DIN1_PIN;
-//             in2_port = GPIO_MOTOR_DIN2_PORT; in2_pin = GPIO_MOTOR_DIN2_PIN;
-//             pwm_inst = PWMD_INST; ccp_idx = GPIO_PWMD_C1_IDX;
-//             break;
-//         default: return;
-//     }
-
-//     if (speed > 0) {
-//         DL_GPIO_setPins(in2_port, in2_pin);
-//         DL_GPIO_clearPins(in1_port, in1_pin);
-//     } else if (speed < 0) {
-//         DL_GPIO_clearPins(in2_port, in2_pin);
-//         DL_GPIO_setPins(in1_port, in1_pin);
-//         speed = -speed;
-//     } else {
-//         DL_GPIO_clearPins(in1_port, in1_pin);
-//         DL_GPIO_clearPins(in2_port, in2_pin);
-//     }
-//     DL_TimerG_setCaptureCompareValue(pwm_inst, 999 - speed, ccp_idx);
-// }
-
 int main(void)
 {
     MSPM0_Init();
     USART_Init();
+    u8g2_t u8g2;
+    u8g2Init(&u8g2);
     DL_GPIO_setPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);
 
     USART_SendString((unsigned char*)"Encoder Test\r\n");
@@ -147,14 +108,37 @@ int main(void)
 
     while (1)
     {
-        MOTOR_CONTROL(200,200,200,200);
-        delay_ms(20);  // 等编码器积累一些计数
-        char buf[80];
-        sprintf(buf, "A:%d B:%d C:%d D:%d\r\n",
-            get_encoder_count('A'),
-            get_encoder_count('B'),
-            get_encoder_count('C'),
-            get_encoder_count('D'));
+        OLED_SHOW(&u8g2);
+        //CAR_CONTROL();
+        //delay_ms(20);
+
+        // // ========== VOFA+ 波形模式 (每100ms发一帧) ==========
+        // {
+        //     static uint8_t cnt = 0;
+        //     cnt++;
+        //     if (cnt >= 5) {  // 20ms×5 = 100ms
+        //         cnt = 0;
+        //         float vofa_data[8];
+        //         vofa_data[0] = calculate_motor_speed('A');
+        //         vofa_data[1] = calculate_motor_speed('B');
+        //         vofa_data[2] = calculate_motor_speed('C');
+        //         vofa_data[3] = calculate_motor_speed('D');
+        //         // 预留 PWM 通道, 目前填 0
+        //         vofa_data[4] = 0;
+        //         vofa_data[5] = 0;
+        //         vofa_data[6] = 0;
+        //         vofa_data[7] = 0;
+        //         VOFA_SendFrame(vofa_data, 8);
+        //     }
+        // }
+
+        // ========== 文本调试模式 (二选一, 用VOFA时注释掉下面) ==========
+        char buf[100];
+        sprintf(buf, "A:%d/%.0f B:%d/%.0f C:%d/%.0f D:%d/%.0f\r\n",
+            get_encoder_count('A'), calculate_motor_speed('A'),
+            get_encoder_count('B'), calculate_motor_speed('B'),
+            get_encoder_count('C'), calculate_motor_speed('C'),
+            get_encoder_count('D'), calculate_motor_speed('D'));
         USART_SendString((unsigned char*)buf);
     }
 }

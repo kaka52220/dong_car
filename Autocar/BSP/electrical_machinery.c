@@ -9,7 +9,50 @@
 int MAX=0;
 int MIN=0;
 
-float Velcity_Kp=0.2,  Velcity_Ki=0.05,  Velcity_Kd;
+float Velcity_Kp=0.5,  Velcity_Ki=0.3,  Velcity_Kd;
+
+/*===================================================================
+ *  速度计算 (mm/s) — 13线编码器 + 65mm轮径, 20ms采样
+ *
+ *  编码器 ISR: A相+B相都触发 → 每圈 26 中断
+ *  减速比 1:28 → 车轮每圈 = 26×28 = 728 中断
+ *  瞬时速度 = |脉冲数| × (π×65/728) × 50Hz = |脉冲数| × 14.03 mm/s
+ *  取绝对值: 方向由 MOTOR_CONTROL 的 IN1/IN2 控制, 速度只算大小
+ *  一阶低通滤波: speed = α×instant + (1-α)×speed
+ *===================================================================*/
+#define SPEED_FILTER_ALPHA   0.5f
+#define PULSE_TO_MMS         14.03f  /* π×65/(13×2×28)×50 */
+
+static float motor_speed_A, motor_speed_B, motor_speed_C, motor_speed_D;
+
+float calculate_motor_speed(char motor_name)
+{
+    int   pulse   = get_encoder_count(motor_name);
+    /* 取绝对值: 编码器ISR用±计数表示方向, 速度只看大小 */
+    int   mag     = (pulse >= 0) ? pulse : -pulse;
+    float instant = (float)mag * PULSE_TO_MMS;
+    float *sp     = NULL;
+
+    switch (motor_name) {
+    case 'A': sp = &motor_speed_A; break;
+    case 'B': sp = &motor_speed_B; break;
+    case 'C': sp = &motor_speed_C; break;
+    case 'D': sp = &motor_speed_D; break;
+    default:  return 0;
+    }
+    *sp = SPEED_FILTER_ALPHA * instant + (1.0f - SPEED_FILTER_ALPHA) * (*sp);
+    return *sp;
+}
+
+void reset_motor_speed(char motor_name)
+{
+    switch (motor_name) {
+    case 'A': motor_speed_A = 0; break;
+    case 'B': motor_speed_B = 0; break;
+    case 'C': motor_speed_C = 0; break;
+    case 'D': motor_speed_D = 0; break;
+    }
+}
 
 int Velocity_A(int TargetVelocity, int CurrentVelocity)
 {  
@@ -69,14 +112,14 @@ int Velocity_D(int TargetVelocity, int CurrentVelocity)
 
 void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocity_C, int TargetVelocity_D)
 {
-    // int ControlVelocity_A = Velocity_A(TargetVelocity_A, get_encoder_count('A'));
-    // int ControlVelocity_B = Velocity_B(TargetVelocity_B, get_encoder_count('B'));
-    // int ControlVelocity_C = Velocity_C(TargetVelocity_C, get_encoder_count('C'));
-    // int ControlVelocity_D = Velocity_D(TargetVelocity_D, get_encoder_count('D'));
-	int ControlVelocity_A = TargetVelocity_A;
-    int ControlVelocity_B = TargetVelocity_B;
-    int ControlVelocity_C =  TargetVelocity_C;
-    int ControlVelocity_D = TargetVelocity_D;
+    int ControlVelocity_A = Velocity_A(TargetVelocity_A, (int)calculate_motor_speed('A'));
+    int ControlVelocity_B = Velocity_B(TargetVelocity_B, (int)calculate_motor_speed('B'));
+    int ControlVelocity_C = Velocity_C(TargetVelocity_C, (int)calculate_motor_speed('C'));
+    int ControlVelocity_D = Velocity_D(TargetVelocity_D, (int)calculate_motor_speed('D'));
+	// int ControlVelocity_A = TargetVelocity_A;
+    // int ControlVelocity_B = TargetVelocity_B;
+    // int ControlVelocity_C =  TargetVelocity_C;
+    // int ControlVelocity_D = TargetVelocity_D;
 
 		if(ControlVelocity_A > 0)
 	{
@@ -166,14 +209,15 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
 	DL_TimerG_setCaptureCompareValue(PWMD_INST, ControlVelocity_D, GPIO_PWMD_C1_IDX);
 }
 
-void car_run(int base_speed, int differential)//diff > 0 左转
+void car_run(int base_speed_pct, int differential)//diff > 0 左转
 {
+	int base_speed = base_speed_pct * 4;   /* 0-100% → 0-400mm/s */
 	int left_speed = base_speed - differential / 2;
 	int right_speed = base_speed + differential / 2;
-	if(left_speed > 100)left_speed = 100;
-	else if(left_speed < -100)left_speed = -100;
-	if(right_speed > 100)right_speed = 100;
-	else if(right_speed < -100)right_speed = -100;
+	if(left_speed > 400)left_speed = 400;
+	else if(left_speed < -400)left_speed = -400;
+	if(right_speed > 400)right_speed = 400;
+	else if(right_speed < -400)right_speed = -400;
     MOTOR_CONTROL(right_speed, right_speed,
                         left_speed, left_speed);//pi增量控制,ControlVelocity_A = Velocity_A(right_speed, get_encoder_count('A'));
 }

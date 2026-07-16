@@ -2,16 +2,16 @@
 #include "ti_msp_dl_config.h"
 #include "mspm0_motor_i2c.h"
 #include "usart.h"
-//#include "draw.h"
+#include "draw.h"
 #include "clock.h"
 #include "electrical_machinery.h"
 
 #include "stdbool.h"
-float kp = 7.0;
-float ki = 0.2;
-float kd = 0.5;
-int8_t base_speed = 2;
-bool   stop_flag = false;
+// float kp = 7.0;
+// float ki = 0.2;
+// float kd = 0.5;
+// int8_t base_speed = 200;
+//bool   stop_flag = false;
 
 
 unsigned char IRbuf[2];
@@ -166,7 +166,7 @@ float line_folower(float kp, float ki, float kd)
 void car_trun(int8_t trun_speed)
 {
     car_run(0, trun_speed);
-    if(s4 || s5)
+    if(!s4 || !s5)
     {
         trun_flage = false;
     }
@@ -178,7 +178,7 @@ void CAR_CONTROL(void)
 
     if(!trun_flage)
     {
-        car_run(actual_speed, line_folower(kp, ki, kd));
+        car_run(base_speed, line_folower(kp, ki, kd));
     }
     else 
     {

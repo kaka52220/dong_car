@@ -158,6 +158,19 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 #define GPIO_I2C_BUS_IOMUX_SCL                                    (IOMUX_PINCM6)
 #define GPIO_I2C_BUS_IOMUX_SCL_FUNC                     IOMUX_PINCM6_PF_I2C0_SCL
 
+/* Defines for I2C1 */
+#define I2C1_INST                                                           I2C1
+#define I2C1_INST_IRQHandler                                     I2C1_IRQHandler
+#define I2C1_INST_INT_IRQN                                         I2C1_INT_IRQn
+#define GPIO_I2C1_SDA_PORT                                                 GPIOA
+#define GPIO_I2C1_SDA_PIN                                         DL_GPIO_PIN_30
+#define GPIO_I2C1_IOMUX_SDA                                       (IOMUX_PINCM5)
+#define GPIO_I2C1_IOMUX_SDA_FUNC                        IOMUX_PINCM5_PF_I2C1_SDA
+#define GPIO_I2C1_SCL_PORT                                                 GPIOA
+#define GPIO_I2C1_SCL_PIN                                         DL_GPIO_PIN_15
+#define GPIO_I2C1_IOMUX_SCL                                      (IOMUX_PINCM37)
+#define GPIO_I2C1_IOMUX_SCL_FUNC                       IOMUX_PINCM37_PF_I2C1_SCL
+
 
 /* Defines for UART_0 */
 #define UART_0_INST                                                        UART0
@@ -186,12 +199,12 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 /* Defines for PIN_22: GPIOB.22 with pinCMx 50 on package pin 21 */
 #define LED1_PIN_22_PIN                                         (DL_GPIO_PIN_22)
 #define LED1_PIN_22_IOMUX                                        (IOMUX_PINCM50)
-/* Port definition for Pin Group HC05 */
-#define HC05_PORT                                                        (GPIOA)
+/* Port definition for Pin Group BEEP */
+#define BEEP_PORT                                                        (GPIOA)
 
-/* Defines for STATE: GPIOA.7 with pinCMx 14 on package pin 49 */
-#define HC05_STATE_PIN                                           (DL_GPIO_PIN_7)
-#define HC05_STATE_IOMUX                                         (IOMUX_PINCM14)
+/* Defines for beep: GPIOA.7 with pinCMx 14 on package pin 49 */
+#define BEEP_beep_PIN                                            (DL_GPIO_PIN_7)
+#define BEEP_beep_IOMUX                                          (IOMUX_PINCM14)
 /* Port definition for Pin Group GPIO_OLED */
 #define GPIO_OLED_PORT                                                   (GPIOB)
 
@@ -353,6 +366,7 @@ void SYSCFG_DL_PWMC_init(void);
 void SYSCFG_DL_PWMD_init(void);
 void SYSCFG_DL_TIMER_TICK_init(void);
 void SYSCFG_DL_I2C_BUS_init(void);
+void SYSCFG_DL_I2C1_init(void);
 void SYSCFG_DL_UART_0_init(void);
 
 void SYSCFG_DL_SYSTICK_init(void);

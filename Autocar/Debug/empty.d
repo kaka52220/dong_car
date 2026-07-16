@@ -87,10 +87,16 @@ empty.o: ../empty.c ti_msp_dl_config.h \
  G:/dong_car_code/Autocar/BSP/hc05.h ../APPLICATION/key.h \
  G:/dong_car_code/Autocar/BSP/clock.h \
  G:/dong_car_code/Autocar/BSP/interrupt.h \
+ G:/dong_car_code/Autocar/APPLICATION/velocity_pid.h \
  G:/dong_car_code/Autocar/BSP/electrical_machinery.h \
  G:/dong_car_code/Autocar/BSP/motor_test.h \
  ../APPLICATION/line_follower.h ../APPLICATION/grayscale_sensor.h \
- G:/dong_car_code/Autocar/BSP/usart.h
+ G:/dong_car_code/Autocar/BSP/usart.h ../APPLICATION/velocity_pid.h \
+ G:/dong_car_code/Autocar/OLED/oled.h \
+ G:/dong_car_code/Autocar/OLED/csrc/u8g2.h \
+ G:/dong_car_code/Autocar/OLED/csrc/u8x8.h \
+ G:/dong_car_code/Autocar/OLED/csrc/chinesetxt.h \
+ G:/dong_car_code/Autocar/OLED/draw.h
 ti_msp_dl_config.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h:
@@ -179,8 +185,15 @@ G:/dong_car_code/Autocar/BSP/hc05.h:
 ../APPLICATION/key.h:
 G:/dong_car_code/Autocar/BSP/clock.h:
 G:/dong_car_code/Autocar/BSP/interrupt.h:
+G:/dong_car_code/Autocar/APPLICATION/velocity_pid.h:
 G:/dong_car_code/Autocar/BSP/electrical_machinery.h:
 G:/dong_car_code/Autocar/BSP/motor_test.h:
 ../APPLICATION/line_follower.h:
 ../APPLICATION/grayscale_sensor.h:
 G:/dong_car_code/Autocar/BSP/usart.h:
+../APPLICATION/velocity_pid.h:
+G:/dong_car_code/Autocar/OLED/oled.h:
+G:/dong_car_code/Autocar/OLED/csrc/u8g2.h:
+G:/dong_car_code/Autocar/OLED/csrc/u8x8.h:
+G:/dong_car_code/Autocar/OLED/csrc/chinesetxt.h:
+G:/dong_car_code/Autocar/OLED/draw.h:

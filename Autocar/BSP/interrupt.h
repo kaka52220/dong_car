@@ -3,7 +3,7 @@
  */
 #ifndef _INTERRUPT_H_
 #define _INTERRUPT_H_
-
+#include "APPLICATION/velocity_pid.h"
 typedef enum {
     FORWARD,  // 正向
     REVERSAL  // 反向

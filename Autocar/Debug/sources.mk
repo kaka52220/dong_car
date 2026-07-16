@@ -121,4 +121,6 @@ SUBDIRS := \
 . \
 APPLICATION \
 BSP \
+OLED/csrc \
+OLED \
 
