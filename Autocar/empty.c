@@ -73,6 +73,7 @@
 #include "APPLICATION/velocity_pid.h"
 #include "oled.h"
 #include "draw.h"//显示内容
+#include "mpu6050/mpu6050_service.h"
 
 
 void MSPM0_Init(){
@@ -100,14 +101,53 @@ int main(void)
 
     USART_SendString((unsigned char*)"Encoder Test\r\n");
 
-    // // 四个电机低速正转，打印编码器值
-    // motor_raw('A', 300);
-    // motor_raw('B', 300);
-    // motor_raw('C', 300);
-    // motor_raw('D', 300);
+    /* MPU6050 初始化（I2C1: SDA=PA30, SCL=PA15, 不启用VOFA波形输出） */
+    {
+        Mpu6050Status mpu_status = mpu6050_service_init(
+            DL_GPIO_PIN_30, DL_GPIO_PIN_15, false);
+        if (mpu_status == MPU6050_STATUS_OK)
+        {
+            USART_SendString((unsigned char*)"MPU6050 init OK\r\n");
+        }
+        else
+        {
+            USART_SendString((unsigned char*)"MPU6050 init FAIL\r\n");
+            /* 用简单方式打出错误码的十六进制值 */
+            {
+                int raw = (int)mpu_status;
+                char hex[12];
+                const char digits[] = "0123456789ABCDEF";
+                uint8_t i = 0;
+                if (raw < 0)
+                {
+                    USART_SendString((unsigned char*)"  raw= -0x");
+                    raw = -raw;
+                }
+                else
+                {
+                    USART_SendString((unsigned char*)"  raw= 0x");
+                }
+                do {
+                    hex[i++] = digits[raw & 0xF];
+                    raw >>= 4;
+                } while (raw != 0 && i < 8);
+                hex[i] = '\0';
+                /* 反转 */
+                for (uint8_t j = 0; j < i / 2; j++) {
+                    char t = hex[j];
+                    hex[j] = hex[i - 1 - j];
+                    hex[i - 1 - j] = t;
+                }
+                USART_SendString((unsigned char*)hex);
+                USART_SendString((unsigned char*)"\r\n");
+            }
+        }
+    }
+
 
     while (1)
     {
+        mpu6050_service_process();
         OLED_SHOW(&u8g2);
         //CAR_CONTROL();
         //delay_ms(20);

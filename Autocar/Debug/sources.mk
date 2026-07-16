@@ -123,4 +123,5 @@ APPLICATION \
 BSP \
 OLED/csrc \
 OLED \
+mpu6050 \
 

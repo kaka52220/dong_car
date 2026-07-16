@@ -6,7 +6,7 @@
 #include "ti_msp_dl_config.h"
 #include "line_follower.h"
 //#include "uart.h"    /* 项目中无此文件，已注释 */
-//#include "mpu6050.h"  /* 无MPU6050模块，已注释 */
+#include "mpu6050/mpu6050.h"
 
 //目录级数
 #define DIRECTORY 2
@@ -28,7 +28,7 @@ uint8_t xspeed = 50;      /* 速度百分比 0-100, 默认50% */
 char*** directory[]=
 {
     (char**[]){//一级目录
-        (char*[]){"速度控制","限速","圈数","PID","中边","激光模式",NULL}
+        (char*[]){"速度控制","限速","圈数","PID","中边","激光模式","MPU",NULL}
     },
     (char**[]){//二级目录
         //一级目录下目录一对应二级目录
@@ -37,16 +37,17 @@ char*** directory[]=
         (char*[]){"0","1","2","3","4","5","!1!",NULL},
         (char*[]){"rate+","rate-","kp+","kp-","ki+","ki-","kd+","kd-",NULL},
         (char*[]){"z1+","z1-","z2+","z2-","z3+","z3-","z4+","z4-",NULL},
-        (char*[]){"PTZ_MODE=0","PTZ_MODE=1","PTZ_MODE=2","LASER_MODE=0","LASER_MODE=1","LASER_MODE=2",NULL}
+        (char*[]){"PTZ_MODE=0","PTZ_MODE=1","PTZ_MODE=2","LASER_MODE=0","LASER_MODE=1","LASER_MODE=2",NULL},
+        (char*[]){NULL}  /* MPU 纯显示，无子项 */
     },
 };
 //存储每级目录项目数
 int8_t* directory_num[]=
 {
     //一级目录项目数
-    (int8_t[]){6,-1},
+    (int8_t[]){7,-1},
     //二级目录项目数
-    (int8_t[]){6,4,7,8,8,6,-1}
+    (int8_t[]){6,4,7,8,8,6,0,-1}
 };
 
 void xianshuc(void){
@@ -238,13 +239,15 @@ void HOME_directory(u8g2_t *u8g2) {
     || id[0][0]+id[0][1] == 2
     || id[0][0]+id[0][1] == 3
     || id[0][0]+id[0][1] == 4
-    || id[0][0]+id[0][1] == 5)){
+    || id[0][0]+id[0][1] == 5
+    || id[0][0]+id[0][1] == 6)){
         if(id[0][0]+id[0][1]==0)SPEED_CONTROL();
         if(id[0][0]+id[0][1]==1)xianshuc();
         if(id[0][0]+id[0][1]==2)quanshukongzi();
         if(id[0][0]+id[0][1]==3)PID_CONTROL();
         if(id[0][0]+id[0][1]==4)zb_control();
         //if(id[0][0]+id[0][1]==5)other_control();  /* other_control已注释 */
+        if(id[0][0]+id[0][1]==6);  /* MPU: 纯显示，不执行任何操作 */
         directory_flag = 1;
     }
     else if(directory_flag == 2)directory_flag = 1;
@@ -297,6 +300,17 @@ void HOME_directory(u8g2_t *u8g2) {
             sprintf((char *)oled_buffer, "%.1f", kd);
             u8g2_DrawUTF8(u8g2, 100, 62, oled_buffer);
         }
+        if(id[0][0]+id[0][1]==6){
+            u8g2_DrawUTF8(u8g2, 0, 30, "R:");
+            sprintf((char *)oled_buffer, "%.1f", mpu6050_get_roll());
+            u8g2_DrawUTF8(u8g2, 20, 30, oled_buffer);
+            u8g2_DrawUTF8(u8g2, 0, 46, "P:");
+            sprintf((char *)oled_buffer, "%.1f", mpu6050_get_pitch());
+            u8g2_DrawUTF8(u8g2, 20, 46, oled_buffer);
+            u8g2_DrawUTF8(u8g2, 0, 62, "Y:");
+            sprintf((char *)oled_buffer, "%.1f", mpu6050_get_yaw());
+            u8g2_DrawUTF8(u8g2, 20, 62, oled_buffer);
+        }
     }
 
     // 动态渲染菜单项（根据滚动位置调整）
@@ -304,15 +318,18 @@ void HOME_directory(u8g2_t *u8g2) {
     if(directory_flag==0)u8g2_DrawUTF8(u8g2, 36, 14, "目录");
     if(directory_flag==1)u8g2_DrawUTF8(u8g2, 30, 14, directory[0][0][lasttopid+lastnowid]);
     u8g2_SetFont(u8g2, u8g2_font_unifont_st16);
-    for(int8_t i = id[directory_flag][0]; i < id[directory_flag][0]+3; i++)
+    if(directory_num[directory_flag][lasttopid+lastnowid] > 0)
     {
-        u8g2_DrawUTF8(u8g2, 0, 30 + 16 * i  - id[directory_flag][0] * 16, directory[directory_flag][lasttopid+lastnowid][i]);
-    }
+        for(int8_t i = id[directory_flag][0]; i < id[directory_flag][0]+3; i++)
+        {
+            u8g2_DrawUTF8(u8g2, 0, 30 + 16 * i  - id[directory_flag][0] * 16, directory[directory_flag][lasttopid+lastnowid][i]);
+        }
 
-    // 选中框
-    u8g2_SetDrawColor(u8g2, 2);
-    u8g2_DrawBox(u8g2, 0, 16 + id[directory_flag][1] * 16, 128, 16); 
-    u8g2_SetDrawColor(u8g2, 1);
+        // 选中框
+        u8g2_SetDrawColor(u8g2, 2);
+        u8g2_DrawBox(u8g2, 0, 16 + id[directory_flag][1] * 16, 128, 16); 
+        u8g2_SetDrawColor(u8g2, 1);
+    }
     
     
     // 滚动逻辑

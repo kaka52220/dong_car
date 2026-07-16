@@ -59,6 +59,8 @@
 "./OLED/csrc/u8x8_u8toa.o"
 "./OLED/draw.o"
 "./OLED/oled.o"
+"./mpu6050/mpu6050.o"
+"./mpu6050/mpu6050_service.o"
 -l"./device_linker.cmd"
 -ldevice.cmd.genlibs
 -llibc.a

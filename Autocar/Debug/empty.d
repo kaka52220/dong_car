@@ -96,7 +96,8 @@ empty.o: ../empty.c ti_msp_dl_config.h \
  G:/dong_car_code/Autocar/OLED/csrc/u8g2.h \
  G:/dong_car_code/Autocar/OLED/csrc/u8x8.h \
  G:/dong_car_code/Autocar/OLED/csrc/chinesetxt.h \
- G:/dong_car_code/Autocar/OLED/draw.h
+ G:/dong_car_code/Autocar/OLED/draw.h ../mpu6050/mpu6050_service.h \
+ ../mpu6050/mpu6050.h
 ti_msp_dl_config.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h:
@@ -197,3 +198,5 @@ G:/dong_car_code/Autocar/OLED/csrc/u8g2.h:
 G:/dong_car_code/Autocar/OLED/csrc/u8x8.h:
 G:/dong_car_code/Autocar/OLED/csrc/chinesetxt.h:
 G:/dong_car_code/Autocar/OLED/draw.h:
+../mpu6050/mpu6050_service.h:
+../mpu6050/mpu6050.h:

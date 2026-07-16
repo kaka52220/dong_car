@@ -71,6 +71,8 @@ ORDERED_OBJS += \
 "./OLED/csrc/u8x8_u8toa.o" \
 "./OLED/draw.o" \
 "./OLED/oled.o" \
+"./mpu6050/mpu6050.o" \
+"./mpu6050/mpu6050_service.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
 -Wl,-llibc.a \
@@ -87,11 +89,13 @@ RMDIR := RMDIR /S/Q
 -include BSP/subdir_vars.mk
 -include OLED/csrc/subdir_vars.mk
 -include OLED/subdir_vars.mk
+-include mpu6050/subdir_vars.mk
 -include subdir_rules.mk
 -include APPLICATION/subdir_rules.mk
 -include BSP/subdir_rules.mk
 -include OLED/csrc/subdir_rules.mk
 -include OLED/subdir_rules.mk
+-include mpu6050/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -204,9 +208,9 @@ Autocar.out: $(OBJS) $(GEN_CMDS)
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
 	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "APPLICATION\grayscale_sensor.o" "APPLICATION\key.o" "APPLICATION\line_follower.o" "APPLICATION\velocity_pid.o" "APPLICATION\velocity_pid_adapter.o" "APPLICATION\velocity_pid_usage_example.o" "BSP\clock.o" "BSP\electrical_machinery.o" "BSP\hc05.o" "BSP\interrupt.o" "BSP\motor_test.o" "BSP\mspm0_motor_i2c.o" "BSP\usart.o" "OLED\csrc\chinesetxt.o" "OLED\csrc\mui.o" "OLED\csrc\mui_u8g2.o" "OLED\csrc\u8g2_arc.o" "OLED\csrc\u8g2_bitmap.o" "OLED\csrc\u8g2_box.o" "OLED\csrc\u8g2_buffer.o" "OLED\csrc\u8g2_button.o" "OLED\csrc\u8g2_circle.o" "OLED\csrc\u8g2_cleardisplay.o" "OLED\csrc\u8g2_d_memory.o" "OLED\csrc\u8g2_d_setup.o" "OLED\csrc\u8g2_font.o" "OLED\csrc\u8g2_fonts.o" "OLED\csrc\u8g2_hvline.o" "OLED\csrc\u8g2_input_value.o" "OLED\csrc\u8g2_intersection.o" "OLED\csrc\u8g2_kerning.o" "OLED\csrc\u8g2_line.o" "OLED\csrc\u8g2_ll_hvline.o" "OLED\csrc\u8g2_message.o" "OLED\csrc\u8g2_polygon.o" "OLED\csrc\u8g2_selection_list.o" "OLED\csrc\u8g2_setup.o" 
-	-$(RM) "OLED\csrc\u8log.o" "OLED\csrc\u8log_u8g2.o" "OLED\csrc\u8log_u8x8.o" "OLED\csrc\u8x8_8x8.o" "OLED\csrc\u8x8_byte.o" "OLED\csrc\u8x8_cad.o" "OLED\csrc\u8x8_capture.o" "OLED\csrc\u8x8_d_ssd1306_128x64_noname.o" "OLED\csrc\u8x8_debounce.o" "OLED\csrc\u8x8_display.o" "OLED\csrc\u8x8_fonts.o" "OLED\csrc\u8x8_gpio.o" "OLED\csrc\u8x8_input_value.o" "OLED\csrc\u8x8_message.o" "OLED\csrc\u8x8_selection_list.o" "OLED\csrc\u8x8_setup.o" "OLED\csrc\u8x8_string.o" "OLED\csrc\u8x8_u16toa.o" "OLED\csrc\u8x8_u8toa.o" "OLED\draw.o" "OLED\oled.o" 
+	-$(RM) "OLED\csrc\u8log.o" "OLED\csrc\u8log_u8g2.o" "OLED\csrc\u8log_u8x8.o" "OLED\csrc\u8x8_8x8.o" "OLED\csrc\u8x8_byte.o" "OLED\csrc\u8x8_cad.o" "OLED\csrc\u8x8_capture.o" "OLED\csrc\u8x8_d_ssd1306_128x64_noname.o" "OLED\csrc\u8x8_debounce.o" "OLED\csrc\u8x8_display.o" "OLED\csrc\u8x8_fonts.o" "OLED\csrc\u8x8_gpio.o" "OLED\csrc\u8x8_input_value.o" "OLED\csrc\u8x8_message.o" "OLED\csrc\u8x8_selection_list.o" "OLED\csrc\u8x8_setup.o" "OLED\csrc\u8x8_string.o" "OLED\csrc\u8x8_u16toa.o" "OLED\csrc\u8x8_u8toa.o" "OLED\draw.o" "OLED\oled.o" "mpu6050\mpu6050.o" "mpu6050\mpu6050_service.o" 
 	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "APPLICATION\grayscale_sensor.d" "APPLICATION\key.d" "APPLICATION\line_follower.d" "APPLICATION\velocity_pid.d" "APPLICATION\velocity_pid_adapter.d" "APPLICATION\velocity_pid_usage_example.d" "BSP\clock.d" "BSP\electrical_machinery.d" "BSP\hc05.d" "BSP\interrupt.d" "BSP\motor_test.d" "BSP\mspm0_motor_i2c.d" "BSP\usart.d" "OLED\csrc\chinesetxt.d" "OLED\csrc\mui.d" "OLED\csrc\mui_u8g2.d" "OLED\csrc\u8g2_arc.d" "OLED\csrc\u8g2_bitmap.d" "OLED\csrc\u8g2_box.d" "OLED\csrc\u8g2_buffer.d" "OLED\csrc\u8g2_button.d" "OLED\csrc\u8g2_circle.d" "OLED\csrc\u8g2_cleardisplay.d" "OLED\csrc\u8g2_d_memory.d" "OLED\csrc\u8g2_d_setup.d" "OLED\csrc\u8g2_font.d" "OLED\csrc\u8g2_fonts.d" "OLED\csrc\u8g2_hvline.d" "OLED\csrc\u8g2_input_value.d" "OLED\csrc\u8g2_intersection.d" "OLED\csrc\u8g2_kerning.d" "OLED\csrc\u8g2_line.d" "OLED\csrc\u8g2_ll_hvline.d" "OLED\csrc\u8g2_message.d" "OLED\csrc\u8g2_polygon.d" "OLED\csrc\u8g2_selection_list.d" "OLED\csrc\u8g2_setup.d" 
-	-$(RM) "OLED\csrc\u8log.d" "OLED\csrc\u8log_u8g2.d" "OLED\csrc\u8log_u8x8.d" "OLED\csrc\u8x8_8x8.d" "OLED\csrc\u8x8_byte.d" "OLED\csrc\u8x8_cad.d" "OLED\csrc\u8x8_capture.d" "OLED\csrc\u8x8_d_ssd1306_128x64_noname.d" "OLED\csrc\u8x8_debounce.d" "OLED\csrc\u8x8_display.d" "OLED\csrc\u8x8_fonts.d" "OLED\csrc\u8x8_gpio.d" "OLED\csrc\u8x8_input_value.d" "OLED\csrc\u8x8_message.d" "OLED\csrc\u8x8_selection_list.d" "OLED\csrc\u8x8_setup.d" "OLED\csrc\u8x8_string.d" "OLED\csrc\u8x8_u16toa.d" "OLED\csrc\u8x8_u8toa.d" "OLED\draw.d" "OLED\oled.d" 
+	-$(RM) "OLED\csrc\u8log.d" "OLED\csrc\u8log_u8g2.d" "OLED\csrc\u8log_u8x8.d" "OLED\csrc\u8x8_8x8.d" "OLED\csrc\u8x8_byte.d" "OLED\csrc\u8x8_cad.d" "OLED\csrc\u8x8_capture.d" "OLED\csrc\u8x8_d_ssd1306_128x64_noname.d" "OLED\csrc\u8x8_debounce.d" "OLED\csrc\u8x8_display.d" "OLED\csrc\u8x8_fonts.d" "OLED\csrc\u8x8_gpio.d" "OLED\csrc\u8x8_input_value.d" "OLED\csrc\u8x8_message.d" "OLED\csrc\u8x8_selection_list.d" "OLED\csrc\u8x8_setup.d" "OLED\csrc\u8x8_string.d" "OLED\csrc\u8x8_u16toa.d" "OLED\csrc\u8x8_u8toa.d" "OLED\draw.d" "OLED\oled.d" "mpu6050\mpu6050.d" "mpu6050\mpu6050_service.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

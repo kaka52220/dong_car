@@ -1,14 +1,9 @@
 # FIXED
 
-OLED/draw.o: ../OLED/draw.c ../OLED/draw.h \
- G:/dong_car_code/Autocar/OLED/csrc/u8g2.h \
- G:/dong_car_code/Autocar/OLED/csrc/u8x8.h \
- G:/dong_car_code/Autocar/OLED/csrc/chinesetxt.h \
- G:/dong_car_code/Autocar/BSP/electrical_machinery.h \
- G:/dong_car_code/Autocar/BSP/clock.h \
- G:/dong_car_code/Autocar/BSP/interrupt.h \
- G:/dong_car_code/Autocar/APPLICATION/velocity_pid.h \
- ti_msp_dl_config.h \
+mpu6050/mpu6050_service.o: ../mpu6050/mpu6050_service.c \
+ ../mpu6050/mpu6050_service.h ../mpu6050/mpu6050.h \
+ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/driverlib.h \
+ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_adc12.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/m0p/mspm0g350x.h \
@@ -39,8 +34,6 @@ OLED/draw.o: ../OLED/draw.c ../OLED/draw.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/peripherals/m0p/hw_debugss.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h \
- G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/driverlib.h \
- G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_adc12.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_common.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_factoryregion.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_core.h \
@@ -91,17 +84,11 @@ OLED/draw.o: ../OLED/draw.c ../OLED/draw.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_wwdt.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h \
- G:/dong_car_code/Autocar/APPLICATION/line_follower.h \
- G:/dong_car_code/Autocar/mpu6050/mpu6050.h
-../OLED/draw.h:
-G:/dong_car_code/Autocar/OLED/csrc/u8g2.h:
-G:/dong_car_code/Autocar/OLED/csrc/u8x8.h:
-G:/dong_car_code/Autocar/OLED/csrc/chinesetxt.h:
-G:/dong_car_code/Autocar/BSP/electrical_machinery.h:
-G:/dong_car_code/Autocar/BSP/clock.h:
-G:/dong_car_code/Autocar/BSP/interrupt.h:
-G:/dong_car_code/Autocar/APPLICATION/velocity_pid.h:
-ti_msp_dl_config.h:
+ ti_msp_dl_config.h
+../mpu6050/mpu6050_service.h:
+../mpu6050/mpu6050.h:
+G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/driverlib.h:
+G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_adc12.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/msp.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/DeviceFamily.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -132,8 +119,6 @@ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/peripherals/m0p/hw
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/peripherals/m0p/hw_debugss.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h:
-G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/driverlib.h:
-G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_adc12.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_common.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_factoryregion.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_core.h:
@@ -184,5 +169,4 @@ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_vref.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/dl_wwdt.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h:
-G:/dong_car_code/Autocar/APPLICATION/line_follower.h:
-G:/dong_car_code/Autocar/mpu6050/mpu6050.h:
+ti_msp_dl_config.h:
