@@ -560,6 +560,12 @@ bool mpu6050_update(void)
     float gyro_norm;
     uint32_t now;
 
+    /* g_bus 未初始化（mpu6050_service_init 被跳过），直接返回 */
+    if (g_bus.i2c == NULL)
+    {
+        return false;
+    }
+
     if (!read_raw(g_data.accel_g, raw_gyro, &g_data.temperature_c))
     {
         g_data.communication_errors++;

@@ -27,16 +27,49 @@ bool trun_flage = false;
 
 void line_follower_update(void)
 {
-    mspm0_motor_i2c_read(IIC_ADDRESS, REGISTER_READ_ADDRESS, 2, IRbuf);
-	
-	s1 = !((IRbuf[0]>>7)&0x01);
-	s2 = !((IRbuf[0]>>5)&0x01); 
-	s4 = !((IRbuf[0]>>4)&0x01);
-	s5 = !((IRbuf[0]>>3)&0x01);
-	s6 = !((IRbuf[0]>>2)&0x01);
-	s7 = !((IRbuf[0]>>1)&0x01);
-	s8 = !((IRbuf[0]>>0)&0x01);
+    static bool i2c_error_reported = false;
+
+    /* 先清零 IRbuf，防止读取失败后取反全变 1 */
+    IRbuf[0] = 0;
+    IRbuf[1] = 0;
+
+    // int ret = mspm0_motor_i2c_read(IIC_ADDRESS, REGISTER_READ_ADDRESS, 2, IRbuf);  /* 旧：带寄存器地址，PCF8575 不支持 */
+    int ret = mspm0_motor_i2c_read_direct(IIC_ADDRESS, 2, IRbuf);  /* PCF8575 纯读，无需寄存器地址 */
+
+    if (ret != 0)
+    {
+        /* 首次失败打印详细诊断信息 */
+        if (!i2c_error_reported)
+        {
+            if (ret == -2)
+            {
+                USART_SendString((unsigned char*)"[ERROR] I2C NACK — PCF8575 not responding, check address/wiring!\r\n");
+            }
+            else
+            {
+                USART_SendString((unsigned char*)"[ERROR] I2C timeout — bus stuck or no device, check SDA/SCL!\r\n");
+            }
+            i2c_error_reported = true;
+        }
+        return;
+    }
+
+    i2c_error_reported = false;
+
+    s1 = !((IRbuf[0]>>7)&0x01);
+    s2 = !((IRbuf[0]>>6)&0x01);
+    s3 = !((IRbuf[0]>>5)&0x01);
+    s4 = !((IRbuf[0]>>4)&0x01);
+    s5 = !((IRbuf[0]>>3)&0x01);
+    s6 = !((IRbuf[0]>>2)&0x01);
+    s7 = !((IRbuf[0]>>1)&0x01);
+    s8 = !((IRbuf[0]>>0)&0x01);
 }
+
+/*
+ * I2C 地址扫描（调试用，已注释）
+ * int i2c_scan(void);
+ */
 void dayin(uint8_t *test)
 {
     test[0] = s1;
@@ -64,7 +97,19 @@ float line_folower(float kp, float ki, float kd)
     {
         out_num ++;
         actual_speed = 0;
-        if(out_num >= 3)trun_flage = true;
+        if(out_num >= 3)
+        {
+            trun_flage = true;
+            /* 调试：打印全白线触发警告 */
+            {
+                static uint32_t last_warn_ms = 0;
+                if (tick_ms - last_warn_ms >= 500)
+                {
+                    last_warn_ms = tick_ms;
+                    USART_SendString((unsigned char*)"[WARN] All-white detected, entering turn mode\r\n");
+                }
+            }
+        }
         integral = 0;
         return 0;
     }
@@ -174,8 +219,6 @@ void car_trun(int8_t trun_speed)
 
 void CAR_CONTROL(void)
 {
-    line_follower_update();
-
     if(!trun_flage)
     {
         car_run(base_speed, line_folower(kp, ki, kd));

@@ -7,6 +7,7 @@
 #include "line_follower.h"
 //#include "uart.h"    /* 项目中无此文件，已注释 */
 #include "mpu6050/mpu6050.h"
+#include "mpu6050/mpu6050_service.h"
 
 //目录级数
 #define DIRECTORY 2
@@ -362,5 +363,11 @@ void OLED_SHOW(u8g2_t *u8g2)
     u8g2_FirstPage(u8g2);   // 开始分页渲染
     do {
         HOME_directory(u8g2);
+        /*
+         * u8g2 分 8 页渲染 128x64 屏幕，每页间插入一次 MPU 采样。
+         * 这样 dt ≈ 每页耗时（~15ms），远低于 50ms 限幅，不会丢角度。
+         * 最后一页不采样（渲染完成立即返回，由主循环接管）。
+         */
+        mpu6050_update();
     } while(u8g2_NextPage(u8g2)); // 分页渲染完成
 }

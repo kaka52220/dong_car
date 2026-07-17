@@ -18,4 +18,8 @@ int mspm0_motor_i2c_read(unsigned char slave_addr,
                     unsigned char length,
                     unsigned char *data);
 
+int mspm0_motor_i2c_read_direct(unsigned char slave_addr,
+                                unsigned char length,
+                                unsigned char *data);
+
 #endif  /* #ifndef _MSPM0_I2C_H_ */

@@ -101,7 +101,7 @@ int main(void)
 
     USART_SendString((unsigned char*)"Encoder Test\r\n");
 
-    /* MPU6050 初始化（I2C1: SDA=PA30, SCL=PA15, 不启用VOFA波形输出） */
+    // /* MPU6050 初始化（I2C1: SDA=PA30, SCL=PA15, 不启用VOFA波形输出） */
     {
         Mpu6050Status mpu_status = mpu6050_service_init(
             DL_GPIO_PIN_30, DL_GPIO_PIN_15, false);
@@ -147,8 +147,36 @@ int main(void)
 
     while (1)
     {
-        mpu6050_service_process();
-        OLED_SHOW(&u8g2);
+        /*
+         * 暂时注释 OLED，直接在主循环中采样 MPU6050。
+         * delay_ms(5) 保证 dt ≈ 5ms 在 Mahony 有效范围 [4ms, 50ms] 内。
+         */
+        // OLED_SHOW(&u8g2);
+        mpu6050_update();
+        delay_ms(5);
+
+        line_follower_update();
+        if(stop_flag) car_stop();
+        else CAR_CONTROL();
+
+        /* ===== 每1秒打印一次传感器数据 ===== */
+        {
+            static uint32_t last_sensor_ms = 0;
+            if (tick_ms - last_sensor_ms >= 1000)
+            {
+                last_sensor_ms = tick_ms;
+                const Mpu6050Data *d = mpu6050_get_data();
+                char buf[80];
+                sprintf(buf,
+                    "S:%d%d%d%d%d%d%d%d Y:%.1f P:%.1f R:%.1f\r\n",
+                    s1, s2, s3, s4, s5, s6, s7, s8,
+                    d->yaw_deg, d->pitch_deg, d->roll_deg);
+                USART_SendString((unsigned char*)buf);
+            }
+        }
+    }
+}
+
         //CAR_CONTROL();
         //delay_ms(20);
 
@@ -172,13 +200,11 @@ int main(void)
         //     }
         // }
 
-        // ========== 文本调试模式 (二选一, 用VOFA时注释掉下面) ==========
-        char buf[100];
-        sprintf(buf, "A:%d/%.0f B:%d/%.0f C:%d/%.0f D:%d/%.0f\r\n",
-            get_encoder_count('A'), calculate_motor_speed('A'),
-            get_encoder_count('B'), calculate_motor_speed('B'),
-            get_encoder_count('C'), calculate_motor_speed('C'),
-            get_encoder_count('D'), calculate_motor_speed('D'));
-        USART_SendString((unsigned char*)buf);
-    }
-}
+        // // ========== 文本调试模式 (二选一, 用VOFA时注释掉下面) ==========
+        // char buf[100];
+        // sprintf(buf, "A:%d/%.0f B:%d/%.0f C:%d/%.0f D:%d/%.0f\r\n",
+        //     get_encoder_count('A'), calculate_motor_speed('A'),
+        //     get_encoder_count('B'), calculate_motor_speed('B'),
+        //     get_encoder_count('C'), calculate_motor_speed('C'),
+        //     get_encoder_count('D'), calculate_motor_speed('D'));
+        // USART_SendString((unsigned char*)buf);

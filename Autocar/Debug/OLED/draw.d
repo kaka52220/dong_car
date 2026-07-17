@@ -92,7 +92,8 @@ OLED/draw.o: ../OLED/draw.c ../OLED/draw.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h \
  G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h \
  G:/dong_car_code/Autocar/APPLICATION/line_follower.h \
- G:/dong_car_code/Autocar/mpu6050/mpu6050.h
+ G:/dong_car_code/Autocar/mpu6050/mpu6050.h \
+ G:/dong_car_code/Autocar/mpu6050/mpu6050_service.h
 ../OLED/draw.h:
 G:/dong_car_code/Autocar/OLED/csrc/u8g2.h:
 G:/dong_car_code/Autocar/OLED/csrc/u8x8.h:
@@ -186,3 +187,4 @@ G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/MSPM0\ 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/m0p/dl_systick.h:
 G:/dong_car_code/Autocar/APPLICATION/line_follower.h:
 G:/dong_car_code/Autocar/mpu6050/mpu6050.h:
+G:/dong_car_code/Autocar/mpu6050/mpu6050_service.h:

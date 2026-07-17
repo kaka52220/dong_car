@@ -190,18 +190,18 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
         ControlVelocity_D = -ControlVelocity_D;
     }
     // ===== 每 50ms 打印 PID 输出（调试用） =====
-    {//独立作用域
-        static uint32_t last_print = 0;
-        if (tick_ms - last_print >= 50)
-        {
-            last_print = tick_ms;
-            char buf[60];
-            sprintf(buf, "A=%d B=%d C=%d D=%d\r\n",
-                ControlVelocity_A, ControlVelocity_B,
-                ControlVelocity_C, ControlVelocity_D);
-            USART_SendString((unsigned char*)buf);
-        }
-    }
+    //{//独立作用域
+    //    static uint32_t last_print = 0;
+    //    if (tick_ms - last_print >= 50)
+    //    {
+    //        last_print = tick_ms;
+    //        char buf[60];
+    //        sprintf(buf, "A=%d B=%d C=%d D=%d\r\n",
+    //            ControlVelocity_A, ControlVelocity_B,
+    //            ControlVelocity_C, ControlVelocity_D);
+    //        USART_SendString((unsigned char*)buf);
+    //    }
+    //}
 
     DL_TimerG_setCaptureCompareValue(PWMA_INST, ControlVelocity_A, GPIO_PWMA_C0_IDX);
 	DL_TimerG_setCaptureCompareValue(PWMB_INST, ControlVelocity_B, GPIO_PWMB_C1_IDX);
