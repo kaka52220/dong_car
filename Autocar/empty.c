@@ -148,12 +148,10 @@ int main(void)
     while (1)
     {
         /*
-         * 暂时注释 OLED，直接在主循环中采样 MPU6050。
-         * delay_ms(5) 保证 dt ≈ 5ms 在 Mahony 有效范围 [4ms, 50ms] 内。
+         * 方案2：SysTick 中断每 5ms 硬件定时采样 IMU，
+         * 主循环完全自由，OLED 全屏刷新不影响角度精度。
          */
-        // OLED_SHOW(&u8g2);
-        mpu6050_update();
-        delay_ms(5);
+        OLED_SHOW(&u8g2);
 
         line_follower_update();
         if(stop_flag) car_stop();

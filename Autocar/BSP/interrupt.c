@@ -1,7 +1,7 @@
 #include "ti_msp_dl_config.h"
 #include "interrupt.h"
 #include "clock.h"
-//#include "mpu6050.h"
+#include "mpu6050/mpu6050.h"
 
 int nextway=0;
 
@@ -59,6 +59,16 @@ volatile long long get_encoder_temp_count(char encoder_name)
 void SysTick_Handler(void)
 {
     tick_ms++;
+
+    /* 方案2：SysTick 每 5ms 在中断中直接采样 IMU。
+     * mpu6050_update() 耗时 < 1ms，不影响 1ms SysTick 精度。
+     * 内部有 g_bus.i2c==NULL 保护，未初始化时直接返回。 */
+    static uint8_t imu_tick = 0;
+    if (++imu_tick >= 5)
+    {
+        imu_tick = 0;
+        mpu6050_update();
+    }
 }
 
 void TIMER_TICK_INST_IRQHandler(void)

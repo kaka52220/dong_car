@@ -364,10 +364,9 @@ void OLED_SHOW(u8g2_t *u8g2)
     do {
         HOME_directory(u8g2);
         /*
-         * u8g2 分 8 页渲染 128x64 屏幕，每页间插入一次 MPU 采样。
-         * 这样 dt ≈ 每页耗时（~15ms），远低于 50ms 限幅，不会丢角度。
-         * 最后一页不采样（渲染完成立即返回，由主循环接管）。
+         * 方案1：IMU 解算已移到主循环固定 5ms 周期，OLED 不再触发采样。
+         * 避免两轮 OLED_SHOW 之间 dt 过大导致 Mahony 积分遗漏。
          */
-        mpu6050_update();
+        // mpu6050_update();  /* 已移至主循环 */
     } while(u8g2_NextPage(u8g2)); // 分页渲染完成
 }
