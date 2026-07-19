@@ -29,7 +29,7 @@ uint8_t xspeed = 50;      /* 速度百分比 0-100, 默认50% */
 char*** directory[]=
 {
     (char**[]){//一级目录
-        (char*[]){"速度控制","限速","圈数","PID","中边","激光模式","MPU",NULL}
+        (char*[]){"速度控制","限速","圈数","PID","速度PI","MPU",NULL}
     },
     (char**[]){//二级目录
         //一级目录下目录一对应二级目录
@@ -37,8 +37,7 @@ char*** directory[]=
         (char*[]){"MIN+","MIN-","MAX+","MAX-",NULL},
         (char*[]){"0","1","2","3","4","5","!1!",NULL},
         (char*[]){"rate+","rate-","kp+","kp-","ki+","ki-","kd+","kd-",NULL},
-        (char*[]){"z1+","z1-","z2+","z2-","z3+","z3-","z4+","z4-",NULL},
-        (char*[]){"PTZ_MODE=0","PTZ_MODE=1","PTZ_MODE=2","LASER_MODE=0","LASER_MODE=1","LASER_MODE=2",NULL},
+        (char*[]){"kp+","kp-","ki+","ki-",NULL},
         (char*[]){NULL}  /* MPU 纯显示，无子项 */
     },
 };
@@ -46,9 +45,9 @@ char*** directory[]=
 int8_t* directory_num[]=
 {
     //一级目录项目数
-    (int8_t[]){7,-1},
+    (int8_t[]){6,-1},
     //二级目录项目数
-    (int8_t[]){6,4,7,8,8,6,0,-1}
+    (int8_t[]){6,4,7,8,4,0,-1}
 };
 
 void xianshuc(void){
@@ -223,11 +222,24 @@ void other_control(void){
 }
 */
 
-void zb_control(void){
+void VELOCITY_PI_CONTROL(void){
     switch (id[1][0]+id[1][1]) {
-        break;
-    default:
-        break;
+        case 0:
+            Velcity_Kp += 0.1f;
+            break;
+        case 1:
+            Velcity_Kp -= 0.1f;
+            if (Velcity_Kp < 0) Velcity_Kp = 0;
+            break;
+        case 2:
+            Velcity_Ki += 0.1f;
+            break;
+        case 3:
+            Velcity_Ki -= 0.1f;
+            if (Velcity_Ki < 0) Velcity_Ki = 0;
+            break;
+        default:
+            break;
     }
 }
 
@@ -246,9 +258,8 @@ void HOME_directory(u8g2_t *u8g2) {
         if(id[0][0]+id[0][1]==1)xianshuc();
         if(id[0][0]+id[0][1]==2)quanshukongzi();
         if(id[0][0]+id[0][1]==3)PID_CONTROL();
-        if(id[0][0]+id[0][1]==4)zb_control();
-        //if(id[0][0]+id[0][1]==5)other_control();  /* other_control已注释 */
-        if(id[0][0]+id[0][1]==6);  /* MPU: 纯显示，不执行任何操作 */
+        if(id[0][0]+id[0][1]==4)VELOCITY_PI_CONTROL();
+        if(id[0][0]+id[0][1]==5);  /* MPU: 纯显示，不执行任何操作 */
         directory_flag = 1;
     }
     else if(directory_flag == 2)directory_flag = 1;
@@ -301,7 +312,15 @@ void HOME_directory(u8g2_t *u8g2) {
             sprintf((char *)oled_buffer, "%.1f", kd);
             u8g2_DrawUTF8(u8g2, 100, 62, oled_buffer);
         }
-        if(id[0][0]+id[0][1]==6){
+        if(id[0][0]+id[0][1]==4){
+            u8g2_DrawUTF8(u8g2, 40, 30, "Kp:");
+            sprintf((char *)oled_buffer, "%.1f", Velcity_Kp);
+            u8g2_DrawUTF8(u8g2, 70, 30, oled_buffer);
+            u8g2_DrawUTF8(u8g2, 40, 46, "Ki:");
+            sprintf((char *)oled_buffer, "%.1f", Velcity_Ki);
+            u8g2_DrawUTF8(u8g2, 70, 46, oled_buffer);
+        }
+        if(id[0][0]+id[0][1]==5){
             u8g2_DrawUTF8(u8g2, 0, 30, "R:");
             sprintf((char *)oled_buffer, "%.1f", mpu6050_get_roll());
             u8g2_DrawUTF8(u8g2, 20, 30, oled_buffer);

@@ -1,18 +1,18 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.4                      
 ******************************************************************************
->> Linked Sat Jul 18 14:17:22 2026
+>> Linked Sun Jul 19 22:20:09 2026
 
 OUTPUT FILE NAME:   <Autocar.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000085e1
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000083d9
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00020000  00009a08  000165f8  R  X
-  SRAM                  20200000   00008000  00000a44  000075bc  RW X
+  FLASH                 00000000   00020000  000096d0  00016930  R  X
+  SRAM                  20200000   00008000  00000a08  000075f8  RW X
   BCR_CONFIG            41c00000   000000ff  00000000  000000ff  R   
   BSL_CONFIG            41c00100   00000080  00000000  00000080  R   
 
@@ -21,14 +21,14 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00009a08   00009a08    r-x
+00000000    00000000    000096d0   000096d0    r-x
   00000000    00000000    000000c0   000000c0    r-- .intvecs
-  000000c0    000000c0    00008b10   00008b10    r-x .text
-  00008bd0    00008bd0    00000d10   00000d10    r-- .rodata
-  000098e0    000098e0    00000128   00000128    r-- .cinit
-20200000    20200000    00000844   00000000    rw-
-  20200000    20200000    00000658   00000000    rw- .bss
-  20200658    20200658    000001ec   00000000    rw- .data
+  000000c0    000000c0    000088f0   000088f0    r-x .text
+  000089b0    000089b0    00000c30   00000c30    r-- .rodata
+  000095e0    000095e0    000000f0   000000f0    r-- .cinit
+20200000    20200000    0000080a   00000000    rw-
+  20200000    20200000    00000656   00000000    rw- .bss
+  20200658    20200658    000001b2   00000000    rw- .data
 20207e00    20207e00    00000200   00000000    rw-
   20207e00    20207e00    00000200   00000000    rw- .stack
 
@@ -41,386 +41,373 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    000000c0     
                   00000000    000000c0     startup_mspm0g350x_ticlang.o (.intvecs)
 
-.text      0    000000c0    00008b10     
+.text      0    000000c0    000088f0     
                   000000c0    000009d0     libc.a : _printfi.c.obj (.text:__TI_printfi)
-                  00000a90    0000079c     mpu6050.o (.text.mpu6050_update)
-                  0000122c    00000644     libc.a : k_rem_pio2.c.obj (.text.__kernel_rem_pio2)
-                  00001870    00000600     draw.o (.text.HOME_directory)
-                  00001e70    00000404     line_follower.o (.text.line_folower)
-                  00002274    000003d0     electrical_machinery.o (.text.MOTOR_CONTROL)
-                  00002644    000002d0     u8g2_font.o (.text.u8g2_font_decode_glyph)
-                  00002914    000002c0     mspm0_motor_i2c.o (.text.mspm0_motor_i2c_read_direct)
-                  00002bd4    000002a8     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSCTL_SYSPLL_init)
-                  00002e7c    00000250     mpu6050_service.o (.text.mpu6050_service_init)
-                  000030cc    0000023c     empty.o (.text.main)
-                  00003308    00000224     mpu6050.o (.text.i2c_read_once)
-                  0000352c    00000220     libc.a : _printfi.c.obj (.text._pconv_a)
-                  0000374c    0000021c     mpu6050.o (.text.i2c_bus_recover)
-                  00003968    00000214     u8g2_ll_hvline.o (.text.u8g2_ll_hvline_vertical_top_lsb)
-                  00003b7c    000001dc     libc.a : _printfi.c.obj (.text._pconv_g)
-                  00003d58    000001d4            : s_cosf.c.obj (.text.cosf)
-                  00003f2c    000001c8            : s_atanf.c.obj (.text.atanf)
-                  000040f4    000001c8            : s_sinf.c.obj (.text.sinf)
-                  000042bc    000001c4     u8x8_byte.o (.text.i2c_write_byte)
-                  00004480    000001bc     mpu6050.o (.text.calibrate_gyro)
-                  0000463c    000001ac     interrupt.o (.text.GROUP1_IRQHandler)
-                  000047e8    000001a4     ti_msp_dl_config.o (.text.SYSCFG_DL_GPIO_init)
-                  0000498c    00000192     libclang_rt.builtins.a : adddf3.S.obj (.text.adddf3_subdf3)
-                  00004b1e    00000002     startup_mspm0g350x_ticlang.o (.text.Default_Handler)
-                  00004b20    0000017c     u8x8_byte.o (.text.u8x8_byte_sw_i2c)
-                  00004c9c    0000017c     u8x8_d_ssd1306_128x64_noname.o (.text.u8x8_d_ssd1306_sh1106_generic)
-                  00004e18    00000170     libc.a : e_sqrt.c.obj (.text.sqrt)
-                  00004f88    00000168     u8x8_cad.o (.text.u8x8_cad_ssd13xx_fast_i2c)
-                  000050f0    00000160     libc.a : e_asinf.c.obj (.text.asinf)
-                  00005250    00000144            : s_floor.c.obj (.text.floor)
-                  00005394    0000013c            : _printfi.c.obj (.text.fcvt)
-                  000054d0    00000128     mpu6050.o (.text.mpu6050_init)
-                  000055f8    00000122     u8g2_font.o (.text.u8g2_font_decode_len)
-                  0000571a    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
-                  0000571c    00000120     libc.a : _printfi.c.obj (.text._pconv_e)
-                  0000583c    0000011c     mpu6050.o (.text.i2c_write_once)
-                  00005958    00000118     libc.a : e_atan2f.c.obj (.text.atan2f)
-                  00005a70    00000114     mpu6050.o (.text.configure_sensor)
-                  00005b84    0000010c     libclang_rt.builtins.a : divdf3.S.obj (.text.__divdf3)
-                  00005c90    00000104     driverlib.a : dl_timer.o (.text.DL_Timer_initFourCCPWMMode)
-                  00005d94    00000102     u8g2_font.o (.text.u8g2_font_get_glyph_data)
-                  00005e96    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_ldiv0)
-                  00005e98    00000100     u8g2_font.o (.text.u8g2_draw_string)
-                  00005f98    000000fc     driverlib.a : dl_timer.o (.text.DL_Timer_initTimerMode)
-                  00006094    000000f8     u8g2_hvline.o (.text.u8g2_DrawHVLine)
-                  0000618c    000000ec     u8g2_box.o (.text.u8g2_DrawBox)
-                  00006278    000000e4     libclang_rt.builtins.a : muldf3.S.obj (.text.__muldf3)
-                  0000635c    000000dc     driverlib.a : dl_sysctl_mspm0g1x0x_g3x0x.o (.text.DL_SYSCTL_configSYSPLL)
-                  00006438    000000d8     libc.a : s_scalbn.c.obj (.text.scalbn)
-                  00006510    000000d8     libclang_rt.builtins.a : addsf3.S.obj (.text)
-                  000065e8    000000cc     mpu6050.o (.text.read_raw)
-                  000066b4    000000c4     u8g2_font.o (.text.u8g2_SetFont)
-                  00006778    000000c0     draw.o (.text.PID_CONTROL)
-                  00006838    000000bc     line_follower.o (.text.line_follower_update)
-                  000068f4    000000b8     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSCTL_init)
-                  000069ac    000000ac     libc.a : s_cosf.c.obj (.text.__kernel_sindf)
-                  00006a58    000000ac            : s_sinf.c.obj (.text.__kernel_sindf)
-                  00006b04    000000ac     mpu6050.o (.text.set_initial_attitude)
-                  00006bb0    000000a2     libclang_rt.builtins.a : udivmoddi4.S.obj (.text)
-                  00006c52    00000002     --HOLE-- [fill = 0]
-                  00006c54    000000a0     libc.a : e_sqrtf.c.obj (.text.sqrtf)
-                  00006cf4    000000a0     oled.o (.text.u8x8_gpio_and_delay)
-                  00006d94    0000009c     libc.a : s_cosf.c.obj (.text.__kernel_cosdf)
-                  00006e30    0000009c            : s_sinf.c.obj (.text.__kernel_cosdf)
-                  00006ecc    0000009a            : memcpy16.S.obj (.text:memcpy)
-                  00006f66    00000002     --HOLE-- [fill = 0]
-                  00006f68    0000008c     libclang_rt.builtins.a : mulsf3.S.obj (.text.__mulsf3)
-                  00006ff4    00000088     ti_msp_dl_config.o (.text.SYSCFG_DL_initPower)
-                  0000707c    00000082     libclang_rt.builtins.a : divsf3.S.obj (.text.__divsf3)
-                  000070fe    00000002     --HOLE-- [fill = 0]
-                  00007100    00000080     u8x8_8x8.o (.text.u8x8_utf8_next)
-                  00007180    0000007c     libc.a : copy_decompress_lzss.c.obj (.text:decompress:lzss)
-                  000071fc    00000078     line_follower.o (.text.CAR_CONTROL)
-                  00007274    00000074     libclang_rt.builtins.a : comparedf2.c.obj (.text.__gedf2)
-                  000072e8    00000008     libc.a : aeabi_portable.c.obj (.text.__aeabi_errno_addr)
-                  000072f0    00000074     libclang_rt.builtins.a : truncdfsf2.S.obj (.text.__truncdfsf2)
-                  00007364    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMB_init)
-                  000073d4    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMC_init)
-                  00007444    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMD_init)
-                  000074b4    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_UART_0_init)
-                  00007524    0000006c     u8x8_cad.o (.text.u8x8_cad_SendSequence)
-                  00007590    0000006a     u8x8_display.o (.text.u8x8_d_helper_display_init)
-                  000075fa    00000002     --HOLE-- [fill = 0]
-                  000075fc    00000068     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMA_init)
-                  00007664    00000068     libclang_rt.builtins.a : comparedf2.c.obj (.text.__ledf2)
-                  000076cc    00000066     libc.a : _printfi.c.obj (.text._mcpy)
-                  00007732    00000002     --HOLE-- [fill = 0]
-                  00007734    00000064     interrupt.o (.text.TIMG0_IRQHandler)
-                  00007798    00000062     libclang_rt.builtins.a : aeabi_dcmp.S.obj (.text.__aeabi_dcmp)
-                  000077fa    00000002     --HOLE-- [fill = 0]
-                  000077fc    00000062                            : aeabi_fcmp.S.obj (.text.__aeabi_fcmp)
-                  0000785e    00000062     libc.a : memset16.S.obj (.text:memset)
-                  000078c0    00000060     u8g2_setup.o (.text.u8g2_SetupBuffer)
-                  00007920    00000060     u8g2_setup.o (.text.u8g2_update_page_win_r0)
-                  00007980    0000005e     u8g2_intersection.o (.text.u8g2_IsIntersection)
-                  000079de    00000002     --HOLE-- [fill = 0]
-                  000079e0    0000005c     libc.a : s_frexp.c.obj (.text.frexp)
-                  00007a3c    00000058     clock.o (.text.SysTick_Init)
-                  00007a94    00000058     usart.o (.text.UART0_IRQHandler)
-                  00007aec    00000058     libc.a : _ltoa.c.obj (.text.__TI_ltoa)
-                  00007b44    00000058            : _printfi.c.obj (.text._pconv_f)
-                  00007b9c    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
-                  00007bf2    00000002     --HOLE-- [fill = 0]
-                  00007bf4    00000054     ti_msp_dl_config.o (.text.SYSCFG_DL_I2C_BUS_init)
-                  00007c48    00000054     u8g2_buffer.o (.text.u8g2_send_buffer)
-                  00007c9c    00000052     libc.a : _printfi.c.obj (.text._ecpy)
-                  00007cee    00000002     --HOLE-- [fill = 0]
-                  00007cf0    0000004c     u8x8_d_ssd1306_128x64_noname.o (.text.u8x8_d_ssd1306_128x64_noname)
-                  00007d3c    0000004a     libclang_rt.builtins.a : fixdfsi.S.obj (.text.__fixdfsi)
-                  00007d86    0000004a     u8g2_buffer.o (.text.u8g2_NextPage)
-                  00007dd0    00000048     driverlib.a : dl_uart.o (.text.DL_UART_init)
-                  00007e18    00000048     ti_msp_dl_config.o (.text.SYSCFG_DL_TIMER_TICK_init)
-                  00007e60    00000048     ti_msp_dl_config.o (.text.SYSCFG_DL_init)
-                  00007ea8    00000048     oled.o (.text.u8g2Init)
-                  00007ef0    00000044     driverlib.a : dl_sysctl_mspm0g1x0x_g3x0x.o (.text.DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK)
-                  00007f34    00000044     electrical_machinery.o (.text.car_run)
-                  00007f78    00000040     draw.o (.text.OLED_SHOW)
-                  00007fb8    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
-                  00007ff8    00000040                            : extendsfdf2.S.obj (.text.__extendsfdf2)
-                  00008038    00000040     libc.a : atoi.c.obj (.text.atoi)
-                  00008078    00000040            : ti_fmax.c.obj (.text.fmaxf)
-                  000080b8    00000040     interrupt.o (.text.get_encoder_count)
-                  000080f8    0000003e     libc.a : ti_fmax.c.obj (.text.fminf)
-                  00008136    00000002     --HOLE-- [fill = 0]
-                  00008138    0000003c     driverlib.a : dl_i2c.o (.text.DL_I2C_flushControllerTXFIFO)
-                  00008174    0000003c     libclang_rt.builtins.a : floatsisf.S.obj (.text.__floatsisf)
-                  000081b0    0000003c                            : comparesf2.S.obj (.text.__gtsf2)
-                  000081ec    0000003c     mpu6050_service.o (.text.mpu6050_i2c1_full_init)
-                  00008228    0000003c     u8g2_d_setup.o (.text.u8g2_Setup_ssd1306_i2c_128x64_noname_f)
-                  00008264    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
-                  000082a0    0000003a     libclang_rt.builtins.a : comparesf2.S.obj (.text.__eqsf2)
-                  000082da    00000002     --HOLE-- [fill = 0]
-                  000082dc    0000003a                            : muldsi3.S.obj (.text.__muldsi3)
-                  00008316    00000002     --HOLE-- [fill = 0]
-                  00008318    00000038                            : fixsfsi.S.obj (.text.__fixsfsi)
-                  00008350    00000038     libc.a : sprintf.c.obj (.text.sprintf)
-                  00008388    00000034     clock.o (.text.mspm0_delay_ms)
-                  000083bc    00000034     u8g2_setup.o (.text.u8g2_update_dimension_r0)
-                  000083f0    00000030     driverlib.a : dl_i2c.o (.text.DL_I2C_flushControllerRXFIFO)
-                  00008420    00000030     ti_msp_dl_config.o (.text.SYSCFG_DL_I2C1_init)
-                  00008450    00000030     usart.o (.text.USART_SendString)
-                  00008480    00000030     libc.a : _printfi.c.obj (.text._fcpy)
-                  000084b0    00000030     u8g2_cleardisplay.o (.text.u8g2_ClearDisplay)
-                  000084e0    0000002c     interrupt.o (.text.SysTick_Handler)
-                  0000850c    0000002c     libclang_rt.builtins.a : floatsidf.S.obj (.text.__floatsidf)
-                  00008538    0000002c     u8g2_buffer.o (.text.u8g2_FirstPage)
-                  00008564    0000002c     u8x8_cad.o (.text.u8x8_i2c_data_transfer)
-                  00008590    00000028     libclang_rt.builtins.a : floatunsisf.S.obj (.text.__floatunsisf)
-                  000085b8    00000028     u8x8_setup.o (.text.u8x8_Setup)
-                  000085e0    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
-                  00008608    00000026     driverlib.a : dl_i2c.o (.text.DL_I2C_setClockConfig)
-                  0000862e    00000002     --HOLE-- [fill = 0]
-                  00008630    00000024     libclang_rt.builtins.a : muldi3.S.obj (.text.__muldi3)
-                  00008654    00000024     mpu6050.o (.text.i2c_read)
-                  00008678    00000024     u8g2_font.o (.text.u8g2_add_vector_x)
-                  0000869c    00000024     u8g2_font.o (.text.u8g2_add_vector_y)
-                  000086c0    00000022     libc.a : memccpy.c.obj (.text.memccpy)
-                  000086e2    00000020     mpu6050.o (.text.i2c_write)
-                  00008702    00000002     --HOLE-- [fill = 0]
-                  00008704    0000001e     libclang_rt.builtins.a : ashldi3.S.obj (.text.__ashldi3)
-                  00008722    0000001e     u8x8_display.o (.text.u8x8_DrawTile)
-                  00008740    0000001c     driverlib.a : dl_sysctl_mspm0g1x0x_g3x0x.o (.text.DL_SYSCTL_configFCC)
-                  0000875c    0000001c                 : dl_timer.o (.text.DL_Timer_setCaptCompUpdateMethod)
-                  00008778    0000001c                 : dl_timer.o (.text.DL_Timer_setClockConfig)
-                  00008794    0000001c     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSTICK_init)
-                  000087b0    0000001a     u8g2_buffer.o (.text.u8g2_SetBufferCurrTileRow)
-                  000087ca    00000002     --HOLE-- [fill = 0]
-                  000087cc    00000018     driverlib.a : dl_timer.o (.text.DL_Timer_setCaptureCompareOutCtl)
-                  000087e4    00000018     usart.o (.text.USART_Init)
-                  000087fc    00000018     libc.a : sprintf.c.obj (.text._outs)
-                  00008814    00000018     clock.o (.text.mspm0_get_clock_ms)
-                  0000882c    00000016     libc.a : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_0)
-                  00008842    00000002     --HOLE-- [fill = 0]
-                  00008844    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dadd.1)
-                  00008854    00000016     u8g2_buffer.o (.text.u8g2_ClearBuffer)
-                  0000886a    00000016     u8g2_hvline.o (.text.u8g2_draw_hv_line_2dir)
-                  00008880    00000014     libclang_rt.builtins.a : aeabi_uldivmod.S.obj (.text.__aeabi_uldivmod)
-                  00008894    00000014     libc.a : _printfi.c.obj (.text.strchr)
-                  000088a8    00000012     driverlib.a : dl_uart.o (.text.DL_UART_setClockConfig)
-                  000088ba    00000012     u8x8_byte.o (.text.u8x8_byte_SendByte)
-                  000088cc    00000012     libc.a : copy_decompress_none.c.obj (.text:decompress:none)
-                  000088de    00000002     --HOLE-- [fill = 0]
-                  000088e0    00000010     driverlib.a : dl_timer.o (.text.DL_Timer_setCaptureCompareValue)
-                  000088f0    00000010     libc.a : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_2)
-                  00008900    00000010     electrical_machinery.o (.text.car_stop)
-                  00008910    00000010     u8g2_font.o (.text.u8g2_DrawUTF8)
-                  00008920    00000010     u8g2_setup.o (.text.u8g2_draw_l90_r0)
-                  00008930    00000010     libc.a : wcslen.c.obj (.text.wcslen)
-                  00008940    00000010            : copy_zero_init.c.obj (.text:decompress:ZI)
-                  00008950    0000000e     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memset)
-                  0000895e    0000000e     u8x8_byte.o (.text.i2c_delay)
-                  0000896c    0000000e     libc.a : _printfi.c.obj (.text.strlen)
-                  0000897a    0000000e     u8g2_font.o (.text.u8g2_font_get_word)
-                  00008988    0000000e     u8x8_display.o (.text.u8x8_InitDisplay)
-                  00008996    0000000e     u8x8_display.o (.text.u8x8_RefreshDisplay)
-                  000089a4    0000000e     u8x8_display.o (.text.u8x8_SetPowerSave)
-                  000089b2    0000000e     u8x8_display.o (.text.u8x8_SetupMemory)
-                  000089c0    0000000e     u8x8_byte.o (.text.u8x8_byte_EndTransfer)
-                  000089ce    0000000e     u8x8_byte.o (.text.u8x8_byte_SendBytes)
-                  000089dc    0000000e     u8x8_byte.o (.text.u8x8_byte_StartTransfer)
-                  000089ea    0000000e     u8x8_cad.o (.text.u8x8_cad_EndTransfer)
-                  000089f8    0000000e     u8x8_cad.o (.text.u8x8_cad_SendArg)
-                  00008a06    0000000e     u8x8_cad.o (.text.u8x8_cad_SendCmd)
-                  00008a14    0000000e     u8x8_cad.o (.text.u8x8_cad_SendData)
-                  00008a22    0000000e     u8x8_cad.o (.text.u8x8_cad_StartTransfer)
-                  00008a30    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
-                  00008a3c    0000000c     mpu6050.o (.text.mpu6050_get_pitch)
-                  00008a48    0000000c     mpu6050.o (.text.mpu6050_get_roll)
-                  00008a54    0000000c     mpu6050.o (.text.mpu6050_get_yaw)
-                  00008a60    0000000c     mpu6050.o (.text.mpu6050_millis)
-                  00008a6c    0000000c     u8g2_hvline.o (.text.u8g2_SetDrawColor)
-                  00008a78    0000000c     u8g2_font.o (.text.u8g2_SetFontPosBaseline)
-                  00008a84    0000000c     u8g2_d_memory.o (.text.u8g2_m_16_8_f)
-                  00008a90    0000000a     driverlib.a : dl_common.o (.text.DL_Common_delayCycles)
-                  00008a9a    0000000a     libc.a : _printfi.c.obj (.text.OUTLINED_FUNCTION_0)
-                  00008aa4    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dsub.1)
-                  00008ab4    0000000a     libc.a : _printfi.c.obj (.text.OUTLINED_FUNCTION_1)
-                  00008abe    0000000a            : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_1)
-                  00008ac8    0000000a            : s_cosf.c.obj (.text.OUTLINED_FUNCTION_3)
-                  00008ad2    0000000a            : s_sinf.c.obj (.text.OUTLINED_FUNCTION_3)
-                  00008adc    0000000a            : sprintf.c.obj (.text._outc)
-                  00008ae6    0000000a     u8x8_display.o (.text.u8x8_d_helper_display_setup_memory)
-                  00008af0    0000000a     u8x8_gpio.o (.text.u8x8_gpio_call)
-                  00008afa    00000002     --HOLE-- [fill = 0]
-                  00008afc    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
-                  00008b04    00000008     mpu6050.o (.text.mpu6050_delay_ms)
-                  00008b0c    00000008     mpu6050.o (.text.mpu6050_get_data)
-                  00008b14    00000008     u8x8_8x8.o (.text.u8x8_utf8_init)
-                  00008b1c    00000006     libc.a : e_asinf.c.obj (.text.OUTLINED_FUNCTION_0)
-                  00008b22    00000002     --HOLE-- [fill = 0]
-                  00008b24    00000010     libclang_rt.builtins.a : mulsf3.S.obj (.tramp.__aeabi_fmul.1)
-                  00008b34    00000006     libc.a : s_atanf.c.obj (.text.OUTLINED_FUNCTION_0)
-                  00008b3a    00000002     --HOLE-- [fill = 0]
-                  00008b3c    00000010     libclang_rt.builtins.a : divsf3.S.obj (.tramp.__aeabi_fdiv.1)
-                  00008b4c    00000006     libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_0)
-                  00008b52    00000002     --HOLE-- [fill = 0]
-                  00008b54    00000010     libclang_rt.builtins.a : muldf3.S.obj (.tramp.__aeabi_dmul.1)
-                  00008b64    00000006     libc.a : s_sinf.c.obj (.text.OUTLINED_FUNCTION_0)
-                  00008b6a    00000006            : s_cosf.c.obj (.text.OUTLINED_FUNCTION_1)
-                  00008b70    00000006            : s_sinf.c.obj (.text.OUTLINED_FUNCTION_1)
-                  00008b76    00000006     u8g2_font.o (.text.u8g2_SetFontDirection)
-                  00008b7c    00000006     u8g2_font.o (.text.u8g2_SetFontMode)
-                  00008b82    00000006     libc.a : exit.c.obj (.text:abort)
-                  00008b88    00000004     libsysbm.a : hostexit.c.obj (.text.HOSTexit)
-                  00008b8c    00000004     libc.a : s_atanf.c.obj (.text.OUTLINED_FUNCTION_1)
-                  00008b90    00000010     libclang_rt.builtins.a : addsf3.S.obj (.tramp.__aeabi_fadd.1)
-                  00008ba0    00000004     libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_2)
-                  00008ba4    00000010     libclang_rt.builtins.a : extendsfdf2.S.obj (.tramp.__aeabi_f2d.1)
-                  00008bb4    00000004     libc.a : s_sinf.c.obj (.text.OUTLINED_FUNCTION_2)
-                  00008bb8    00000004     startup_mspm0g350x_ticlang.o (.text.Reset_Handler)
-                  00008bbc    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
-                  00008bc0    00000004     u8g2_font.o (.text.u8g2_font_calc_vref_font)
-                  00008bc4    0000000c     --HOLE-- [fill = 0]
+                  00000a90    000007a0     mpu6050.o (.text.mpu6050_update)
+                  00001230    00000704     draw.o (.text.HOME_directory)
+                  00001934    00000644     libc.a : k_rem_pio2.c.obj (.text.__kernel_rem_pio2)
+                  00001f78    000003d0     electrical_machinery.o (.text.MOTOR_CONTROL)
+                  00002348    000002d0     u8g2_font.o (.text.u8g2_font_decode_glyph)
+                  00002618    000002a8     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSCTL_SYSPLL_init)
+                  000028c0    00000250     mpu6050_service.o (.text.mpu6050_service_init)
+                  00002b10    00000244     empty.o (.text.main)
+                  00002d54    00000228     line_follower.o (.text.line_folower)
+                  00002f7c    00000224     mpu6050.o (.text.i2c_read_once)
+                  000031a0    00000220     libc.a : _printfi.c.obj (.text._pconv_a)
+                  000033c0    0000021c     mpu6050.o (.text.i2c_bus_recover)
+                  000035dc    00000214     u8g2_ll_hvline.o (.text.u8g2_ll_hvline_vertical_top_lsb)
+                  000037f0    000001dc     libc.a : _printfi.c.obj (.text._pconv_g)
+                  000039cc    000001d4            : s_cosf.c.obj (.text.cosf)
+                  00003ba0    000001c8            : s_atanf.c.obj (.text.atanf)
+                  00003d68    000001c8            : s_sinf.c.obj (.text.sinf)
+                  00003f30    000001c4     u8x8_byte.o (.text.i2c_write_byte)
+                  000040f4    000001bc     mpu6050.o (.text.calibrate_gyro)
+                  000042b0    000001ac     interrupt.o (.text.GROUP1_IRQHandler)
+                  0000445c    000001a4     ti_msp_dl_config.o (.text.SYSCFG_DL_GPIO_init)
+                  00004600    00000192     libclang_rt.builtins.a : adddf3.S.obj (.text.adddf3_subdf3)
+                  00004792    00000002     startup_mspm0g350x_ticlang.o (.text.Default_Handler)
+                  00004794    0000017c     u8x8_byte.o (.text.u8x8_byte_sw_i2c)
+                  00004910    0000017c     u8x8_d_ssd1306_128x64_noname.o (.text.u8x8_d_ssd1306_sh1106_generic)
+                  00004a8c    00000170     libc.a : e_sqrt.c.obj (.text.sqrt)
+                  00004bfc    00000168     u8x8_cad.o (.text.u8x8_cad_ssd13xx_fast_i2c)
+                  00004d64    00000160     libc.a : e_asinf.c.obj (.text.asinf)
+                  00004ec4    00000144            : s_floor.c.obj (.text.floor)
+                  00005008    0000013c            : _printfi.c.obj (.text.fcvt)
+                  00005144    00000128     grayscale_sensor.o (.text.Grayscale_Sensor_Read_All)
+                  0000526c    00000128     mpu6050.o (.text.mpu6050_init)
+                  00005394    00000122     u8g2_font.o (.text.u8g2_font_decode_len)
+                  000054b6    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
+                  000054b8    00000120     libc.a : _printfi.c.obj (.text._pconv_e)
+                  000055d8    0000011c     mpu6050.o (.text.i2c_write_once)
+                  000056f4    00000118     libc.a : e_atan2f.c.obj (.text.atan2f)
+                  0000580c    00000114     mpu6050.o (.text.configure_sensor)
+                  00005920    0000010c     libclang_rt.builtins.a : divdf3.S.obj (.text.__divdf3)
+                  00005a2c    00000104     driverlib.a : dl_timer.o (.text.DL_Timer_initFourCCPWMMode)
+                  00005b30    00000102     u8g2_font.o (.text.u8g2_font_get_glyph_data)
+                  00005c32    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_ldiv0)
+                  00005c34    00000100     u8g2_font.o (.text.u8g2_draw_string)
+                  00005d34    000000fc     driverlib.a : dl_timer.o (.text.DL_Timer_initTimerMode)
+                  00005e30    000000f8     u8g2_hvline.o (.text.u8g2_DrawHVLine)
+                  00005f28    000000ec     u8g2_box.o (.text.u8g2_DrawBox)
+                  00006014    000000e4     libclang_rt.builtins.a : muldf3.S.obj (.text.__muldf3)
+                  000060f8    000000dc     driverlib.a : dl_sysctl_mspm0g1x0x_g3x0x.o (.text.DL_SYSCTL_configSYSPLL)
+                  000061d4    000000d8     libc.a : s_scalbn.c.obj (.text.scalbn)
+                  000062ac    000000d8     libclang_rt.builtins.a : addsf3.S.obj (.text)
+                  00006384    000000cc     mpu6050.o (.text.read_raw)
+                  00006450    000000c4     u8g2_font.o (.text.u8g2_SetFont)
+                  00006514    000000c0     draw.o (.text.PID_CONTROL)
+                  000065d4    000000b8     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSCTL_init)
+                  0000668c    000000ac     libc.a : s_cosf.c.obj (.text.__kernel_sindf)
+                  00006738    000000ac            : s_sinf.c.obj (.text.__kernel_sindf)
+                  000067e4    000000ac     mpu6050.o (.text.set_initial_attitude)
+                  00006890    000000a2     libclang_rt.builtins.a : udivmoddi4.S.obj (.text)
+                  00006932    00000002     --HOLE-- [fill = 0]
+                  00006934    000000a0     libc.a : e_sqrtf.c.obj (.text.sqrtf)
+                  000069d4    000000a0     oled.o (.text.u8x8_gpio_and_delay)
+                  00006a74    0000009c     libc.a : s_cosf.c.obj (.text.__kernel_cosdf)
+                  00006b10    0000009c            : s_sinf.c.obj (.text.__kernel_cosdf)
+                  00006bac    0000009a            : memcpy16.S.obj (.text:memcpy)
+                  00006c46    00000002     --HOLE-- [fill = 0]
+                  00006c48    0000008c     libclang_rt.builtins.a : mulsf3.S.obj (.text.__mulsf3)
+                  00006cd4    00000088     ti_msp_dl_config.o (.text.SYSCFG_DL_initPower)
+                  00006d5c    00000082     libclang_rt.builtins.a : divsf3.S.obj (.text.__divsf3)
+                  00006dde    00000002     --HOLE-- [fill = 0]
+                  00006de0    00000080     line_follower.o (.text.line_follower_update)
+                  00006e60    00000080     u8x8_8x8.o (.text.u8x8_utf8_next)
+                  00006ee0    0000007c     line_follower.o (.text.CAR_CONTROL)
+                  00006f5c    0000007c     libc.a : copy_decompress_lzss.c.obj (.text:decompress:lzss)
+                  00006fd8    00000074     libclang_rt.builtins.a : comparedf2.c.obj (.text.__gedf2)
+                  0000704c    00000004     libsysbm.a : hostexit.c.obj (.text.HOSTexit)
+                  00007050    00000074     libclang_rt.builtins.a : truncdfsf2.S.obj (.text.__truncdfsf2)
+                  000070c4    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMB_init)
+                  00007134    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMC_init)
+                  000071a4    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMD_init)
+                  00007214    00000070     ti_msp_dl_config.o (.text.SYSCFG_DL_UART_0_init)
+                  00007284    0000006c     u8x8_cad.o (.text.u8x8_cad_SendSequence)
+                  000072f0    0000006a     u8x8_display.o (.text.u8x8_d_helper_display_init)
+                  0000735a    00000002     --HOLE-- [fill = 0]
+                  0000735c    00000068     ti_msp_dl_config.o (.text.SYSCFG_DL_PWMA_init)
+                  000073c4    00000068     libclang_rt.builtins.a : comparedf2.c.obj (.text.__ledf2)
+                  0000742c    00000066     libc.a : _printfi.c.obj (.text._mcpy)
+                  00007492    00000002     --HOLE-- [fill = 0]
+                  00007494    00000064     interrupt.o (.text.TIMG0_IRQHandler)
+                  000074f8    00000062     libclang_rt.builtins.a : aeabi_dcmp.S.obj (.text.__aeabi_dcmp)
+                  0000755a    00000002     --HOLE-- [fill = 0]
+                  0000755c    00000062                            : aeabi_fcmp.S.obj (.text.__aeabi_fcmp)
+                  000075be    00000062     libc.a : memset16.S.obj (.text:memset)
+                  00007620    00000060     u8g2_setup.o (.text.u8g2_SetupBuffer)
+                  00007680    00000060     u8g2_setup.o (.text.u8g2_update_page_win_r0)
+                  000076e0    0000005e     u8g2_intersection.o (.text.u8g2_IsIntersection)
+                  0000773e    00000002     --HOLE-- [fill = 0]
+                  00007740    0000005c     electrical_machinery.o (.text.calculate_motor_speed)
+                  0000779c    0000005c     libc.a : s_frexp.c.obj (.text.frexp)
+                  000077f8    00000058     clock.o (.text.SysTick_Init)
+                  00007850    00000058     usart.o (.text.UART0_IRQHandler)
+                  000078a8    00000058     libc.a : _ltoa.c.obj (.text.__TI_ltoa)
+                  00007900    00000058            : _printfi.c.obj (.text._pconv_f)
+                  00007958    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
+                  000079ae    00000002     --HOLE-- [fill = 0]
+                  000079b0    00000054     ti_msp_dl_config.o (.text.SYSCFG_DL_I2C_BUS_init)
+                  00007a04    00000054     u8g2_buffer.o (.text.u8g2_send_buffer)
+                  00007a58    00000052     libc.a : _printfi.c.obj (.text._ecpy)
+                  00007aaa    00000002     --HOLE-- [fill = 0]
+                  00007aac    0000004c     u8x8_d_ssd1306_128x64_noname.o (.text.u8x8_d_ssd1306_128x64_noname)
+                  00007af8    0000004a     libclang_rt.builtins.a : fixdfsi.S.obj (.text.__fixdfsi)
+                  00007b42    0000004a     u8g2_buffer.o (.text.u8g2_NextPage)
+                  00007b8c    00000048     driverlib.a : dl_uart.o (.text.DL_UART_init)
+                  00007bd4    00000048     ti_msp_dl_config.o (.text.SYSCFG_DL_TIMER_TICK_init)
+                  00007c1c    00000048     ti_msp_dl_config.o (.text.SYSCFG_DL_init)
+                  00007c64    00000048     oled.o (.text.u8g2Init)
+                  00007cac    00000044     driverlib.a : dl_sysctl_mspm0g1x0x_g3x0x.o (.text.DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK)
+                  00007cf0    00000040     draw.o (.text.OLED_SHOW)
+                  00007d30    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
+                  00007d70    00000040                            : extendsfdf2.S.obj (.text.__extendsfdf2)
+                  00007db0    00000040     libc.a : atoi.c.obj (.text.atoi)
+                  00007df0    00000040     electrical_machinery.o (.text.car_run)
+                  00007e30    00000040     clock.o (.text.delay_us)
+                  00007e70    00000040     libc.a : ti_fmax.c.obj (.text.fmaxf)
+                  00007eb0    00000040     interrupt.o (.text.get_encoder_count)
+                  00007ef0    0000003e     libc.a : ti_fmax.c.obj (.text.fminf)
+                  00007f2e    00000002     --HOLE-- [fill = 0]
+                  00007f30    0000003c     driverlib.a : dl_i2c.o (.text.DL_I2C_flushControllerTXFIFO)
+                  00007f6c    0000003c     libclang_rt.builtins.a : floatsisf.S.obj (.text.__floatsisf)
+                  00007fa8    0000003c                            : comparesf2.S.obj (.text.__gtsf2)
+                  00007fe4    0000003c     mpu6050_service.o (.text.mpu6050_i2c1_full_init)
+                  00008020    0000003c     u8g2_d_setup.o (.text.u8g2_Setup_ssd1306_i2c_128x64_noname_f)
+                  0000805c    0000003c     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit)
+                  00008098    0000003a     libclang_rt.builtins.a : comparesf2.S.obj (.text.__eqsf2)
+                  000080d2    00000002     --HOLE-- [fill = 0]
+                  000080d4    0000003a                            : muldsi3.S.obj (.text.__muldsi3)
+                  0000810e    00000002     --HOLE-- [fill = 0]
+                  00008110    00000038                            : fixsfsi.S.obj (.text.__fixsfsi)
+                  00008148    00000038     libc.a : sprintf.c.obj (.text.sprintf)
+                  00008180    00000034     clock.o (.text.mspm0_delay_ms)
+                  000081b4    00000034     u8g2_setup.o (.text.u8g2_update_dimension_r0)
+                  000081e8    00000030     driverlib.a : dl_i2c.o (.text.DL_I2C_flushControllerRXFIFO)
+                  00008218    00000030     ti_msp_dl_config.o (.text.SYSCFG_DL_I2C1_init)
+                  00008248    00000030     usart.o (.text.USART_SendString)
+                  00008278    00000030     libc.a : _printfi.c.obj (.text._fcpy)
+                  000082a8    00000030     u8g2_cleardisplay.o (.text.u8g2_ClearDisplay)
+                  000082d8    0000002c     interrupt.o (.text.SysTick_Handler)
+                  00008304    0000002c     libclang_rt.builtins.a : floatsidf.S.obj (.text.__floatsidf)
+                  00008330    0000002c     u8g2_buffer.o (.text.u8g2_FirstPage)
+                  0000835c    0000002c     u8x8_cad.o (.text.u8x8_i2c_data_transfer)
+                  00008388    00000028     libclang_rt.builtins.a : floatunsisf.S.obj (.text.__floatunsisf)
+                  000083b0    00000028     u8x8_setup.o (.text.u8x8_Setup)
+                  000083d8    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
+                  00008400    00000026     driverlib.a : dl_i2c.o (.text.DL_I2C_setClockConfig)
+                  00008426    00000002     --HOLE-- [fill = 0]
+                  00008428    00000024     libclang_rt.builtins.a : muldi3.S.obj (.text.__muldi3)
+                  0000844c    00000024     mpu6050.o (.text.i2c_read)
+                  00008470    00000024     u8g2_font.o (.text.u8g2_add_vector_x)
+                  00008494    00000024     u8g2_font.o (.text.u8g2_add_vector_y)
+                  000084b8    00000022     libc.a : memccpy.c.obj (.text.memccpy)
+                  000084da    00000020     mpu6050.o (.text.i2c_write)
+                  000084fa    00000002     --HOLE-- [fill = 0]
+                  000084fc    0000001e     libclang_rt.builtins.a : ashldi3.S.obj (.text.__ashldi3)
+                  0000851a    0000001e     u8x8_display.o (.text.u8x8_DrawTile)
+                  00008538    0000001c     driverlib.a : dl_sysctl_mspm0g1x0x_g3x0x.o (.text.DL_SYSCTL_configFCC)
+                  00008554    0000001c                 : dl_timer.o (.text.DL_Timer_setCaptCompUpdateMethod)
+                  00008570    0000001c                 : dl_timer.o (.text.DL_Timer_setClockConfig)
+                  0000858c    0000001c     ti_msp_dl_config.o (.text.SYSCFG_DL_SYSTICK_init)
+                  000085a8    0000001a     u8g2_buffer.o (.text.u8g2_SetBufferCurrTileRow)
+                  000085c2    00000002     --HOLE-- [fill = 0]
+                  000085c4    00000018     driverlib.a : dl_timer.o (.text.DL_Timer_setCaptureCompareOutCtl)
+                  000085dc    00000018     usart.o (.text.USART_Init)
+                  000085f4    00000018     libc.a : sprintf.c.obj (.text._outs)
+                  0000860c    00000016            : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_0)
+                  00008622    00000002     --HOLE-- [fill = 0]
+                  00008624    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dadd.1)
+                  00008634    00000016     u8g2_buffer.o (.text.u8g2_ClearBuffer)
+                  0000864a    00000016     u8g2_hvline.o (.text.u8g2_draw_hv_line_2dir)
+                  00008660    00000014     libclang_rt.builtins.a : aeabi_uldivmod.S.obj (.text.__aeabi_uldivmod)
+                  00008674    00000014     libc.a : _printfi.c.obj (.text.strchr)
+                  00008688    00000012     driverlib.a : dl_uart.o (.text.DL_UART_setClockConfig)
+                  0000869a    00000012     u8x8_byte.o (.text.u8x8_byte_SendByte)
+                  000086ac    00000012     libc.a : copy_decompress_none.c.obj (.text:decompress:none)
+                  000086be    00000002     --HOLE-- [fill = 0]
+                  000086c0    00000010     driverlib.a : dl_timer.o (.text.DL_Timer_setCaptureCompareValue)
+                  000086d0    00000010     libc.a : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_2)
+                  000086e0    00000010     electrical_machinery.o (.text.car_stop)
+                  000086f0    00000010     u8g2_font.o (.text.u8g2_DrawUTF8)
+                  00008700    00000010     u8g2_setup.o (.text.u8g2_draw_l90_r0)
+                  00008710    00000010     libc.a : wcslen.c.obj (.text.wcslen)
+                  00008720    00000010            : copy_zero_init.c.obj (.text:decompress:ZI)
+                  00008730    0000000e     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memset)
+                  0000873e    0000000e     u8x8_byte.o (.text.i2c_delay)
+                  0000874c    0000000e     libc.a : _printfi.c.obj (.text.strlen)
+                  0000875a    0000000e     u8g2_font.o (.text.u8g2_font_get_word)
+                  00008768    0000000e     u8x8_display.o (.text.u8x8_InitDisplay)
+                  00008776    0000000e     u8x8_display.o (.text.u8x8_RefreshDisplay)
+                  00008784    0000000e     u8x8_display.o (.text.u8x8_SetPowerSave)
+                  00008792    0000000e     u8x8_display.o (.text.u8x8_SetupMemory)
+                  000087a0    0000000e     u8x8_byte.o (.text.u8x8_byte_EndTransfer)
+                  000087ae    0000000e     u8x8_byte.o (.text.u8x8_byte_SendBytes)
+                  000087bc    0000000e     u8x8_byte.o (.text.u8x8_byte_StartTransfer)
+                  000087ca    0000000e     u8x8_cad.o (.text.u8x8_cad_EndTransfer)
+                  000087d8    0000000e     u8x8_cad.o (.text.u8x8_cad_SendArg)
+                  000087e6    0000000e     u8x8_cad.o (.text.u8x8_cad_SendCmd)
+                  000087f4    0000000e     u8x8_cad.o (.text.u8x8_cad_SendData)
+                  00008802    0000000e     u8x8_cad.o (.text.u8x8_cad_StartTransfer)
+                  00008810    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
+                  0000881c    0000000c     mpu6050.o (.text.mpu6050_get_pitch)
+                  00008828    0000000c     mpu6050.o (.text.mpu6050_get_roll)
+                  00008834    0000000c     mpu6050.o (.text.mpu6050_get_yaw)
+                  00008840    0000000c     mpu6050.o (.text.mpu6050_millis)
+                  0000884c    0000000c     u8g2_hvline.o (.text.u8g2_SetDrawColor)
+                  00008858    0000000c     u8g2_font.o (.text.u8g2_SetFontPosBaseline)
+                  00008864    0000000c     u8g2_d_memory.o (.text.u8g2_m_16_8_f)
+                  00008870    0000000a     driverlib.a : dl_common.o (.text.DL_Common_delayCycles)
+                  0000887a    0000000a     libc.a : _printfi.c.obj (.text.OUTLINED_FUNCTION_0)
+                  00008884    00000010     libclang_rt.builtins.a : adddf3.S.obj (.tramp.__aeabi_dsub.1)
+                  00008894    0000000a     libc.a : _printfi.c.obj (.text.OUTLINED_FUNCTION_1)
+                  0000889e    0000000a            : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_1)
+                  000088a8    0000000a            : s_cosf.c.obj (.text.OUTLINED_FUNCTION_3)
+                  000088b2    0000000a            : s_sinf.c.obj (.text.OUTLINED_FUNCTION_3)
+                  000088bc    0000000a            : sprintf.c.obj (.text._outc)
+                  000088c6    0000000a     u8x8_display.o (.text.u8x8_d_helper_display_setup_memory)
+                  000088d0    0000000a     u8x8_gpio.o (.text.u8x8_gpio_call)
+                  000088da    00000002     --HOLE-- [fill = 0]
+                  000088dc    00000008     libc.a : aeabi_portable.c.obj (.text.__aeabi_errno_addr)
+                  000088e4    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
+                  000088ec    00000008     mpu6050.o (.text.mpu6050_delay_ms)
+                  000088f4    00000008     mpu6050.o (.text.mpu6050_get_data)
+                  000088fc    00000008     u8x8_8x8.o (.text.u8x8_utf8_init)
+                  00008904    00000006     libc.a : e_asinf.c.obj (.text.OUTLINED_FUNCTION_0)
+                  0000890a    00000002     --HOLE-- [fill = 0]
+                  0000890c    00000010     libclang_rt.builtins.a : mulsf3.S.obj (.tramp.__aeabi_fmul.1)
+                  0000891c    00000006     libc.a : s_atanf.c.obj (.text.OUTLINED_FUNCTION_0)
+                  00008922    00000002     --HOLE-- [fill = 0]
+                  00008924    00000010     libclang_rt.builtins.a : divsf3.S.obj (.tramp.__aeabi_fdiv.1)
+                  00008934    00000006     libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_0)
+                  0000893a    00000002     --HOLE-- [fill = 0]
+                  0000893c    00000010     libclang_rt.builtins.a : muldf3.S.obj (.tramp.__aeabi_dmul.1)
+                  0000894c    00000006     libc.a : s_sinf.c.obj (.text.OUTLINED_FUNCTION_0)
+                  00008952    00000006            : s_cosf.c.obj (.text.OUTLINED_FUNCTION_1)
+                  00008958    00000006            : s_sinf.c.obj (.text.OUTLINED_FUNCTION_1)
+                  0000895e    00000006     u8g2_font.o (.text.u8g2_SetFontDirection)
+                  00008964    00000006     u8g2_font.o (.text.u8g2_SetFontMode)
+                  0000896a    00000006     libc.a : exit.c.obj (.text:abort)
+                  00008970    00000004            : s_atanf.c.obj (.text.OUTLINED_FUNCTION_1)
+                  00008974    00000010     libclang_rt.builtins.a : addsf3.S.obj (.tramp.__aeabi_fadd.1)
+                  00008984    00000004     libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_2)
+                  00008988    00000010     libclang_rt.builtins.a : extendsfdf2.S.obj (.tramp.__aeabi_f2d.1)
+                  00008998    00000004     libc.a : s_sinf.c.obj (.text.OUTLINED_FUNCTION_2)
+                  0000899c    00000004     startup_mspm0g350x_ticlang.o (.text.Reset_Handler)
+                  000089a0    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
+                  000089a4    00000004     u8g2_font.o (.text.u8g2_font_calc_vref_font)
+                  000089a8    00000008     --HOLE-- [fill = 0]
 
-.cinit     0    000098e0    00000128     
-                  000098e0    00000101     (.cinit..data.load) [load image, compression = lzss]
-                  000099e1    00000003     --HOLE-- [fill = 0]
-                  000099e4    0000000c     (__TI_handler_table)
-                  000099f0    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  000099f8    00000010     (__TI_cinit_table)
+.cinit     0    000095e0    000000f0     
+                  000095e0    000000cb     (.cinit..data.load) [load image, compression = lzss]
+                  000096ab    00000001     --HOLE-- [fill = 0]
+                  000096ac    0000000c     (__TI_handler_table)
+                  000096b8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  000096c0    00000010     (__TI_cinit_table)
 
-.rodata    0    00008bd0    00000d10     
-                  00008bd0    0000069f     chinesetxt.o (.rodata.u8g2_font_unifont_st16)
-                  0000926f    00000001     --HOLE-- [fill = 0]
-                  00009270    00000108     libc.a : k_rem_pio2.c.obj (.rodata.ipio2)
-                  00009378    00000008     ti_msp_dl_config.o (.rodata.gPWMAConfig)
-                  00009380    00000101     libc.a : aeabi_ctype.S.obj (.rodata:__aeabi_ctype_table_)
-                  00009481    00000045     line_follower.o (.rodata.str1.16609631131321844371.1)
-                  000094c6    00000041     line_follower.o (.rodata.str1.16777615106940109912.1)
-                  00009507    00000001     --HOLE-- [fill = 0]
-                  00009508    00000040     libc.a : k_rem_pio2.c.obj (.rodata.PIo2)
-                  00009548    00000035     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_init_seq)
-                  0000957d    00000030     line_follower.o (.rodata.str1.15940074059676594760.1)
-                  000095ad    00000003     ti_msp_dl_config.o (.rodata.gPWMAClockConfig)
-                  000095b0    0000002c     mpu6050_service.o (.rodata.g_bus_config)
-                  000095dc    0000002a     empty.o (.rodata.str1.16704889451495720520.1)
-                  00009606    00000002     ti_msp_dl_config.o (.rodata.gI2C1ClockConfig)
-                  00009608    00000028     ti_msp_dl_config.o (.rodata.gSYSPLLConfig)
-                  00009630    00000020     libc.a : s_atanf.c.obj (.rodata.cst16)
-                  00009650    00000018     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_ssd1306_128x64_noname_display_info)
-                  00009668    00000014     ti_msp_dl_config.o (.rodata.gTIMER_TICKTimerConfig)
-                  0000967c    00000014     empty.o (.rodata.str1.14685083708502177989.1)
-                  00009690    00000012     empty.o (.rodata.str1.254342170260855183.1)
-                  000096a2    00000011     libc.a : _printfi.c.obj (.rodata.str1.10348868589481759720.1)
-                  000096b3    00000011     empty.o (.rodata.str1.10926989522752758884.1)
-                  000096c4    00000011     libc.a : _printfi.c.obj (.rodata.str1.15363888844622738466.1)
-                  000096d5    00000003     ti_msp_dl_config.o (.rodata.gPWMBClockConfig)
-                  000096d8    00000010     draw.o (.rodata..Lswitch.table.HOME_directory)
-                  000096e8    00000010     draw.o (.rodata.cst16)
-                  000096f8    00000010     libc.a : k_rem_pio2.c.obj (.rodata.cst16)
-                  00009708    0000000f     empty.o (.rodata.str1.9517790425240694019.1)
-                  00009717    0000000d     draw.o (.rodata.str1.11662179543728856056.1)
-                  00009724    0000000d     draw.o (.rodata.str1.15371446012953876463.1)
-                  00009731    0000000d     draw.o (.rodata.str1.3044352249193297061.1)
-                  0000973e    0000000d     draw.o (.rodata.str1.7146124109294951569.1)
-                  0000974b    0000000d     draw.o (.rodata.str1.9363706946722908181.1)
-                  00009758    0000000c     u8g2_setup.o (.rodata.u8g2_cb_r0)
-                  00009764    0000000b     draw.o (.rodata.str1.16798678518866173547.1)
-                  0000976f    0000000b     empty.o (.rodata.str1.17669528882079347314.1)
-                  0000977a    0000000b     draw.o (.rodata.str1.3977530377744300196.1)
-                  00009785    0000000b     draw.o (.rodata.str1.5092474850242601035.1)
-                  00009790    0000000a     ti_msp_dl_config.o (.rodata.gUART_0Config)
-                  0000979a    0000000a     empty.o (.rodata.str1.11898133897667081452.1)
-                  000097a4    00000009     draw.o (.rodata.str1.8511851625829648913.1)
-                  000097ad    00000003     ti_msp_dl_config.o (.rodata.gPWMCClockConfig)
-                  000097b0    00000008     ti_msp_dl_config.o (.rodata.gPWMBConfig)
-                  000097b8    00000008     ti_msp_dl_config.o (.rodata.gPWMCConfig)
-                  000097c0    00000008     ti_msp_dl_config.o (.rodata.gPWMDConfig)
-                  000097c8    00000007     draw.o (.rodata..Lswitch.table.HOME_directory.74)
-                  000097cf    00000007     draw.o (.rodata.str1.1222851238220204105.1)
-                  000097d6    00000007     draw.o (.rodata.str1.12927128395581683091.1)
-                  000097dd    00000007     draw.o (.rodata.str1.16920298533707407236.1)
-                  000097e4    00000007     draw.o (.rodata.str1.3087611109763544748.1)
-                  000097eb    00000007     draw.o (.rodata.str1.4769186932343429571.1)
-                  000097f2    00000007     draw.o (.rodata.str1.5047273646867282875.1)
-                  000097f9    00000007     draw.o (.rodata.str1.7599327456358374941.1)
-                  00009800    00000007     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_flip0_seq)
-                  00009807    00000007     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_flip1_seq)
-                  0000980e    00000006     draw.o (.rodata.str1.13516724617619185742.1)
-                  00009814    00000006     draw.o (.rodata.str1.15074342113409833842.1)
-                  0000981a    00000006     draw.o (.rodata.str1.3293259928865538337.1)
-                  00009820    00000006     draw.o (.rodata.str1.3993406505997153926.1)
-                  00009826    00000006     draw.o (.rodata.str1.8931661920520104013.1)
-                  0000982c    00000005     draw.o (.rodata.str1.11299763840726973552.1)
-                  00009831    00000005     draw.o (.rodata.str1.13205193003298517140.1)
-                  00009836    00000005     draw.o (.rodata.str1.15046184968404042663.1)
-                  0000983b    00000005     draw.o (.rodata.str1.197789920646994554.1)
-                  00009840    00000005     draw.o (.rodata.str1.3856563774887557434.1)
-                  00009845    00000005     draw.o (.rodata.str1.4274189854934693450.1)
-                  0000984a    00000005     draw.o (.rodata.str1.5892703727588417526.1)
-                  0000984f    00000005     draw.o (.rodata.str1.9387805006866944833.1)
-                  00009854    00000005     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_powersave0_seq)
-                  00009859    00000005     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_powersave1_seq)
-                  0000985e    00000004     draw.o (.rodata.str1.10860614167785051322.1)
-                  00009862    00000004     draw.o (.rodata.str1.11114186964174836109.1)
-                  00009866    00000004     draw.o (.rodata.str1.11460969316090338202.1)
-                  0000986a    00000004     draw.o (.rodata.str1.13558645747875480796.1)
-                  0000986e    00000004     draw.o (.rodata.str1.13766420662825426875.1)
-                  00009872    00000004     draw.o (.rodata.str1.14915676214180293299.1)
-                  00009876    00000004     draw.o (.rodata.str1.16216427480567439757.1)
-                  0000987a    00000004     draw.o (.rodata.str1.17067162139742542313.1)
-                  0000987e    00000004     draw.o (.rodata.str1.17104632844336190317.1)
-                  00009882    00000004     draw.o (.rodata.str1.17323698585101302928.1)
-                  00009886    00000004     draw.o (.rodata.str1.17877410042743655113.1)
-                  0000988a    00000004     draw.o (.rodata.str1.2536505494550489181.1)
-                  0000988e    00000004     draw.o (.rodata.str1.2680053455445061944.1)
-                  00009892    00000004     draw.o (.rodata.str1.3602204908956033498.1)
-                  00009896    00000004     draw.o (.rodata.str1.4063744131834711033.1)
-                  0000989a    00000004     draw.o (.rodata.str1.4176646092053031004.1)
-                  0000989e    00000004     draw.o (.rodata.str1.439440656638192846.1)
-                  000098a2    00000004     draw.o (.rodata.str1.6628805185763255565.1)
-                  000098a6    00000004     draw.o (.rodata.str1.9461052618368317133.1)
-                  000098aa    00000004     draw.o (.rodata.str1.9590535064981708106.1)
-                  000098ae    00000004     draw.o (.rodata.str1.9976906776139131669.1)
-                  000098b2    00000003     ti_msp_dl_config.o (.rodata.gPWMDClockConfig)
-                  000098b5    00000003     ti_msp_dl_config.o (.rodata.gTIMER_TICKClockConfig)
-                  000098b8    00000003     draw.o (.rodata.str1.10335834370773872660.1)
-                  000098bb    00000003     draw.o (.rodata.str1.12379070312978826538.1)
-                  000098be    00000003     draw.o (.rodata.str1.12753359286343333358.1)
-                  000098c1    00000003     draw.o (.rodata.str1.13338964051441701904.1)
-                  000098c4    00000003     empty.o (.rodata.str1.7401042497206923953.1)
-                  000098c7    00000003     draw.o (.rodata.str1.8450940598119648634.1)
-                  000098ca    00000002     ti_msp_dl_config.o (.rodata.gI2C_BUSClockConfig)
-                  000098cc    00000002     ti_msp_dl_config.o (.rodata.gUART_0ClockConfig)
-                  000098ce    00000002     draw.o (.rodata.str1.13901186772788639667.1)
-                  000098d0    00000002     draw.o (.rodata.str1.15981432797632722681.1)
-                  000098d2    00000002     draw.o (.rodata.str1.16224708837686808630.1)
-                  000098d4    00000002     draw.o (.rodata.str1.17167547962068192002.1)
-                  000098d6    00000002     draw.o (.rodata.str1.6764898206403387013.1)
-                  000098d8    00000002     draw.o (.rodata.str1.7901478166373039286.1)
-                  000098da    00000006     --HOLE-- [fill = 0]
+.rodata    0    000089b0    00000c30     
+                  000089b0    0000069f     chinesetxt.o (.rodata.u8g2_font_unifont_st16)
+                  0000904f    00000001     --HOLE-- [fill = 0]
+                  00009050    00000108     libc.a : k_rem_pio2.c.obj (.rodata.ipio2)
+                  00009158    00000008     ti_msp_dl_config.o (.rodata.gPWMAConfig)
+                  00009160    00000101     libc.a : aeabi_ctype.S.obj (.rodata:__aeabi_ctype_table_)
+                  00009261    00000007     draw.o (.rodata..Lswitch.table.HOME_directory.60)
+                  00009268    00000040     libc.a : k_rem_pio2.c.obj (.rodata.PIo2)
+                  000092a8    00000035     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_init_seq)
+                  000092dd    00000030     line_follower.o (.rodata.str1.16609631131321844371.1)
+                  0000930d    0000002f     empty.o (.rodata.str1.16704889451495720520.1)
+                  0000933c    0000002c     mpu6050_service.o (.rodata.g_bus_config)
+                  00009368    00000028     ti_msp_dl_config.o (.rodata.gSYSPLLConfig)
+                  00009390    00000020     libc.a : s_atanf.c.obj (.rodata.cst16)
+                  000093b0    00000018     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_ssd1306_128x64_noname_display_info)
+                  000093c8    00000014     ti_msp_dl_config.o (.rodata.gTIMER_TICKTimerConfig)
+                  000093dc    00000014     empty.o (.rodata.str1.14685083708502177989.1)
+                  000093f0    00000012     empty.o (.rodata.str1.254342170260855183.1)
+                  00009402    00000011     libc.a : _printfi.c.obj (.rodata.str1.10348868589481759720.1)
+                  00009413    00000011     empty.o (.rodata.str1.10926989522752758884.1)
+                  00009424    00000011     libc.a : _printfi.c.obj (.rodata.str1.15363888844622738466.1)
+                  00009435    00000003     ti_msp_dl_config.o (.rodata.gPWMAClockConfig)
+                  00009438    00000010     draw.o (.rodata..Lswitch.table.HOME_directory)
+                  00009448    00000010     electrical_machinery.o (.rodata..Lswitch.table.reset_motor_speed)
+                  00009458    00000010     draw.o (.rodata.cst16)
+                  00009468    00000010     libc.a : k_rem_pio2.c.obj (.rodata.cst16)
+                  00009478    0000000f     empty.o (.rodata.str1.9517790425240694019.1)
+                  00009487    0000000d     draw.o (.rodata.str1.15371446012953876463.1)
+                  00009494    0000000c     u8g2_setup.o (.rodata.u8g2_cb_r0)
+                  000094a0    0000000b     empty.o (.rodata.str1.17669528882079347314.1)
+                  000094ab    00000001     --HOLE-- [fill = 0]
+                  000094ac    0000000a     ti_msp_dl_config.o (.rodata.gUART_0Config)
+                  000094b6    0000000a     empty.o (.rodata.str1.11898133897667081452.1)
+                  000094c0    00000009     draw.o (.rodata.str1.1222851238220204105.1)
+                  000094c9    00000009     draw.o (.rodata.str1.16798678518866173547.1)
+                  000094d2    00000002     ti_msp_dl_config.o (.rodata.gI2C1ClockConfig)
+                  000094d4    00000008     ti_msp_dl_config.o (.rodata.gPWMBConfig)
+                  000094dc    00000008     ti_msp_dl_config.o (.rodata.gPWMCConfig)
+                  000094e4    00000008     ti_msp_dl_config.o (.rodata.gPWMDConfig)
+                  000094ec    00000007     draw.o (.rodata.str1.12927128395581683091.1)
+                  000094f3    00000007     draw.o (.rodata.str1.16920298533707407236.1)
+                  000094fa    00000007     draw.o (.rodata.str1.2536505494550489181.1)
+                  00009501    00000007     draw.o (.rodata.str1.4063744131834711033.1)
+                  00009508    00000007     draw.o (.rodata.str1.4769186932343429571.1)
+                  0000950f    00000007     draw.o (.rodata.str1.7599327456358374941.1)
+                  00009516    00000007     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_flip0_seq)
+                  0000951d    00000007     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_flip1_seq)
+                  00009524    00000006     draw.o (.rodata.str1.17402708256360119916.1)
+                  0000952a    00000006     draw.o (.rodata.str1.3087611109763544748.1)
+                  00009530    00000006     draw.o (.rodata.str1.3993406505997153926.1)
+                  00009536    00000006     draw.o (.rodata.str1.5092474850242601035.1)
+                  0000953c    00000006     draw.o (.rodata.str1.8931661920520104013.1)
+                  00009542    00000005     draw.o (.rodata.str1.13295882753961647737.1)
+                  00009547    00000005     draw.o (.rodata.str1.15046184968404042663.1)
+                  0000954c    00000005     draw.o (.rodata.str1.17067162139742542313.1)
+                  00009551    00000005     draw.o (.rodata.str1.17985918111400082174.1)
+                  00009556    00000005     draw.o (.rodata.str1.197789920646994554.1)
+                  0000955b    00000005     draw.o (.rodata.str1.3856563774887557434.1)
+                  00009560    00000005     draw.o (.rodata.str1.3977530377744300196.1)
+                  00009565    00000005     draw.o (.rodata.str1.9461052618368317133.1)
+                  0000956a    00000005     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_powersave0_seq)
+                  0000956f    00000005     u8x8_d_ssd1306_128x64_noname.o (.rodata.u8x8_d_ssd1306_128x64_noname_powersave1_seq)
+                  00009574    00000004     draw.o (.rodata.str1.11662179543728856056.1)
+                  00009578    00000004     draw.o (.rodata.str1.12753359286343333358.1)
+                  0000957c    00000004     draw.o (.rodata.str1.13558645747875480796.1)
+                  00009580    00000004     draw.o (.rodata.str1.14187398005209213545.1)
+                  00009584    00000004     draw.o (.rodata.str1.14915676214180293299.1)
+                  00009588    00000004     draw.o (.rodata.str1.15074342113409833842.1)
+                  0000958c    00000004     draw.o (.rodata.str1.16447675822648205255.1)
+                  00009590    00000004     draw.o (.rodata.str1.17167547962068192002.1)
+                  00009594    00000004     draw.o (.rodata.str1.17877410042743655113.1)
+                  00009598    00000004     draw.o (.rodata.str1.2680053455445061944.1)
+                  0000959c    00000004     draw.o (.rodata.str1.3044352249193297061.1)
+                  000095a0    00000004     draw.o (.rodata.str1.3602204908956033498.1)
+                  000095a4    00000004     draw.o (.rodata.str1.439440656638192846.1)
+                  000095a8    00000004     draw.o (.rodata.str1.7146124109294951569.1)
+                  000095ac    00000004     draw.o (.rodata.str1.9363706946722908181.1)
+                  000095b0    00000003     ti_msp_dl_config.o (.rodata.gPWMBClockConfig)
+                  000095b3    00000003     ti_msp_dl_config.o (.rodata.gPWMCClockConfig)
+                  000095b6    00000003     ti_msp_dl_config.o (.rodata.gPWMDClockConfig)
+                  000095b9    00000003     ti_msp_dl_config.o (.rodata.gTIMER_TICKClockConfig)
+                  000095bc    00000003     draw.o (.rodata.str1.11114186964174836109.1)
+                  000095bf    00000003     draw.o (.rodata.str1.12359765093345317632.1)
+                  000095c2    00000003     draw.o (.rodata.str1.15032166160981136206.1)
+                  000095c5    00000003     draw.o (.rodata.str1.3436235078410369563.1)
+                  000095c8    00000003     empty.o (.rodata.str1.7401042497206923953.1)
+                  000095cb    00000003     draw.o (.rodata.str1.9759785406605014316.1)
+                  000095ce    00000002     ti_msp_dl_config.o (.rodata.gI2C_BUSClockConfig)
+                  000095d0    00000002     ti_msp_dl_config.o (.rodata.gUART_0ClockConfig)
+                  000095d2    00000002     draw.o (.rodata.str1.13621094816472248119.1)
+                  000095d4    00000002     draw.o (.rodata.str1.13901186772788639667.1)
+                  000095d6    00000002     draw.o (.rodata.str1.15981432797632722681.1)
+                  000095d8    00000002     draw.o (.rodata.str1.16224708837686808630.1)
+                  000095da    00000002     draw.o (.rodata.str1.6764898206403387013.1)
+                  000095dc    00000002     draw.o (.rodata.str1.7901478166373039286.1)
+                  000095de    00000002     --HOLE-- [fill = 0]
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
 .binit     0    00000000    00000000     
 
-.bss       0    20200000    00000658     UNINITIALIZED
+.bss       0    20200000    00000656     UNINITIALIZED
                   20200000    00000400     u8g2_d_memory.o (.bss.u8g2_m_16_8_f.buf)
                   20200400    000000a0     (.common:gPWMBBackup)
                   202004a0    000000a0     (.common:gPWMDBackup)
@@ -447,66 +434,62 @@ section   page    origin      length       input sections
                   20200640    00000004     (.common:id)
                   20200644    00000004     (.common:start_time)
                   20200648    00000004     (.common:tick_ms)
-                  2020064c    00000002     (.common:IRbuf)
-                  2020064e    00000001     mpu6050.o (.bss.g_i2c_nack_seen)
-                  2020064f    00000001     (.common:actual_speed)
-                  20200650    00000001     (.common:s1)
-                  20200651    00000001     (.common:s2)
-                  20200652    00000001     (.common:s3)
-                  20200653    00000001     (.common:s4)
-                  20200654    00000001     (.common:s5)
-                  20200655    00000001     (.common:s6)
-                  20200656    00000001     (.common:s7)
-                  20200657    00000001     (.common:s8)
+                  2020064c    00000001     mpu6050.o (.bss.g_i2c_nack_seen)
+                  2020064d    00000001     (.common:actual_speed)
+                  2020064e    00000001     (.common:s1)
+                  2020064f    00000001     (.common:s2)
+                  20200650    00000001     (.common:s3)
+                  20200651    00000001     (.common:s4)
+                  20200652    00000001     (.common:s5)
+                  20200653    00000001     (.common:s6)
+                  20200654    00000001     (.common:s7)
+                  20200655    00000001     (.common:s8)
 
-.data      0    20200658    000001ec     UNINITIALIZED
+.data      0    20200658    000001b2     UNINITIALIZED
                   20200658    00000080     usart.o (.data.recv0_buff)
-                  202006d8    00000024     draw.o (.data..compoundliteral.36)
-                  202006fc    00000024     draw.o (.data..compoundliteral.45)
-                  20200720    00000020     draw.o (.data..compoundliteral.27)
-                  20200740    00000020     draw.o (.data..compoundliteral)
-                  20200760    0000001c     draw.o (.data..compoundliteral.14)
-                  2020077c    0000001c     draw.o (.data..compoundliteral.52)
-                  20200798    0000001c     draw.o (.data..compoundliteral.54)
-                  202007b4    00000014     draw.o (.data..compoundliteral.19)
-                  202007c8    00000008     draw.o (.data..compoundliteral.56)
-                  202007d0    00000008     draw.o (.data.directory)
-                  202007d8    00000008     draw.o (.data.directory_num)
-                  202007e0    00000004     draw.o (.data..compoundliteral.53)
-                  202007e4    00000004     draw.o (.data..compoundliteral.7)
-                  202007e8    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY1_start_time)
-                  202007ec    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY2_start_time)
-                  202007f0    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY3_start_time)
-                  202007f4    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY4_start_time)
-                  202007f8    00000004     electrical_machinery.o (.data.MAX)
-                  202007fc    00000004     electrical_machinery.o (.data.MIN)
-                  20200800    00000004     electrical_machinery.o (.data.Velcity_Ki)
-                  20200804    00000004     electrical_machinery.o (.data.Velcity_Kp)
-                  20200808    00000004     libc.a : aeabi_portable.c.obj (.data.__aeabi_errno)
-                  2020080c    00000004     line_follower.o (.data.error)
-                  20200810    00000004     line_follower.o (.data.integral)
-                  20200814    00000004     draw.o (.data.kd)
-                  20200818    00000004     draw.o (.data.ki)
-                  2020081c    00000004     draw.o (.data.kp)
-                  20200820    00000004     line_follower.o (.data.last_error)
-                  20200824    00000004     line_follower.o (.data.line_folower.last_warn_ms)
-                  20200828    00000004     empty.o (.data.main.last_sensor_ms)
-                  2020082c    00000004     interrupt.o (.data.nextway)
-                  20200830    00000004     draw.o (.data.pid_rate)
-                  20200834    00000002     draw.o (.data..compoundliteral.55)
-                  20200836    00000002     usart.o (.data.recv0_length)
-                  20200838    00000001     interrupt.o (.data.SysTick_Handler.imu_tick)
-                  20200839    00000001     draw.o (.data.base_speed)
-                  2020083a    00000001     draw.o (.data.directory_flag)
-                  2020083b    00000001     line_follower.o (.data.left_flage)
-                  2020083c    00000001     line_follower.o (.data.line_follower_update.i2c_error_reported)
-                  2020083d    00000001     draw.o (.data.number_of_turns)
-                  2020083e    00000001     line_follower.o (.data.out_num)
-                  2020083f    00000001     usart.o (.data.recv0_flag)
-                  20200840    00000001     draw.o (.data.stop_flag)
-                  20200841    00000001     line_follower.o (.data.trun_flage)
-                  20200842    00000001     u8x8_cad.o (.data.u8x8_cad_ssd13xx_fast_i2c.in_transfer)
-                  20200843    00000001     draw.o (.data.xspeed)
+                  202006d8    00000024     draw.o (.data..compoundliteral.35)
+                  202006fc    00000020     draw.o (.data..compoundliteral.26)
+                  2020071c    0000001c     draw.o (.data..compoundliteral.13)
+                  20200738    0000001c     draw.o (.data..compoundliteral)
+                  20200754    00000018     draw.o (.data..compoundliteral.38)
+                  2020076c    00000014     draw.o (.data..compoundliteral.18)
+                  20200780    00000014     draw.o (.data..compoundliteral.36)
+                  20200794    00000008     draw.o (.data.directory)
+                  2020079c    00000008     draw.o (.data.directory_num)
+                  202007a4    00000007     draw.o (.data..compoundliteral.40)
+                  202007ab    00000001     interrupt.o (.data.SysTick_Handler.imu_tick)
+                  202007ac    00000004     draw.o (.data..compoundliteral.37)
+                  202007b0    00000004     draw.o (.data..compoundliteral.6)
+                  202007b4    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY1_start_time)
+                  202007b8    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY2_start_time)
+                  202007bc    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY3_start_time)
+                  202007c0    00000004     interrupt.o (.data.GROUP1_IRQHandler.KEY4_start_time)
+                  202007c4    00000004     electrical_machinery.o (.data.MAX)
+                  202007c8    00000004     electrical_machinery.o (.data.MIN)
+                  202007cc    00000004     electrical_machinery.o (.data.Velcity_Ki)
+                  202007d0    00000004     electrical_machinery.o (.data.Velcity_Kp)
+                  202007d4    00000004     libc.a : aeabi_portable.c.obj (.data.__aeabi_errno)
+                  202007d8    00000004     line_follower.o (.data.integral)
+                  202007dc    00000004     draw.o (.data.kd)
+                  202007e0    00000004     draw.o (.data.ki)
+                  202007e4    00000004     draw.o (.data.kp)
+                  202007e8    00000004     line_follower.o (.data.last_error)
+                  202007ec    00000004     line_follower.o (.data.line_folower.last_warn_ms)
+                  202007f0    00000004     empty.o (.data.main.last_sensor_ms)
+                  202007f4    00000004     interrupt.o (.data.nextway)
+                  202007f8    00000004     draw.o (.data.pid_rate)
+                  202007fc    00000002     draw.o (.data..compoundliteral.39)
+                  202007fe    00000002     usart.o (.data.recv0_length)
+                  20200800    00000001     draw.o (.data.base_speed)
+                  20200801    00000001     draw.o (.data.directory_flag)
+                  20200802    00000001     line_follower.o (.data.left_flage)
+                  20200803    00000001     draw.o (.data.number_of_turns)
+                  20200804    00000001     line_follower.o (.data.out_num)
+                  20200805    00000001     usart.o (.data.recv0_flag)
+                  20200806    00000001     draw.o (.data.stop_flag)
+                  20200807    00000001     line_follower.o (.data.trun_flage)
+                  20200808    00000001     u8x8_cad.o (.data.u8x8_cad_ssd13xx_fast_i2c.in_transfer)
+                  20200809    00000001     draw.o (.data.xspeed)
 
 .stack     0    20207e00    00000200     UNINITIALIZED
                   20207e00    00000004     libc.a : boot_cortex_m.c.obj (.stack)
@@ -524,30 +507,30 @@ MODULE SUMMARY
        ------                           ----    -------   -------
     .\
        ti_msp_dl_config.o               2276    123       320    
-       empty.o                          572     136       4      
+       empty.o                          580     141       4      
        startup_mspm0g350x_ticlang.o     6       192       0      
     +--+--------------------------------+-------+---------+---------+
-       Total:                           2854    451       324    
+       Total:                           2862    456       324    
                                                                  
     .\APPLICATION\
-       line_follower.o                  1336    182       31     
+       line_follower.o                  804     48        24     
+       grayscale_sensor.o               296     0         0      
     +--+--------------------------------+-------+---------+---------+
-       Total:                           1336    182       31     
+       Total:                           1100    48        24     
                                                                  
     .\BSP\
-       electrical_machinery.o           1060    0         64     
+       electrical_machinery.o           1148    16        64     
        interrupt.o                      636     0         85     
-       mspm0_motor_i2c.o                704     0         0      
        usart.o                          160     0         131    
-       clock.o                          164     0         8      
+       clock.o                          204     0         8      
     +--+--------------------------------+-------+---------+---------+
-       Total:                           2724    0         288    
+       Total:                           2148    16        288    
                                                                  
     .\OLED\
-       draw.o                           1792    376       299    
+       draw.o                           2052    269       246    
        oled.o                           232     0         0      
     +--+--------------------------------+-------+---------+---------+
-       Total:                           2024    376       299    
+       Total:                           2284    269       246    
                                                                  
     .\OLED\csrc\
        u8g2_font.o                      1850    0         0      
@@ -572,10 +555,10 @@ MODULE SUMMARY
        Total:                           5956    1808      1025   
                                                                  
     .\mpu6050\
-       mpu6050.o                        4844    0         141    
+       mpu6050.o                        4848    0         141    
        mpu6050_service.o                652     44        4      
     +--+--------------------------------+-------+---------+---------+
-       Total:                           5496    44        145    
+       Total:                           5500    44        145    
                                                                  
     G:/MSPM0 3507/CCS/mspm0_sdk_2_10_00_04/source/ti/driverlib/lib/ticlang/m0p/mspm0g1x0x_g3x0x/driverlib.a
        dl_timer.o                       608     0         0      
@@ -656,21 +639,21 @@ MODULE SUMMARY
        Total:                           2978    0         0      
                                                                  
        Stack:                           0       0         512    
-       Linker Generated:                0       293       0      
+       Linker Generated:                0       239       0      
     +--+--------------------------------+-------+---------+---------+
-       Grand Total:                     35546   3821      2628   
+       Grand Total:                     35006   3547      2568   
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 000099f8 records: 2, size/record: 8, table size: 16
-	.data: load addr=000098e0, load size=00000101 bytes, run addr=20200658, run size=000001ec bytes, compression=lzss
-	.bss: load addr=000099f0, load size=00000008 bytes, run addr=20200000, run size=00000658 bytes, compression=zero_init
+__TI_cinit_table @ 000096c0 records: 2, size/record: 8, table size: 16
+	.data: load addr=000095e0, load size=000000cb bytes, run addr=20200658, run size=000001b2 bytes, compression=lzss
+	.bss: load addr=000096b8, load size=00000008 bytes, run addr=20200000, run size=00000656 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 000099e4 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 000096ac records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -682,26 +665,26 @@ callee name               trampoline name
    callee addr  tramp addr   call addr  call info
 --------------  -----------  ---------  ----------------
 __aeabi_dadd              $Tramp$TT$L$PI$$__aeabi_dadd
-   00004997     00008844     00008840   libc.a : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_0)
-                             00008ac6          : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_1)
-                             00008ad0          : s_cosf.c.obj (.text.OUTLINED_FUNCTION_3)
-                             00008ada          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_3)
+   0000460b     00008624     00008620   libc.a : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_0)
+                             000088a6          : k_rem_pio2.c.obj (.text.OUTLINED_FUNCTION_1)
+                             000088b0          : s_cosf.c.obj (.text.OUTLINED_FUNCTION_3)
+                             000088ba          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_3)
 __aeabi_dsub              $Tramp$TT$L$PI$$__aeabi_dsub
-   0000498d     00008aa4     00008aa2   libc.a : _printfi.c.obj (.text.OUTLINED_FUNCTION_0)
+   00004601     00008884     00008882   libc.a : _printfi.c.obj (.text.OUTLINED_FUNCTION_0)
 __aeabi_fmul              $Tramp$TT$L$PI$$__aeabi_fmul
-   00006f69     00008b24     00008b20   libc.a : e_asinf.c.obj (.text.OUTLINED_FUNCTION_0)
+   00006c49     0000890c     00008908   libc.a : e_asinf.c.obj (.text.OUTLINED_FUNCTION_0)
 __aeabi_fdiv              $Tramp$TT$L$PI$$__aeabi_fdiv
-   0000707d     00008b3c     00008b38   libc.a : s_atanf.c.obj (.text.OUTLINED_FUNCTION_0)
+   00006d5d     00008924     00008920   libc.a : s_atanf.c.obj (.text.OUTLINED_FUNCTION_0)
 __aeabi_dmul              $Tramp$TT$L$PI$$__aeabi_dmul
-   00006279     00008b54     00008b50   libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_0)
-                             00008b68          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_0)
-                             00008b6e          : s_cosf.c.obj (.text.OUTLINED_FUNCTION_1)
-                             00008b74          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_1)
+   00006015     0000893c     00008938   libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_0)
+                             00008950          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_0)
+                             00008956          : s_cosf.c.obj (.text.OUTLINED_FUNCTION_1)
+                             0000895c          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_1)
 __aeabi_fadd              $Tramp$TT$L$PI$$__aeabi_fadd
-   0000651b     00008b90     00008b8e   libc.a : s_atanf.c.obj (.text.OUTLINED_FUNCTION_1)
+   000062b7     00008974     00008972   libc.a : s_atanf.c.obj (.text.OUTLINED_FUNCTION_1)
 __aeabi_f2d               $Tramp$TT$L$PI$$__aeabi_f2d
-   00007ff9     00008ba4     00008ba2   libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_2)
-                             00008bb6          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_2)
+   00007d71     00008988     00008986   libc.a : s_cosf.c.obj (.text.OUTLINED_FUNCTION_2)
+                             0000899a          : s_sinf.c.obj (.text.OUTLINED_FUNCTION_2)
 
 [7 trampolines]
 [14 trampoline calls]
@@ -711,81 +694,81 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                                  
 -------   ----                                  
-00004b1f  ADC0_IRQHandler                       
-00004b1f  ADC1_IRQHandler                       
-00004b1f  AES_IRQHandler                        
-00008b88  C$$EXIT                               
-00004b1f  CANFD0_IRQHandler                     
-000071fd  CAR_CONTROL                           
-00004b1f  DAC0_IRQHandler                       
-00008a91  DL_Common_delayCycles                 
-000083f1  DL_I2C_flushControllerRXFIFO          
-00008139  DL_I2C_flushControllerTXFIFO          
-00008609  DL_I2C_setClockConfig                 
-00008741  DL_SYSCTL_configFCC                   
-0000635d  DL_SYSCTL_configSYSPLL                
-00007ef1  DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK 
-00005c91  DL_Timer_initFourCCPWMMode            
-00005f99  DL_Timer_initTimerMode                
-0000875d  DL_Timer_setCaptCompUpdateMethod      
-000087cd  DL_Timer_setCaptureCompareOutCtl      
-000088e1  DL_Timer_setCaptureCompareValue       
-00008779  DL_Timer_setClockConfig               
-00007dd1  DL_UART_init                          
-000088a9  DL_UART_setClockConfig                
-00004b1f  DMA_IRQHandler                        
-00004b1f  Default_Handler                       
-00004b1f  GROUP0_IRQHandler                     
-0000463d  GROUP1_IRQHandler                     
-00001871  HOME_directory                        
-00008b89  HOSTexit                              
-00004b1f  HardFault_Handler                     
-00004b1f  I2C0_IRQHandler                       
-00004b1f  I2C1_IRQHandler                       
-2020064c  IRbuf                                 
-202007f8  MAX                                   
-202007fc  MIN                                   
-00002275  MOTOR_CONTROL                         
-00004b1f  NMI_Handler                           
-00007f79  OLED_SHOW                             
-00006779  PID_CONTROL                           
-00004b1f  PendSV_Handler                        
-00004b1f  RTC_IRQHandler                        
-00008bb9  Reset_Handler                         
-00004b1f  SPI0_IRQHandler                       
-00004b1f  SPI1_IRQHandler                       
-00004b1f  SVC_Handler                           
-000047e9  SYSCFG_DL_GPIO_init                   
-00008421  SYSCFG_DL_I2C1_init                   
-00007bf5  SYSCFG_DL_I2C_BUS_init                
-000075fd  SYSCFG_DL_PWMA_init                   
-00007365  SYSCFG_DL_PWMB_init                   
-000073d5  SYSCFG_DL_PWMC_init                   
-00007445  SYSCFG_DL_PWMD_init                   
-00002bd5  SYSCFG_DL_SYSCTL_SYSPLL_init          
-000068f5  SYSCFG_DL_SYSCTL_init                 
-00008795  SYSCFG_DL_SYSTICK_init                
-00007e19  SYSCFG_DL_TIMER_TICK_init             
-000074b5  SYSCFG_DL_UART_0_init                 
-00007e61  SYSCFG_DL_init                        
-00006ff5  SYSCFG_DL_initPower                   
-000084e1  SysTick_Handler                       
-00007a3d  SysTick_Init                          
-00004b1f  TIMA0_IRQHandler                      
-00004b1f  TIMA1_IRQHandler                      
-00007735  TIMG0_IRQHandler                      
-00004b1f  TIMG12_IRQHandler                     
-00004b1f  TIMG6_IRQHandler                      
-00004b1f  TIMG7_IRQHandler                      
-00004b1f  TIMG8_IRQHandler                      
-00007a95  UART0_IRQHandler                      
-00004b1f  UART1_IRQHandler                      
-00004b1f  UART2_IRQHandler                      
-00004b1f  UART3_IRQHandler                      
-000087e5  USART_Init                            
-00008451  USART_SendString                      
-20200800  Velcity_Ki                            
-20200804  Velcity_Kp                            
+00004793  ADC0_IRQHandler                       
+00004793  ADC1_IRQHandler                       
+00004793  AES_IRQHandler                        
+0000704c  C$$EXIT                               
+00004793  CANFD0_IRQHandler                     
+00006ee1  CAR_CONTROL                           
+00004793  DAC0_IRQHandler                       
+00008871  DL_Common_delayCycles                 
+000081e9  DL_I2C_flushControllerRXFIFO          
+00007f31  DL_I2C_flushControllerTXFIFO          
+00008401  DL_I2C_setClockConfig                 
+00008539  DL_SYSCTL_configFCC                   
+000060f9  DL_SYSCTL_configSYSPLL                
+00007cad  DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK 
+00005a2d  DL_Timer_initFourCCPWMMode            
+00005d35  DL_Timer_initTimerMode                
+00008555  DL_Timer_setCaptCompUpdateMethod      
+000085c5  DL_Timer_setCaptureCompareOutCtl      
+000086c1  DL_Timer_setCaptureCompareValue       
+00008571  DL_Timer_setClockConfig               
+00007b8d  DL_UART_init                          
+00008689  DL_UART_setClockConfig                
+00004793  DMA_IRQHandler                        
+00004793  Default_Handler                       
+00004793  GROUP0_IRQHandler                     
+000042b1  GROUP1_IRQHandler                     
+00005145  Grayscale_Sensor_Read_All             
+00001231  HOME_directory                        
+0000704d  HOSTexit                              
+00004793  HardFault_Handler                     
+00004793  I2C0_IRQHandler                       
+00004793  I2C1_IRQHandler                       
+202007c4  MAX                                   
+202007c8  MIN                                   
+00001f79  MOTOR_CONTROL                         
+00004793  NMI_Handler                           
+00007cf1  OLED_SHOW                             
+00006515  PID_CONTROL                           
+00004793  PendSV_Handler                        
+00004793  RTC_IRQHandler                        
+0000899d  Reset_Handler                         
+00004793  SPI0_IRQHandler                       
+00004793  SPI1_IRQHandler                       
+00004793  SVC_Handler                           
+0000445d  SYSCFG_DL_GPIO_init                   
+00008219  SYSCFG_DL_I2C1_init                   
+000079b1  SYSCFG_DL_I2C_BUS_init                
+0000735d  SYSCFG_DL_PWMA_init                   
+000070c5  SYSCFG_DL_PWMB_init                   
+00007135  SYSCFG_DL_PWMC_init                   
+000071a5  SYSCFG_DL_PWMD_init                   
+00002619  SYSCFG_DL_SYSCTL_SYSPLL_init          
+000065d5  SYSCFG_DL_SYSCTL_init                 
+0000858d  SYSCFG_DL_SYSTICK_init                
+00007bd5  SYSCFG_DL_TIMER_TICK_init             
+00007215  SYSCFG_DL_UART_0_init                 
+00007c1d  SYSCFG_DL_init                        
+00006cd5  SYSCFG_DL_initPower                   
+000082d9  SysTick_Handler                       
+000077f9  SysTick_Init                          
+00004793  TIMA0_IRQHandler                      
+00004793  TIMA1_IRQHandler                      
+00007495  TIMG0_IRQHandler                      
+00004793  TIMG12_IRQHandler                     
+00004793  TIMG6_IRQHandler                      
+00004793  TIMG7_IRQHandler                      
+00004793  TIMG8_IRQHandler                      
+00007851  UART0_IRQHandler                      
+00004793  UART1_IRQHandler                      
+00004793  UART2_IRQHandler                      
+00004793  UART3_IRQHandler                      
+000085dd  USART_Init                            
+00008249  USART_SendString                      
+202007cc  Velcity_Ki                            
+202007d0  Velcity_Kp                            
 20208000  __STACK_END                           
 00000200  __STACK_SIZE                          
 00000000  __TI_ATRegion0_region_sz              
@@ -797,245 +780,245 @@ address   name
 00000000  __TI_ATRegion2_region_sz              
 00000000  __TI_ATRegion2_src_addr               
 00000000  __TI_ATRegion2_trg_addr               
-000099f8  __TI_CINIT_Base                       
-00009a08  __TI_CINIT_Limit                      
-00009a08  __TI_CINIT_Warm                       
-000099e4  __TI_Handler_Table_Base               
-000099f0  __TI_Handler_Table_Limit              
-00008265  __TI_auto_init_nobinit_nopinit        
-00007181  __TI_decompress_lzss                  
-000088cd  __TI_decompress_none                  
-00007aed  __TI_ltoa                             
+000096c0  __TI_CINIT_Base                       
+000096d0  __TI_CINIT_Limit                      
+000096d0  __TI_CINIT_Warm                       
+000096ac  __TI_Handler_Table_Base               
+000096b8  __TI_Handler_Table_Limit              
+0000805d  __TI_auto_init_nobinit_nopinit        
+00006f5d  __TI_decompress_lzss                  
+000086ad  __TI_decompress_none                  
+000078a9  __TI_ltoa                             
 ffffffff  __TI_pprof_out_hndl                   
 000000c1  __TI_printfi                          
 ffffffff  __TI_prof_data_size                   
 ffffffff  __TI_prof_data_start                  
 00000000  __TI_static_base__                    
-00008941  __TI_zero_init                        
-00004997  __adddf3                              
-0000651b  __addsf3                              
-00009380  __aeabi_ctype_table_                  
-00009380  __aeabi_ctype_table_C                 
-000072f1  __aeabi_d2f                           
-00007d3d  __aeabi_d2iz                          
-00004997  __aeabi_dadd                          
-00007799  __aeabi_dcmpeq                        
-000077d5  __aeabi_dcmpge                        
-000077e9  __aeabi_dcmpgt                        
-000077c1  __aeabi_dcmple                        
-000077ad  __aeabi_dcmplt                        
-00005b85  __aeabi_ddiv                          
-00006279  __aeabi_dmul                          
-0000498d  __aeabi_dsub                          
-20200808  __aeabi_errno                         
-000072e9  __aeabi_errno_addr                    
-00007ff9  __aeabi_f2d                           
-00008319  __aeabi_f2iz                          
-0000651b  __aeabi_fadd                          
-000077fd  __aeabi_fcmpeq                        
-00007839  __aeabi_fcmpge                        
-0000784d  __aeabi_fcmpgt                        
-00007825  __aeabi_fcmple                        
-00007811  __aeabi_fcmplt                        
-0000707d  __aeabi_fdiv                          
-00006f69  __aeabi_fmul                          
-00006511  __aeabi_fsub                          
-0000850d  __aeabi_i2d                           
-00008175  __aeabi_i2f                           
-00007b9d  __aeabi_idiv                          
-0000571b  __aeabi_idiv0                         
-00007b9d  __aeabi_idivmod                       
-00005e97  __aeabi_ldiv0                         
-00008705  __aeabi_llsl                          
-00008631  __aeabi_lmul                          
-00008a31  __aeabi_memclr                        
-00008a31  __aeabi_memclr4                       
-00008a31  __aeabi_memclr8                       
-00008afd  __aeabi_memcpy                        
-00008afd  __aeabi_memcpy4                       
-00008afd  __aeabi_memcpy8                       
-00008951  __aeabi_memset                        
-00008951  __aeabi_memset4                       
-00008951  __aeabi_memset8                       
-00008591  __aeabi_ui2f                          
-00007fb9  __aeabi_uidiv                         
-00007fb9  __aeabi_uidivmod                      
-00008881  __aeabi_uldivmod                      
-00008705  __ashldi3                             
+00008721  __TI_zero_init                        
+0000460b  __adddf3                              
+000062b7  __addsf3                              
+00009160  __aeabi_ctype_table_                  
+00009160  __aeabi_ctype_table_C                 
+00007051  __aeabi_d2f                           
+00007af9  __aeabi_d2iz                          
+0000460b  __aeabi_dadd                          
+000074f9  __aeabi_dcmpeq                        
+00007535  __aeabi_dcmpge                        
+00007549  __aeabi_dcmpgt                        
+00007521  __aeabi_dcmple                        
+0000750d  __aeabi_dcmplt                        
+00005921  __aeabi_ddiv                          
+00006015  __aeabi_dmul                          
+00004601  __aeabi_dsub                          
+202007d4  __aeabi_errno                         
+000088dd  __aeabi_errno_addr                    
+00007d71  __aeabi_f2d                           
+00008111  __aeabi_f2iz                          
+000062b7  __aeabi_fadd                          
+0000755d  __aeabi_fcmpeq                        
+00007599  __aeabi_fcmpge                        
+000075ad  __aeabi_fcmpgt                        
+00007585  __aeabi_fcmple                        
+00007571  __aeabi_fcmplt                        
+00006d5d  __aeabi_fdiv                          
+00006c49  __aeabi_fmul                          
+000062ad  __aeabi_fsub                          
+00008305  __aeabi_i2d                           
+00007f6d  __aeabi_i2f                           
+00007959  __aeabi_idiv                          
+000054b7  __aeabi_idiv0                         
+00007959  __aeabi_idivmod                       
+00005c33  __aeabi_ldiv0                         
+000084fd  __aeabi_llsl                          
+00008429  __aeabi_lmul                          
+00008811  __aeabi_memclr                        
+00008811  __aeabi_memclr4                       
+00008811  __aeabi_memclr8                       
+000088e5  __aeabi_memcpy                        
+000088e5  __aeabi_memcpy4                       
+000088e5  __aeabi_memcpy8                       
+00008731  __aeabi_memset                        
+00008731  __aeabi_memset4                       
+00008731  __aeabi_memset8                       
+00008389  __aeabi_ui2f                          
+00007d31  __aeabi_uidiv                         
+00007d31  __aeabi_uidivmod                      
+00008661  __aeabi_uldivmod                      
+000084fd  __ashldi3                             
 ffffffff  __binit__                             
-00007665  __cmpdf2                              
-000082a1  __cmpsf2                              
-00005b85  __divdf3                              
-0000707d  __divsf3                              
-00007665  __eqdf2                               
-000082a1  __eqsf2                               
-00007ff9  __extendsfdf2                         
-00007d3d  __fixdfsi                             
-00008319  __fixsfsi                             
-0000850d  __floatsidf                           
-00008175  __floatsisf                           
-00008591  __floatunsisf                         
-00007275  __gedf2                               
-000081b1  __gesf2                               
-00007275  __gtdf2                               
-000081b1  __gtsf2                               
-0000122d  __kernel_rem_pio2                     
-00007665  __ledf2                               
-000082a1  __lesf2                               
-00007665  __ltdf2                               
-000082a1  __ltsf2                               
+000073c5  __cmpdf2                              
+00008099  __cmpsf2                              
+00005921  __divdf3                              
+00006d5d  __divsf3                              
+000073c5  __eqdf2                               
+00008099  __eqsf2                               
+00007d71  __extendsfdf2                         
+00007af9  __fixdfsi                             
+00008111  __fixsfsi                             
+00008305  __floatsidf                           
+00007f6d  __floatsisf                           
+00008389  __floatunsisf                         
+00006fd9  __gedf2                               
+00007fa9  __gesf2                               
+00006fd9  __gtdf2                               
+00007fa9  __gtsf2                               
+00001935  __kernel_rem_pio2                     
+000073c5  __ledf2                               
+00008099  __lesf2                               
+000073c5  __ltdf2                               
+00008099  __ltsf2                               
 UNDEFED   __mpu_init                            
-00006279  __muldf3                              
-00008631  __muldi3                              
-000082dd  __muldsi3                             
-00006f69  __mulsf3                              
-00007665  __nedf2                               
-000082a1  __nesf2                               
+00006015  __muldf3                              
+00008429  __muldi3                              
+000080d5  __muldsi3                             
+00006c49  __mulsf3                              
+000073c5  __nedf2                               
+00008099  __nesf2                               
 20207e00  __stack                               
 20200000  __start___llvm_prf_bits               
 20200000  __start___llvm_prf_cnts               
 20200000  __stop___llvm_prf_bits                
 20200000  __stop___llvm_prf_cnts                
-0000498d  __subdf3                              
-00006511  __subsf3                              
-000072f1  __truncdfsf2                          
-00006bb1  __udivmoddi4                          
-000085e1  _c_int00_noargs                       
+00004601  __subdf3                              
+000062ad  __subsf3                              
+00007051  __truncdfsf2                          
+00006891  __udivmoddi4                          
+000083d9  _c_int00_noargs                       
 UNDEFED   _system_post_cinit                    
-00008bbd  _system_pre_init                      
-00008b83  abort                                 
-2020064f  actual_speed                          
-000050f1  asinf                                 
-00005959  atan2f                                
-00003f2d  atanf                                 
-00008039  atoi                                  
-20200839  base_speed                            
+000089a1  _system_pre_init                      
+0000896b  abort                                 
+2020064d  actual_speed                          
+00004d65  asinf                                 
+000056f5  atan2f                                
+00003ba1  atanf                                 
+00007db1  atoi                                  
+20200800  base_speed                            
 ffffffff  binit                                 
-00007f35  car_run                               
-00008901  car_stop                              
-00003d59  cosf                                  
-202007d0  directory                             
-2020083a  directory_flag                        
-202007d8  directory_num                         
-00005251  floor                                 
-00005251  floorl                                
-00008079  fmaxf                                 
-000080f9  fminf                                 
-000079e1  frexp                                 
-000079e1  frexpl                                
+00007741  calculate_motor_speed                 
+00007df1  car_run                               
+000086e1  car_stop                              
+000039cd  cosf                                  
+00007e31  delay_us                              
+20200794  directory                             
+20200801  directory_flag                        
+2020079c  directory_num                         
+00004ec5  floor                                 
+00004ec5  floorl                                
+00007e71  fmaxf                                 
+00007ef1  fminf                                 
+0000779d  frexp                                 
+0000779d  frexpl                                
 20200400  gPWMBBackup                           
 202004a0  gPWMDBackup                           
-000080b9  get_encoder_count                     
+00007eb1  get_encoder_count                     
 20200640  id                                    
 00000000  interruptVectors                      
-20200814  kd                                    
-20200818  ki                                    
-2020081c  kp                                    
-00006439  ldexp                                 
-00006439  ldexpl                                
-2020083b  left_flage                            
-00006839  line_follower_update                  
-00001e71  line_folower                          
-000030cd  main                                  
-000086c1  memccpy                               
-00006ecd  memcpy                                
-0000785f  memset                                
-00008b05  mpu6050_delay_ms                      
-00008b0d  mpu6050_get_data                      
-00008a3d  mpu6050_get_pitch                     
-00008a49  mpu6050_get_roll                      
-00008a55  mpu6050_get_yaw                       
-000054d1  mpu6050_init                          
-00008a61  mpu6050_millis                        
-00002e7d  mpu6050_service_init                  
+202007dc  kd                                    
+202007e0  ki                                    
+202007e4  kp                                    
+000061d5  ldexp                                 
+000061d5  ldexpl                                
+20200802  left_flage                            
+00006de1  line_follower_update                  
+00002d55  line_folower                          
+00002b11  main                                  
+000084b9  memccpy                               
+00006bad  memcpy                                
+000075bf  memset                                
+000088ed  mpu6050_delay_ms                      
+000088f5  mpu6050_get_data                      
+0000881d  mpu6050_get_pitch                     
+00008829  mpu6050_get_roll                      
+00008835  mpu6050_get_yaw                       
+0000526d  mpu6050_init                          
+00008841  mpu6050_millis                        
+000028c1  mpu6050_service_init                  
 00000a91  mpu6050_update                        
-00008389  mspm0_delay_ms                        
-00008815  mspm0_get_clock_ms                    
-00002915  mspm0_motor_i2c_read_direct           
-2020082c  nextway                               
-2020083d  number_of_turns                       
-2020083e  out_num                               
-20200830  pid_rate                              
+00008181  mspm0_delay_ms                        
+202007f4  nextway                               
+20200803  number_of_turns                       
+20200804  out_num                               
+202007f8  pid_rate                              
 20200658  recv0_buff                            
-2020083f  recv0_flag                            
-20200836  recv0_length                          
-20200650  s1                                    
-20200651  s2                                    
-20200652  s3                                    
-20200653  s4                                    
-20200654  s5                                    
-20200655  s6                                    
-20200656  s7                                    
-20200657  s8                                    
-00006439  scalbn                                
-00006439  scalbnl                               
-000040f5  sinf                                  
-00008351  sprintf                               
-00004e19  sqrt                                  
-00006c55  sqrtf                                 
-00004e19  sqrtl                                 
+20200805  recv0_flag                            
+202007fe  recv0_length                          
+2020064e  s1                                    
+2020064f  s2                                    
+20200650  s3                                    
+20200651  s4                                    
+20200652  s5                                    
+20200653  s6                                    
+20200654  s7                                    
+20200655  s8                                    
+000061d5  scalbn                                
+000061d5  scalbnl                               
+00003d69  sinf                                  
+00008149  sprintf                               
+00004a8d  sqrt                                  
+00006935  sqrtf                                 
+00004a8d  sqrtl                                 
 20200644  start_time                            
-20200840  stop_flag                             
+20200806  stop_flag                             
 20200648  tick_ms                               
-20200841  trun_flage                            
-00007ea9  u8g2Init                              
-00008855  u8g2_ClearBuffer                      
-000084b1  u8g2_ClearDisplay                     
-0000618d  u8g2_DrawBox                          
-00006095  u8g2_DrawHVLine                       
-00008911  u8g2_DrawUTF8                         
-00008539  u8g2_FirstPage                        
-00007981  u8g2_IsIntersection                   
-00007d87  u8g2_NextPage                         
-000087b1  u8g2_SetBufferCurrTileRow             
-00008a6d  u8g2_SetDrawColor                     
-000066b5  u8g2_SetFont                          
-00008b77  u8g2_SetFontDirection                 
-00008b7d  u8g2_SetFontMode                      
-00008a79  u8g2_SetFontPosBaseline               
-000078c1  u8g2_SetupBuffer                      
-00008229  u8g2_Setup_ssd1306_i2c_128x64_noname_f
-00008679  u8g2_add_vector_x                     
-0000869d  u8g2_add_vector_y                     
-00009758  u8g2_cb_r0                            
-0000886b  u8g2_draw_hv_line_2dir                
-00008921  u8g2_draw_l90_r0                      
-00008bc1  u8g2_font_calc_vref_font              
-00002645  u8g2_font_decode_glyph                
-000055f9  u8g2_font_decode_len                  
-00005d95  u8g2_font_get_glyph_data              
-00008bd0  u8g2_font_unifont_st16                
-00003969  u8g2_ll_hvline_vertical_top_lsb       
-00008a85  u8g2_m_16_8_f                         
-000083bd  u8g2_update_dimension_r0              
-00007921  u8g2_update_page_win_r0               
-00008723  u8x8_DrawTile                         
-00008989  u8x8_InitDisplay                      
-00008997  u8x8_RefreshDisplay                   
-000089a5  u8x8_SetPowerSave                     
-000085b9  u8x8_Setup                            
-000089b3  u8x8_SetupMemory                      
-000089c1  u8x8_byte_EndTransfer                 
-000088bb  u8x8_byte_SendByte                    
-000089cf  u8x8_byte_SendBytes                   
-000089dd  u8x8_byte_StartTransfer               
-00004b21  u8x8_byte_sw_i2c                      
-000089eb  u8x8_cad_EndTransfer                  
-000089f9  u8x8_cad_SendArg                      
-00008a07  u8x8_cad_SendCmd                      
-00008a15  u8x8_cad_SendData                     
-00007525  u8x8_cad_SendSequence                 
-00008a23  u8x8_cad_StartTransfer                
-00004f89  u8x8_cad_ssd13xx_fast_i2c             
-00007591  u8x8_d_helper_display_init            
-00008ae7  u8x8_d_helper_display_setup_memory    
-00007cf1  u8x8_d_ssd1306_128x64_noname          
-00006cf5  u8x8_gpio_and_delay                   
-00008af1  u8x8_gpio_call                        
-00008b15  u8x8_utf8_init                        
-00007101  u8x8_utf8_next                        
-00008931  wcslen                                
-20200843  xspeed                                
+20200807  trun_flage                            
+00007c65  u8g2Init                              
+00008635  u8g2_ClearBuffer                      
+000082a9  u8g2_ClearDisplay                     
+00005f29  u8g2_DrawBox                          
+00005e31  u8g2_DrawHVLine                       
+000086f1  u8g2_DrawUTF8                         
+00008331  u8g2_FirstPage                        
+000076e1  u8g2_IsIntersection                   
+00007b43  u8g2_NextPage                         
+000085a9  u8g2_SetBufferCurrTileRow             
+0000884d  u8g2_SetDrawColor                     
+00006451  u8g2_SetFont                          
+0000895f  u8g2_SetFontDirection                 
+00008965  u8g2_SetFontMode                      
+00008859  u8g2_SetFontPosBaseline               
+00007621  u8g2_SetupBuffer                      
+00008021  u8g2_Setup_ssd1306_i2c_128x64_noname_f
+00008471  u8g2_add_vector_x                     
+00008495  u8g2_add_vector_y                     
+00009494  u8g2_cb_r0                            
+0000864b  u8g2_draw_hv_line_2dir                
+00008701  u8g2_draw_l90_r0                      
+000089a5  u8g2_font_calc_vref_font              
+00002349  u8g2_font_decode_glyph                
+00005395  u8g2_font_decode_len                  
+00005b31  u8g2_font_get_glyph_data              
+000089b0  u8g2_font_unifont_st16                
+000035dd  u8g2_ll_hvline_vertical_top_lsb       
+00008865  u8g2_m_16_8_f                         
+000081b5  u8g2_update_dimension_r0              
+00007681  u8g2_update_page_win_r0               
+0000851b  u8x8_DrawTile                         
+00008769  u8x8_InitDisplay                      
+00008777  u8x8_RefreshDisplay                   
+00008785  u8x8_SetPowerSave                     
+000083b1  u8x8_Setup                            
+00008793  u8x8_SetupMemory                      
+000087a1  u8x8_byte_EndTransfer                 
+0000869b  u8x8_byte_SendByte                    
+000087af  u8x8_byte_SendBytes                   
+000087bd  u8x8_byte_StartTransfer               
+00004795  u8x8_byte_sw_i2c                      
+000087cb  u8x8_cad_EndTransfer                  
+000087d9  u8x8_cad_SendArg                      
+000087e7  u8x8_cad_SendCmd                      
+000087f5  u8x8_cad_SendData                     
+00007285  u8x8_cad_SendSequence                 
+00008803  u8x8_cad_StartTransfer                
+00004bfd  u8x8_cad_ssd13xx_fast_i2c             
+000072f1  u8x8_d_helper_display_init            
+000088c7  u8x8_d_helper_display_setup_memory    
+00007aad  u8x8_d_ssd1306_128x64_noname          
+000069d5  u8x8_gpio_and_delay                   
+000088d1  u8x8_gpio_call                        
+000088fd  u8x8_utf8_init                        
+00006e61  u8x8_utf8_next                        
+00008711  wcslen                                
+20200809  xspeed                                
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1056,266 +1039,267 @@ address   name
 000000c1  __TI_printfi                          
 00000200  __STACK_SIZE                          
 00000a91  mpu6050_update                        
-0000122d  __kernel_rem_pio2                     
-00001871  HOME_directory                        
-00001e71  line_folower                          
-00002275  MOTOR_CONTROL                         
-00002645  u8g2_font_decode_glyph                
-00002915  mspm0_motor_i2c_read_direct           
-00002bd5  SYSCFG_DL_SYSCTL_SYSPLL_init          
-00002e7d  mpu6050_service_init                  
-000030cd  main                                  
-00003969  u8g2_ll_hvline_vertical_top_lsb       
-00003d59  cosf                                  
-00003f2d  atanf                                 
-000040f5  sinf                                  
-0000463d  GROUP1_IRQHandler                     
-000047e9  SYSCFG_DL_GPIO_init                   
-0000498d  __aeabi_dsub                          
-0000498d  __subdf3                              
-00004997  __adddf3                              
-00004997  __aeabi_dadd                          
-00004b1f  ADC0_IRQHandler                       
-00004b1f  ADC1_IRQHandler                       
-00004b1f  AES_IRQHandler                        
-00004b1f  CANFD0_IRQHandler                     
-00004b1f  DAC0_IRQHandler                       
-00004b1f  DMA_IRQHandler                        
-00004b1f  Default_Handler                       
-00004b1f  GROUP0_IRQHandler                     
-00004b1f  HardFault_Handler                     
-00004b1f  I2C0_IRQHandler                       
-00004b1f  I2C1_IRQHandler                       
-00004b1f  NMI_Handler                           
-00004b1f  PendSV_Handler                        
-00004b1f  RTC_IRQHandler                        
-00004b1f  SPI0_IRQHandler                       
-00004b1f  SPI1_IRQHandler                       
-00004b1f  SVC_Handler                           
-00004b1f  TIMA0_IRQHandler                      
-00004b1f  TIMA1_IRQHandler                      
-00004b1f  TIMG12_IRQHandler                     
-00004b1f  TIMG6_IRQHandler                      
-00004b1f  TIMG7_IRQHandler                      
-00004b1f  TIMG8_IRQHandler                      
-00004b1f  UART1_IRQHandler                      
-00004b1f  UART2_IRQHandler                      
-00004b1f  UART3_IRQHandler                      
-00004b21  u8x8_byte_sw_i2c                      
-00004e19  sqrt                                  
-00004e19  sqrtl                                 
-00004f89  u8x8_cad_ssd13xx_fast_i2c             
-000050f1  asinf                                 
-00005251  floor                                 
-00005251  floorl                                
-000054d1  mpu6050_init                          
-000055f9  u8g2_font_decode_len                  
-0000571b  __aeabi_idiv0                         
-00005959  atan2f                                
-00005b85  __aeabi_ddiv                          
-00005b85  __divdf3                              
-00005c91  DL_Timer_initFourCCPWMMode            
-00005d95  u8g2_font_get_glyph_data              
-00005e97  __aeabi_ldiv0                         
-00005f99  DL_Timer_initTimerMode                
-00006095  u8g2_DrawHVLine                       
-0000618d  u8g2_DrawBox                          
-00006279  __aeabi_dmul                          
-00006279  __muldf3                              
-0000635d  DL_SYSCTL_configSYSPLL                
-00006439  ldexp                                 
-00006439  ldexpl                                
-00006439  scalbn                                
-00006439  scalbnl                               
-00006511  __aeabi_fsub                          
-00006511  __subsf3                              
-0000651b  __addsf3                              
-0000651b  __aeabi_fadd                          
-000066b5  u8g2_SetFont                          
-00006779  PID_CONTROL                           
-00006839  line_follower_update                  
-000068f5  SYSCFG_DL_SYSCTL_init                 
-00006bb1  __udivmoddi4                          
-00006c55  sqrtf                                 
-00006cf5  u8x8_gpio_and_delay                   
-00006ecd  memcpy                                
-00006f69  __aeabi_fmul                          
-00006f69  __mulsf3                              
-00006ff5  SYSCFG_DL_initPower                   
-0000707d  __aeabi_fdiv                          
-0000707d  __divsf3                              
-00007101  u8x8_utf8_next                        
-00007181  __TI_decompress_lzss                  
-000071fd  CAR_CONTROL                           
-00007275  __gedf2                               
-00007275  __gtdf2                               
-000072e9  __aeabi_errno_addr                    
-000072f1  __aeabi_d2f                           
-000072f1  __truncdfsf2                          
-00007365  SYSCFG_DL_PWMB_init                   
-000073d5  SYSCFG_DL_PWMC_init                   
-00007445  SYSCFG_DL_PWMD_init                   
-000074b5  SYSCFG_DL_UART_0_init                 
-00007525  u8x8_cad_SendSequence                 
-00007591  u8x8_d_helper_display_init            
-000075fd  SYSCFG_DL_PWMA_init                   
-00007665  __cmpdf2                              
-00007665  __eqdf2                               
-00007665  __ledf2                               
-00007665  __ltdf2                               
-00007665  __nedf2                               
-00007735  TIMG0_IRQHandler                      
-00007799  __aeabi_dcmpeq                        
-000077ad  __aeabi_dcmplt                        
-000077c1  __aeabi_dcmple                        
-000077d5  __aeabi_dcmpge                        
-000077e9  __aeabi_dcmpgt                        
-000077fd  __aeabi_fcmpeq                        
-00007811  __aeabi_fcmplt                        
-00007825  __aeabi_fcmple                        
-00007839  __aeabi_fcmpge                        
-0000784d  __aeabi_fcmpgt                        
-0000785f  memset                                
-000078c1  u8g2_SetupBuffer                      
-00007921  u8g2_update_page_win_r0               
-00007981  u8g2_IsIntersection                   
-000079e1  frexp                                 
-000079e1  frexpl                                
-00007a3d  SysTick_Init                          
-00007a95  UART0_IRQHandler                      
-00007aed  __TI_ltoa                             
-00007b9d  __aeabi_idiv                          
-00007b9d  __aeabi_idivmod                       
-00007bf5  SYSCFG_DL_I2C_BUS_init                
-00007cf1  u8x8_d_ssd1306_128x64_noname          
-00007d3d  __aeabi_d2iz                          
-00007d3d  __fixdfsi                             
-00007d87  u8g2_NextPage                         
-00007dd1  DL_UART_init                          
-00007e19  SYSCFG_DL_TIMER_TICK_init             
-00007e61  SYSCFG_DL_init                        
-00007ea9  u8g2Init                              
-00007ef1  DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK 
-00007f35  car_run                               
-00007f79  OLED_SHOW                             
-00007fb9  __aeabi_uidiv                         
-00007fb9  __aeabi_uidivmod                      
-00007ff9  __aeabi_f2d                           
-00007ff9  __extendsfdf2                         
-00008039  atoi                                  
-00008079  fmaxf                                 
-000080b9  get_encoder_count                     
-000080f9  fminf                                 
-00008139  DL_I2C_flushControllerTXFIFO          
-00008175  __aeabi_i2f                           
-00008175  __floatsisf                           
-000081b1  __gesf2                               
-000081b1  __gtsf2                               
-00008229  u8g2_Setup_ssd1306_i2c_128x64_noname_f
-00008265  __TI_auto_init_nobinit_nopinit        
-000082a1  __cmpsf2                              
-000082a1  __eqsf2                               
-000082a1  __lesf2                               
-000082a1  __ltsf2                               
-000082a1  __nesf2                               
-000082dd  __muldsi3                             
-00008319  __aeabi_f2iz                          
-00008319  __fixsfsi                             
-00008351  sprintf                               
-00008389  mspm0_delay_ms                        
-000083bd  u8g2_update_dimension_r0              
-000083f1  DL_I2C_flushControllerRXFIFO          
-00008421  SYSCFG_DL_I2C1_init                   
-00008451  USART_SendString                      
-000084b1  u8g2_ClearDisplay                     
-000084e1  SysTick_Handler                       
-0000850d  __aeabi_i2d                           
-0000850d  __floatsidf                           
-00008539  u8g2_FirstPage                        
-00008591  __aeabi_ui2f                          
-00008591  __floatunsisf                         
-000085b9  u8x8_Setup                            
-000085e1  _c_int00_noargs                       
-00008609  DL_I2C_setClockConfig                 
-00008631  __aeabi_lmul                          
-00008631  __muldi3                              
-00008679  u8g2_add_vector_x                     
-0000869d  u8g2_add_vector_y                     
-000086c1  memccpy                               
-00008705  __aeabi_llsl                          
-00008705  __ashldi3                             
-00008723  u8x8_DrawTile                         
-00008741  DL_SYSCTL_configFCC                   
-0000875d  DL_Timer_setCaptCompUpdateMethod      
-00008779  DL_Timer_setClockConfig               
-00008795  SYSCFG_DL_SYSTICK_init                
-000087b1  u8g2_SetBufferCurrTileRow             
-000087cd  DL_Timer_setCaptureCompareOutCtl      
-000087e5  USART_Init                            
-00008815  mspm0_get_clock_ms                    
-00008855  u8g2_ClearBuffer                      
-0000886b  u8g2_draw_hv_line_2dir                
-00008881  __aeabi_uldivmod                      
-000088a9  DL_UART_setClockConfig                
-000088bb  u8x8_byte_SendByte                    
-000088cd  __TI_decompress_none                  
-000088e1  DL_Timer_setCaptureCompareValue       
-00008901  car_stop                              
-00008911  u8g2_DrawUTF8                         
-00008921  u8g2_draw_l90_r0                      
-00008931  wcslen                                
-00008941  __TI_zero_init                        
-00008951  __aeabi_memset                        
-00008951  __aeabi_memset4                       
-00008951  __aeabi_memset8                       
-00008989  u8x8_InitDisplay                      
-00008997  u8x8_RefreshDisplay                   
-000089a5  u8x8_SetPowerSave                     
-000089b3  u8x8_SetupMemory                      
-000089c1  u8x8_byte_EndTransfer                 
-000089cf  u8x8_byte_SendBytes                   
-000089dd  u8x8_byte_StartTransfer               
-000089eb  u8x8_cad_EndTransfer                  
-000089f9  u8x8_cad_SendArg                      
-00008a07  u8x8_cad_SendCmd                      
-00008a15  u8x8_cad_SendData                     
-00008a23  u8x8_cad_StartTransfer                
-00008a31  __aeabi_memclr                        
-00008a31  __aeabi_memclr4                       
-00008a31  __aeabi_memclr8                       
-00008a3d  mpu6050_get_pitch                     
-00008a49  mpu6050_get_roll                      
-00008a55  mpu6050_get_yaw                       
-00008a61  mpu6050_millis                        
-00008a6d  u8g2_SetDrawColor                     
-00008a79  u8g2_SetFontPosBaseline               
-00008a85  u8g2_m_16_8_f                         
-00008a91  DL_Common_delayCycles                 
-00008ae7  u8x8_d_helper_display_setup_memory    
-00008af1  u8x8_gpio_call                        
-00008afd  __aeabi_memcpy                        
-00008afd  __aeabi_memcpy4                       
-00008afd  __aeabi_memcpy8                       
-00008b05  mpu6050_delay_ms                      
-00008b0d  mpu6050_get_data                      
-00008b15  u8x8_utf8_init                        
-00008b77  u8g2_SetFontDirection                 
-00008b7d  u8g2_SetFontMode                      
-00008b83  abort                                 
-00008b88  C$$EXIT                               
-00008b89  HOSTexit                              
-00008bb9  Reset_Handler                         
-00008bbd  _system_pre_init                      
-00008bc1  u8g2_font_calc_vref_font              
-00008bd0  u8g2_font_unifont_st16                
-00009380  __aeabi_ctype_table_                  
-00009380  __aeabi_ctype_table_C                 
-00009758  u8g2_cb_r0                            
-000099e4  __TI_Handler_Table_Base               
-000099f0  __TI_Handler_Table_Limit              
-000099f8  __TI_CINIT_Base                       
-00009a08  __TI_CINIT_Limit                      
-00009a08  __TI_CINIT_Warm                       
+00001231  HOME_directory                        
+00001935  __kernel_rem_pio2                     
+00001f79  MOTOR_CONTROL                         
+00002349  u8g2_font_decode_glyph                
+00002619  SYSCFG_DL_SYSCTL_SYSPLL_init          
+000028c1  mpu6050_service_init                  
+00002b11  main                                  
+00002d55  line_folower                          
+000035dd  u8g2_ll_hvline_vertical_top_lsb       
+000039cd  cosf                                  
+00003ba1  atanf                                 
+00003d69  sinf                                  
+000042b1  GROUP1_IRQHandler                     
+0000445d  SYSCFG_DL_GPIO_init                   
+00004601  __aeabi_dsub                          
+00004601  __subdf3                              
+0000460b  __adddf3                              
+0000460b  __aeabi_dadd                          
+00004793  ADC0_IRQHandler                       
+00004793  ADC1_IRQHandler                       
+00004793  AES_IRQHandler                        
+00004793  CANFD0_IRQHandler                     
+00004793  DAC0_IRQHandler                       
+00004793  DMA_IRQHandler                        
+00004793  Default_Handler                       
+00004793  GROUP0_IRQHandler                     
+00004793  HardFault_Handler                     
+00004793  I2C0_IRQHandler                       
+00004793  I2C1_IRQHandler                       
+00004793  NMI_Handler                           
+00004793  PendSV_Handler                        
+00004793  RTC_IRQHandler                        
+00004793  SPI0_IRQHandler                       
+00004793  SPI1_IRQHandler                       
+00004793  SVC_Handler                           
+00004793  TIMA0_IRQHandler                      
+00004793  TIMA1_IRQHandler                      
+00004793  TIMG12_IRQHandler                     
+00004793  TIMG6_IRQHandler                      
+00004793  TIMG7_IRQHandler                      
+00004793  TIMG8_IRQHandler                      
+00004793  UART1_IRQHandler                      
+00004793  UART2_IRQHandler                      
+00004793  UART3_IRQHandler                      
+00004795  u8x8_byte_sw_i2c                      
+00004a8d  sqrt                                  
+00004a8d  sqrtl                                 
+00004bfd  u8x8_cad_ssd13xx_fast_i2c             
+00004d65  asinf                                 
+00004ec5  floor                                 
+00004ec5  floorl                                
+00005145  Grayscale_Sensor_Read_All             
+0000526d  mpu6050_init                          
+00005395  u8g2_font_decode_len                  
+000054b7  __aeabi_idiv0                         
+000056f5  atan2f                                
+00005921  __aeabi_ddiv                          
+00005921  __divdf3                              
+00005a2d  DL_Timer_initFourCCPWMMode            
+00005b31  u8g2_font_get_glyph_data              
+00005c33  __aeabi_ldiv0                         
+00005d35  DL_Timer_initTimerMode                
+00005e31  u8g2_DrawHVLine                       
+00005f29  u8g2_DrawBox                          
+00006015  __aeabi_dmul                          
+00006015  __muldf3                              
+000060f9  DL_SYSCTL_configSYSPLL                
+000061d5  ldexp                                 
+000061d5  ldexpl                                
+000061d5  scalbn                                
+000061d5  scalbnl                               
+000062ad  __aeabi_fsub                          
+000062ad  __subsf3                              
+000062b7  __addsf3                              
+000062b7  __aeabi_fadd                          
+00006451  u8g2_SetFont                          
+00006515  PID_CONTROL                           
+000065d5  SYSCFG_DL_SYSCTL_init                 
+00006891  __udivmoddi4                          
+00006935  sqrtf                                 
+000069d5  u8x8_gpio_and_delay                   
+00006bad  memcpy                                
+00006c49  __aeabi_fmul                          
+00006c49  __mulsf3                              
+00006cd5  SYSCFG_DL_initPower                   
+00006d5d  __aeabi_fdiv                          
+00006d5d  __divsf3                              
+00006de1  line_follower_update                  
+00006e61  u8x8_utf8_next                        
+00006ee1  CAR_CONTROL                           
+00006f5d  __TI_decompress_lzss                  
+00006fd9  __gedf2                               
+00006fd9  __gtdf2                               
+0000704c  C$$EXIT                               
+0000704d  HOSTexit                              
+00007051  __aeabi_d2f                           
+00007051  __truncdfsf2                          
+000070c5  SYSCFG_DL_PWMB_init                   
+00007135  SYSCFG_DL_PWMC_init                   
+000071a5  SYSCFG_DL_PWMD_init                   
+00007215  SYSCFG_DL_UART_0_init                 
+00007285  u8x8_cad_SendSequence                 
+000072f1  u8x8_d_helper_display_init            
+0000735d  SYSCFG_DL_PWMA_init                   
+000073c5  __cmpdf2                              
+000073c5  __eqdf2                               
+000073c5  __ledf2                               
+000073c5  __ltdf2                               
+000073c5  __nedf2                               
+00007495  TIMG0_IRQHandler                      
+000074f9  __aeabi_dcmpeq                        
+0000750d  __aeabi_dcmplt                        
+00007521  __aeabi_dcmple                        
+00007535  __aeabi_dcmpge                        
+00007549  __aeabi_dcmpgt                        
+0000755d  __aeabi_fcmpeq                        
+00007571  __aeabi_fcmplt                        
+00007585  __aeabi_fcmple                        
+00007599  __aeabi_fcmpge                        
+000075ad  __aeabi_fcmpgt                        
+000075bf  memset                                
+00007621  u8g2_SetupBuffer                      
+00007681  u8g2_update_page_win_r0               
+000076e1  u8g2_IsIntersection                   
+00007741  calculate_motor_speed                 
+0000779d  frexp                                 
+0000779d  frexpl                                
+000077f9  SysTick_Init                          
+00007851  UART0_IRQHandler                      
+000078a9  __TI_ltoa                             
+00007959  __aeabi_idiv                          
+00007959  __aeabi_idivmod                       
+000079b1  SYSCFG_DL_I2C_BUS_init                
+00007aad  u8x8_d_ssd1306_128x64_noname          
+00007af9  __aeabi_d2iz                          
+00007af9  __fixdfsi                             
+00007b43  u8g2_NextPage                         
+00007b8d  DL_UART_init                          
+00007bd5  SYSCFG_DL_TIMER_TICK_init             
+00007c1d  SYSCFG_DL_init                        
+00007c65  u8g2Init                              
+00007cad  DL_SYSCTL_switchMCLKfromSYSOSCtoHSCLK 
+00007cf1  OLED_SHOW                             
+00007d31  __aeabi_uidiv                         
+00007d31  __aeabi_uidivmod                      
+00007d71  __aeabi_f2d                           
+00007d71  __extendsfdf2                         
+00007db1  atoi                                  
+00007df1  car_run                               
+00007e31  delay_us                              
+00007e71  fmaxf                                 
+00007eb1  get_encoder_count                     
+00007ef1  fminf                                 
+00007f31  DL_I2C_flushControllerTXFIFO          
+00007f6d  __aeabi_i2f                           
+00007f6d  __floatsisf                           
+00007fa9  __gesf2                               
+00007fa9  __gtsf2                               
+00008021  u8g2_Setup_ssd1306_i2c_128x64_noname_f
+0000805d  __TI_auto_init_nobinit_nopinit        
+00008099  __cmpsf2                              
+00008099  __eqsf2                               
+00008099  __lesf2                               
+00008099  __ltsf2                               
+00008099  __nesf2                               
+000080d5  __muldsi3                             
+00008111  __aeabi_f2iz                          
+00008111  __fixsfsi                             
+00008149  sprintf                               
+00008181  mspm0_delay_ms                        
+000081b5  u8g2_update_dimension_r0              
+000081e9  DL_I2C_flushControllerRXFIFO          
+00008219  SYSCFG_DL_I2C1_init                   
+00008249  USART_SendString                      
+000082a9  u8g2_ClearDisplay                     
+000082d9  SysTick_Handler                       
+00008305  __aeabi_i2d                           
+00008305  __floatsidf                           
+00008331  u8g2_FirstPage                        
+00008389  __aeabi_ui2f                          
+00008389  __floatunsisf                         
+000083b1  u8x8_Setup                            
+000083d9  _c_int00_noargs                       
+00008401  DL_I2C_setClockConfig                 
+00008429  __aeabi_lmul                          
+00008429  __muldi3                              
+00008471  u8g2_add_vector_x                     
+00008495  u8g2_add_vector_y                     
+000084b9  memccpy                               
+000084fd  __aeabi_llsl                          
+000084fd  __ashldi3                             
+0000851b  u8x8_DrawTile                         
+00008539  DL_SYSCTL_configFCC                   
+00008555  DL_Timer_setCaptCompUpdateMethod      
+00008571  DL_Timer_setClockConfig               
+0000858d  SYSCFG_DL_SYSTICK_init                
+000085a9  u8g2_SetBufferCurrTileRow             
+000085c5  DL_Timer_setCaptureCompareOutCtl      
+000085dd  USART_Init                            
+00008635  u8g2_ClearBuffer                      
+0000864b  u8g2_draw_hv_line_2dir                
+00008661  __aeabi_uldivmod                      
+00008689  DL_UART_setClockConfig                
+0000869b  u8x8_byte_SendByte                    
+000086ad  __TI_decompress_none                  
+000086c1  DL_Timer_setCaptureCompareValue       
+000086e1  car_stop                              
+000086f1  u8g2_DrawUTF8                         
+00008701  u8g2_draw_l90_r0                      
+00008711  wcslen                                
+00008721  __TI_zero_init                        
+00008731  __aeabi_memset                        
+00008731  __aeabi_memset4                       
+00008731  __aeabi_memset8                       
+00008769  u8x8_InitDisplay                      
+00008777  u8x8_RefreshDisplay                   
+00008785  u8x8_SetPowerSave                     
+00008793  u8x8_SetupMemory                      
+000087a1  u8x8_byte_EndTransfer                 
+000087af  u8x8_byte_SendBytes                   
+000087bd  u8x8_byte_StartTransfer               
+000087cb  u8x8_cad_EndTransfer                  
+000087d9  u8x8_cad_SendArg                      
+000087e7  u8x8_cad_SendCmd                      
+000087f5  u8x8_cad_SendData                     
+00008803  u8x8_cad_StartTransfer                
+00008811  __aeabi_memclr                        
+00008811  __aeabi_memclr4                       
+00008811  __aeabi_memclr8                       
+0000881d  mpu6050_get_pitch                     
+00008829  mpu6050_get_roll                      
+00008835  mpu6050_get_yaw                       
+00008841  mpu6050_millis                        
+0000884d  u8g2_SetDrawColor                     
+00008859  u8g2_SetFontPosBaseline               
+00008865  u8g2_m_16_8_f                         
+00008871  DL_Common_delayCycles                 
+000088c7  u8x8_d_helper_display_setup_memory    
+000088d1  u8x8_gpio_call                        
+000088dd  __aeabi_errno_addr                    
+000088e5  __aeabi_memcpy                        
+000088e5  __aeabi_memcpy4                       
+000088e5  __aeabi_memcpy8                       
+000088ed  mpu6050_delay_ms                      
+000088f5  mpu6050_get_data                      
+000088fd  u8x8_utf8_init                        
+0000895f  u8g2_SetFontDirection                 
+00008965  u8g2_SetFontMode                      
+0000896b  abort                                 
+0000899d  Reset_Handler                         
+000089a1  _system_pre_init                      
+000089a5  u8g2_font_calc_vref_font              
+000089b0  u8g2_font_unifont_st16                
+00009160  __aeabi_ctype_table_                  
+00009160  __aeabi_ctype_table_C                 
+00009494  u8g2_cb_r0                            
+000096ac  __TI_Handler_Table_Base               
+000096b8  __TI_Handler_Table_Limit              
+000096c0  __TI_CINIT_Base                       
+000096d0  __TI_CINIT_Limit                      
+000096d0  __TI_CINIT_Warm                       
 20200000  __start___llvm_prf_bits               
 20200000  __start___llvm_prf_cnts               
 20200000  __stop___llvm_prf_bits                
@@ -1325,39 +1309,38 @@ address   name
 20200640  id                                    
 20200644  start_time                            
 20200648  tick_ms                               
-2020064c  IRbuf                                 
-2020064f  actual_speed                          
-20200650  s1                                    
-20200651  s2                                    
-20200652  s3                                    
-20200653  s4                                    
-20200654  s5                                    
-20200655  s6                                    
-20200656  s7                                    
-20200657  s8                                    
+2020064d  actual_speed                          
+2020064e  s1                                    
+2020064f  s2                                    
+20200650  s3                                    
+20200651  s4                                    
+20200652  s5                                    
+20200653  s6                                    
+20200654  s7                                    
+20200655  s8                                    
 20200658  recv0_buff                            
-202007d0  directory                             
-202007d8  directory_num                         
-202007f8  MAX                                   
-202007fc  MIN                                   
-20200800  Velcity_Ki                            
-20200804  Velcity_Kp                            
-20200808  __aeabi_errno                         
-20200814  kd                                    
-20200818  ki                                    
-2020081c  kp                                    
-2020082c  nextway                               
-20200830  pid_rate                              
-20200836  recv0_length                          
-20200839  base_speed                            
-2020083a  directory_flag                        
-2020083b  left_flage                            
-2020083d  number_of_turns                       
-2020083e  out_num                               
-2020083f  recv0_flag                            
-20200840  stop_flag                             
-20200841  trun_flage                            
-20200843  xspeed                                
+20200794  directory                             
+2020079c  directory_num                         
+202007c4  MAX                                   
+202007c8  MIN                                   
+202007cc  Velcity_Ki                            
+202007d0  Velcity_Kp                            
+202007d4  __aeabi_errno                         
+202007dc  kd                                    
+202007e0  ki                                    
+202007e4  kp                                    
+202007f4  nextway                               
+202007f8  pid_rate                              
+202007fe  recv0_length                          
+20200800  base_speed                            
+20200801  directory_flag                        
+20200802  left_flage                            
+20200803  number_of_turns                       
+20200804  out_num                               
+20200805  recv0_flag                            
+20200806  stop_flag                             
+20200807  trun_flage                            
+20200809  xspeed                                
 20207e00  __stack                               
 20208000  __STACK_END                           
 ffffffff  __TI_pprof_out_hndl                   

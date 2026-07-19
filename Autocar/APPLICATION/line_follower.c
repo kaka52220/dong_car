@@ -1,6 +1,6 @@
 #include "line_follower.h"
 #include "ti_msp_dl_config.h"
-#include "mspm0_motor_i2c.h"
+#include "grayscale_sensor.h"
 #include "usart.h"
 #include "draw.h"
 #include "clock.h"
@@ -27,43 +27,13 @@ bool trun_flage = false;
 
 void line_follower_update(void)
 {
-    static bool i2c_error_reported = false;
+    uint8_t raw[8];
+    Grayscale_Sensor_Read_All(raw);
 
-    /* 先清零 IRbuf，防止读取失败后取反全变 1 */
-    IRbuf[0] = 0;
-    IRbuf[1] = 0;
-
-    // int ret = mspm0_motor_i2c_read(IIC_ADDRESS, REGISTER_READ_ADDRESS, 2, IRbuf);  /* 旧：带寄存器地址，PCF8575 不支持 */
-    int ret = mspm0_motor_i2c_read_direct(IIC_ADDRESS, 2, IRbuf);  /* PCF8575 纯读，无需寄存器地址 */
-
-    if (ret != 0)
-    {
-        /* 首次失败打印详细诊断信息 */
-        if (!i2c_error_reported)
-        {
-            if (ret == -2)
-            {
-                USART_SendString((unsigned char*)"[ERROR] I2C NACK — PCF8575 not responding, check address/wiring!\r\n");
-            }
-            else
-            {
-                USART_SendString((unsigned char*)"[ERROR] I2C timeout — bus stuck or no device, check SDA/SCL!\r\n");
-            }
-            i2c_error_reported = true;
-        }
-        return;
-    }
-
-    i2c_error_reported = false;
-
-    s1 = !((IRbuf[0]>>7)&0x01);
-    s2 = !((IRbuf[0]>>6)&0x01);
-    s3 = !((IRbuf[0]>>5)&0x01);
-    s4 = !((IRbuf[0]>>4)&0x01);
-    s5 = !((IRbuf[0]>>3)&0x01);
-    s6 = !((IRbuf[0]>>2)&0x01);
-    s7 = !((IRbuf[0]>>1)&0x01);
-    s8 = !((IRbuf[0]>>0)&0x01);
+    s1 = !raw[0];  s2 = !raw[1];
+    s3 = !raw[2];  s4 = !raw[3];
+    s5 = !raw[4];  s6 = !raw[5];
+    s7 = !raw[6];  s8 = !raw[7];
 }
 
 /*
@@ -92,15 +62,25 @@ float line_folower(float kp, float ki, float kd)
 {
     actual_speed = base_speed;
 
-    /* 1 1 1 1 1 1 1 1 */  //1为白线
-    if (s1 && s2 && s3 && s4 && s5 && s6 && s7 && s8) 
+    /* ══════════════ 第1步：加权求和计算 error ══════════════ */
+    const int8_t weight[8] = {7, 5, 3, 1, -1, -3, -5, -7};
+    const uint8_t data[8]  = {s1, s2, s3, s4, s5, s6, s7, s8};
+    int32_t sum_w    = 0;
+    uint8_t black_cnt = 0;
+
+    for (uint8_t i = 0; i < 8; i++)
     {
-        out_num ++;
+        if (!data[i]) { sum_w += weight[i]; black_cnt++; }  /* s=0 为黑线 */
+    }
+
+    /* ══════════════ 第2步：全白线检测 ══════════════ */
+    if (black_cnt == 0)
+    {
+        out_num++;
         actual_speed = 0;
-        if(out_num >= 3)
+        if (out_num >= 3)
         {
             trun_flage = true;
-            /* 调试：打印全白线触发警告 */
             {
                 static uint32_t last_warn_ms = 0;
                 if (tick_ms - last_warn_ms >= 500)
@@ -113,99 +93,38 @@ float line_folower(float kp, float ki, float kd)
         integral = 0;
         return 0;
     }
-    /* 1 1 1 0 0 1 1 1 */
-    else if(s1 && s2 && s3 && !s4 && !s5 && s6 && s7 && s8) 
-    {
-        error =  0;
-        integral = 0;
-    } 
-    /* 1 1 1 0 1 1 1 1 */  
-    else if(s1 && s2 && s3 && !s4 && s5 && s6 && s7 && s8) 
-    {
-        error = 1;
-    } 
-    /* 1 1 0 0 1 1 1 1 */
-    else if(s1 && s2 && !s3 && !s4 && s5 && s6 && s7 && s8) 
-    { 
-        error = 2;
-    }
-    /* 1 1 0 1 1 1 1 1 */
-    else if(s1 && s2 && !s3 && s4 && s5 && s6 && s7 && s8) 
-    { 
-        error = 3;
-    }  
-    /* 1 0 0 1 1 1 1 1 */
-    else if(s1 && !s2 && !s3 && s4 && s5 && s6 && s7 && s8) 
-    { 
-        error = 4;
-    } 
-    /* 1 0 1 1 1 1 1 1 */
-    else if(s1 && !s2 && s3 && s4 && s5 && s6 && s7 && s8) 
-    { 
-        error = 5;
-    } 
-    /* 0 0 1 1 1 1 1 1 */
-    else if(!s1 && !s2 && s3 && s4 && s5 && s6 && s7 && s8) 
-    { 
-        error = 6;
-    }
-    /* 0 1 1 1 1 1 1 1 */
-    else if(!s1 && s2 && s3 && s4 && s5 && s6 && s7 && s8) 
-    { 
-        error =  7;
-    }
-    /* 1 1 1 1 0 1 1 1 */
-    else if(s1 && s2 && s3 && s4 && !s5 && s6 && s7 && s8) 
-    {
-        error = -1;
-    }
-    /* 1 1 1 1 0 0 1 1 */
-    else if(s1 && s2 && s3 && s4 && !s5 && !s6 && s7 && s8) 
-    {
-        error = -2;
-    }
-    /* 1 1 1 1 1 0 1 1 */
-    else if(s1 && s2 && s3 && s4 && s5 && !s6 && s7 && s8) 
-    {
-        error = -3;
-    }
-    /* 1 1 1 1 1 0 0 1 */
-    else if(s1 && s2 && s3 && s4 && s5 && !s6 && !s7 && s8) 
-    {
-        error = -4;
-    }
-    /* 1 1 1 1 1 1 0 1 */
-    else if(s1 && s2 && s3 && s4 && s5 && s6 && !s7 && s8) 
-    {
-        error = -5;
-    }
-    /* 1 1 1 1 1 1 0 0 */
-    else if(s1 && s2 && s3 && s4 && s5 && s6 && !s7 && !s8) 
-    {
-        error = -6;
-    }
-    /* 1 1 1 1 1 1 1 0 */
-    else if(s1 && s2 && s3 && s4 && s5 && s6 && s7 && !s8) 
-    {
-        error = -7;
-    }
 
-    if(!s1)//偏右
-    {
-        left_flage = true;
-    }
-    else if(!s8)
-    {
-        left_flage = false;
-    }
-
+    /* ══════════════ 第3步：归一化 error + left_flage ══════════════ */
     out_num = 0;
-    
+    error   = (float)sum_w / (float)black_cnt;  /* 浮点除法，加权平均 */
+
+    if (!s1)       left_flage = true;
+    else if (!s8)  left_flage = false;
+
+    /* ══════════════ 第4步：误差死区（|error|<2 → 0，抑制直行抖动） ══════════════ */
+    if (error > -1 && error < 1) error = 0;
+
+    /* ══════════════ 第5步：积分限幅（防饱和） ══════════════ */
     integral += error;
-    float output = kp * error + ki * integral + kd * (error - last_error);//直接作为car_run()中 differential的值
+    {
+        const float IMAX = 100.0f;
+        if (integral >  IMAX) integral =  IMAX;
+        if (integral < -IMAX) integral = -IMAX;
+    }
+
+    /* ══════════════ 第6步：位置式 PID ══════════════ */
+    float output = kp * error + ki * integral + kd * (error - last_error);
     last_error = error;
-    
+
+    /* ══════════════ 第7步：输出限幅 ══════════════ */
+    {
+        const float OMAX = 400.0f;
+        if (output >  OMAX) output =  OMAX;
+        if (output < -OMAX) output = -OMAX;
+    }
+
     return output;
+
 }
 
 void car_trun(int8_t trun_speed)
@@ -227,11 +146,11 @@ void CAR_CONTROL(void)
     {
         if(left_flage)
         {
-            car_trun(1); 
+            car_trun(100); 
         }
         else 
         {
-            car_trun(-1);
+            car_trun(-100);
         }
     }
 }

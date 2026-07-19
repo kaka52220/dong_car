@@ -147,15 +147,12 @@ int main(void)
 
     while (1)
     {
-        /*
-         * 方案2：SysTick 中断每 5ms 硬件定时采样 IMU，
-         * 主循环完全自由，OLED 全屏刷新不影响角度精度。
-         */
+        // mpu6050_update();
         OLED_SHOW(&u8g2);
 
         line_follower_update();
         if(stop_flag) car_stop();
-        else CAR_CONTROL();
+         else CAR_CONTROL();  
 
         /* ===== 每1秒打印一次传感器数据 ===== */
         {
@@ -166,9 +163,11 @@ int main(void)
                 const Mpu6050Data *d = mpu6050_get_data();
                 char buf[80];
                 sprintf(buf,
-                    "S:%d%d%d%d%d%d%d%d Y:%.1f P:%.1f R:%.1f\r\n",
+                    "S:%d%d%d%d%d%d%d%d L:%.0f R:%.0f mm/s Y:%.1f\r\n",
                     s1, s2, s3, s4, s5, s6, s7, s8,
-                    d->yaw_deg, d->pitch_deg, d->roll_deg);
+                    calculate_motor_speed('C'),
+                    calculate_motor_speed('A'),
+                    d->yaw_deg);
                 USART_SendString((unsigned char*)buf);
             }
         }

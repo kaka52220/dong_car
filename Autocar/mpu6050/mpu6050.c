@@ -29,6 +29,7 @@
 #define MPU6050_DEG_TO_RAD              (0.0174532925199f)
 #define MPU6050_MAHONY_KP               (1.8f)
 #define MPU6050_MAHONY_KI               (0.035f)
+#define MPU6050_MAHONY_KP_Z             (0.05f)  /* Z轴无绝对参考，极低修正 */
 #define MPU6050_STATIONARY_GYRO_DPS     (0.80f)
 #define MPU6050_STATIONARY_ACCEL_G      (0.060f)
 #define MPU6050_MOTION_GYRO_DPS         (1.50f)
@@ -37,7 +38,7 @@
 #define MPU6050_STATIONARY_SCORE_ENTER  (MPU6050_SAMPLE_RATE_HZ / 5U)
 #define MPU6050_STATIONARY_SCORE_EXIT   (MPU6050_SAMPLE_RATE_HZ / 20U)
 #define MPU6050_BIAS_TRACK_ALPHA        (1.0f / (5.0f * MPU6050_SAMPLE_RATE_HZ))
-#define MPU6050_YAW_RATE_DEADBAND_DPS   (0.10f)
+#define MPU6050_YAW_RATE_DEADBAND_DPS   (0.50f)  /* 原 0.1 太小，手持微颤被误积 */
 #define MPU6050_TRANSFER_ERROR_MASK     \
     (DL_I2C_INTERRUPT_CONTROLLER_NACK | \
      DL_I2C_INTERRUPT_CONTROLLER_ARBITRATION_LOST)
@@ -426,10 +427,11 @@ static void fusion_update(float gx, float gy, float gz,
 
         g_filter.integral_x += MPU6050_MAHONY_KI * error_x * dt;
         g_filter.integral_y += MPU6050_MAHONY_KI * error_y * dt;
-        /* 重力无法观测绝对航向，不对 Z 向积分项做长期累积。 */
+        /* 重力无法观测绝对航向：error_z 无物理意义，KP_Z 接近 0。
+         * 若 KP_Z=1.8，纯 pitch/roll 时四元数滞后会导致 yaw 被错误修正 */
         gx += MPU6050_MAHONY_KP * error_x + g_filter.integral_x;
         gy += MPU6050_MAHONY_KP * error_y + g_filter.integral_y;
-        gz += MPU6050_MAHONY_KP * error_z;
+        gz += MPU6050_MAHONY_KP_Z * error_z;
     }
 
     {

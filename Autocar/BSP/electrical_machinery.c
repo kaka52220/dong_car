@@ -212,8 +212,9 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
 void car_run(int base_speed_pct, int differential)//diff > 0 左转
 {
 	int base_speed = base_speed_pct * 4;   /* 0-100% → 0-400mm/s */
-	int left_speed = base_speed - differential / 2;
-	int right_speed = base_speed + differential / 2;
+    int differential_all = differential * 4;   /* 0-100% → 0-400mm/s */
+	int left_speed = base_speed - differential_all / 2;
+	int right_speed = base_speed + differential_all / 2;
 	if(left_speed > 400)left_speed = 400;
 	else if(left_speed < -400)left_speed = -400;
 	if(right_speed > 400)right_speed = 400;

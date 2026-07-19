@@ -15,6 +15,7 @@
 #define BEEP(v)  (v ? DL_GPIO_setPins(BEEP_PORT, BEEP_beep_PIN) : DL_GPIO_clearPins(BEEP_PORT, BEEP_beep_PIN))
 
 extern float kp, ki, kd;
+extern float Velcity_Kp, Velcity_Ki;
 extern uint8_t base_speed;
 extern int8_t differential;
 extern bool stop_flag;

@@ -8,6 +8,8 @@ void car_run(int base_speed, int differential);
 void car_stop();
 extern int MAX;
 extern int MIN;
+extern float Velcity_Kp;
+extern float Velcity_Ki;
 
 void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocity_C, int TargetVelocity_D);
 
