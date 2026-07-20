@@ -54,60 +54,85 @@ void reset_motor_speed(char motor_name)
     }
 }
 
+/*===================================================================
+ *  PI 内部状态 — 提到文件作用域，便于 Velocity_ResetAll 重置
+ *
+ *  原本 ControlVelocity/Last_bias 是 Velocity_X 函数内的 static 变量，
+ *  外部无法访问。丢线瞬间 target 从 ±400 突变到 200 时，旧的 CV
+ *  还停留在尖锐转弯积累的大值（可能 ±800），需要数十周期收敛，
+ *  期间电机被过度驱动 → 速度飙升。
+ *
+ *  现提到文件作用域，Velocity_ResetAll 可直接重置。
+ *===================================================================*/
+static int cv_A=0, lb_A=0;
+static int cv_B=0, lb_B=0;
+static int cv_C=0, lb_C=0;
+static int cv_D=0, lb_D=0;
+
 int Velocity_A(int TargetVelocity, int CurrentVelocity)
-{  
-    int Bias;  //定义相关变量
-	static int ControlVelocity, Last_bias; //静态变量，函数调用结束后其值依然存在
-	
-	Bias=TargetVelocity-CurrentVelocity; //求速度偏差
-	
-	ControlVelocity+=Velcity_Kp*(Bias-Last_bias)+Velcity_Ki*Bias;  
-	if(ControlVelocity>999)ControlVelocity=999;
-	if(ControlVelocity<-999)ControlVelocity=-999;
-	Last_bias=Bias;	
-	return ControlVelocity; //返回速度控制值
+{
+    int Bias = TargetVelocity - CurrentVelocity;
+    cv_A += Velcity_Kp*(Bias - lb_A) + Velcity_Ki*Bias;
+    if(cv_A > 999)  cv_A = 999;
+    if(cv_A < -999) cv_A = -999;
+    lb_A = Bias;
+    return cv_A;
 }
 
 int Velocity_B(int TargetVelocity, int CurrentVelocity)
-{  
-    int Bias;  //定义相关变量
-	static int ControlVelocity, Last_bias; //静态变量，函数调用结束后其值依然存在
-	
-	Bias=TargetVelocity-CurrentVelocity; //求速度偏差
-	
-	ControlVelocity+=Velcity_Kp*(Bias-Last_bias)+Velcity_Ki*Bias;  
-	if(ControlVelocity>999)ControlVelocity=999;
-	if(ControlVelocity<-999)ControlVelocity=-999;
-	Last_bias=Bias;	
-	return ControlVelocity; //返回速度控制值
+{
+    int Bias = TargetVelocity - CurrentVelocity;
+    cv_B += Velcity_Kp*(Bias - lb_B) + Velcity_Ki*Bias;
+    if(cv_B > 999)  cv_B = 999;
+    if(cv_B < -999) cv_B = -999;
+    lb_B = Bias;
+    return cv_B;
 }
 
 int Velocity_C(int TargetVelocity, int CurrentVelocity)
-{  
-    int Bias;  //定义相关变量
-	static int ControlVelocity, Last_bias; //静态变量，函数调用结束后其值依然存在
-	
-	Bias=TargetVelocity-CurrentVelocity; //求速度偏差
-	
-	ControlVelocity+=Velcity_Kp*(Bias-Last_bias)+Velcity_Ki*Bias;
-	if(ControlVelocity>999)ControlVelocity=999;
-	if(ControlVelocity<-999)ControlVelocity=-999;
-	Last_bias=Bias;	
-	return ControlVelocity; //返回速度控制值
+{
+    int Bias = TargetVelocity - CurrentVelocity;
+    cv_C += Velcity_Kp*(Bias - lb_C) + Velcity_Ki*Bias;
+    if(cv_C > 999)  cv_C = 999;
+    if(cv_C < -999) cv_C = -999;
+    lb_C = Bias;
+    return cv_C;
 }
 
 int Velocity_D(int TargetVelocity, int CurrentVelocity)
-{  
-    int Bias;  //定义相关变量
-	static int ControlVelocity, Last_bias; //静态变量，函数调用结束后其值依然存在
-	
-	Bias=TargetVelocity-CurrentVelocity; //求速度偏差
-	
-	ControlVelocity+=Velcity_Kp*(Bias-Last_bias)+Velcity_Ki*Bias;
-	if(ControlVelocity>999)ControlVelocity=999;
-	if(ControlVelocity<-999)ControlVelocity=-999;
-	Last_bias=Bias;	
-	return ControlVelocity; //返回速度控制值
+{
+    int Bias = TargetVelocity - CurrentVelocity;
+    cv_D += Velcity_Kp*(Bias - lb_D) + Velcity_Ki*Bias;
+    if(cv_D > 999)  cv_D = 999;
+    if(cv_D < -999) cv_D = -999;
+    lb_D = Bias;
+    return cv_D;
+}
+
+/*===================================================================
+ *  Velocity_ResetAll — 重置 4 路 PI 的 CV 和 Last_bias
+ *
+ *  作用: 当 target 发生大幅突变时（如丢线瞬间从 ±400 突变到 200），
+ *        旧的 CV 还停留在尖锐转弯积累的大值，需要数十周期才能收敛，
+ *        期间电机被过度驱动 → 速度飙升。本函数立即把 CV 重置到
+ *        与新 target 匹配的初值，避免积分饱和引发的超调。
+ *
+ *  调用时机: line_folower 检测到全白丢线的第一个周期。
+ *  seed_target: 期望重置后维持的目标速度（mm/s），CV 按经验比例
+ *               seed_target * 2.2 初始化，避免从 0 起步导致电机
+ *               瞬间停转再重启的抖动。
+ *===================================================================*/
+void Velocity_ResetAll(int seed_target)
+{
+    /* 经验值: PWM ≈ speed * 2.2 (实测 200mm/s 对应 PWM≈440) */
+    int seed_cv = (int)(seed_target * 2.2f);
+    if (seed_cv > 800)  seed_cv = 800;
+    if (seed_cv < -800) seed_cv = -800;
+
+    cv_A = seed_cv;  lb_A = 0;
+    cv_B = seed_cv;  lb_B = 0;
+    cv_C = seed_cv;  lb_C = 0;
+    cv_D = seed_cv;  lb_D = 0;
 }
 
 void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocity_C, int TargetVelocity_D)
@@ -123,8 +148,8 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
 
 		if(ControlVelocity_A > 0)
 	{
-        DL_GPIO_setPins(GPIO_MOTOR_AIN2_PORT, GPIO_MOTOR_AIN2_PIN);
-        DL_GPIO_clearPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_AIN2_PORT, GPIO_MOTOR_AIN2_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
     }
     else if (ControlVelocity_A == 0) 
 	{
@@ -133,16 +158,16 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     }
     else if (ControlVelocity_A < 0) 
 	{
-        DL_GPIO_clearPins(GPIO_MOTOR_AIN2_PORT, GPIO_MOTOR_AIN2_PIN);
-        DL_GPIO_setPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_AIN2_PORT, GPIO_MOTOR_AIN2_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN); 
         ControlVelocity_A = -ControlVelocity_A;
     }
 
 	if(ControlVelocity_B > 0)
 	{
-        DL_GPIO_setPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
-        DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
-        
+         DL_GPIO_clearPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
+	     DL_GPIO_setPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
+ 
     }
     else if (ControlVelocity_B == 0) 
 	{
@@ -151,15 +176,15 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     }
     else if (ControlVelocity_B < 0) 
 	{
-		DL_GPIO_clearPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
-		DL_GPIO_setPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
         ControlVelocity_B = -ControlVelocity_B;
     }
 
 	if(ControlVelocity_C > 0)
 	{
-        DL_GPIO_setPins(GPIO_MOTOR_CIN1_PORT, GPIO_MOTOR_CIN1_PIN);
-        DL_GPIO_clearPins(GPIO_MOTOR_CIN2_PORT, GPIO_MOTOR_CIN2_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_CIN1_PORT, GPIO_MOTOR_CIN1_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_CIN2_PORT, GPIO_MOTOR_CIN2_PIN);
     }
     else if (ControlVelocity_C == 0) 
 	{
@@ -168,15 +193,15 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     }
     else if (ControlVelocity_C < 0) 
 	{
-		DL_GPIO_clearPins(GPIO_MOTOR_CIN1_PORT, GPIO_MOTOR_CIN1_PIN);
-        DL_GPIO_setPins(GPIO_MOTOR_CIN2_PORT, GPIO_MOTOR_CIN2_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_CIN1_PORT, GPIO_MOTOR_CIN1_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_CIN2_PORT, GPIO_MOTOR_CIN2_PIN);
         ControlVelocity_C = -ControlVelocity_C;
     }
 
 	if(ControlVelocity_D > 0)
 	{
-        DL_GPIO_setPins(GPIO_MOTOR_DIN2_PORT, GPIO_MOTOR_DIN2_PIN);
-        DL_GPIO_clearPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
+      DL_GPIO_clearPins(GPIO_MOTOR_DIN2_PORT, GPIO_MOTOR_DIN2_PIN);
+        DL_GPIO_setPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
     }
     else if (ControlVelocity_D == 0) 
 	{
@@ -185,8 +210,8 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     }
     else if (ControlVelocity_D < 0) 
 	{
-        DL_GPIO_clearPins(GPIO_MOTOR_DIN2_PORT, GPIO_MOTOR_DIN2_PIN);
-        DL_GPIO_setPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
+         DL_GPIO_setPins(GPIO_MOTOR_DIN2_PORT, GPIO_MOTOR_DIN2_PIN);
+        DL_GPIO_clearPins(GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
         ControlVelocity_D = -ControlVelocity_D;
     }
     // ===== 每 50ms 打印 PID 输出（调试用） =====
@@ -209,19 +234,74 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
 	DL_TimerG_setCaptureCompareValue(PWMD_INST, ControlVelocity_D, GPIO_PWMD_C1_IDX);
 }
 
-void car_run(int base_speed_pct, int differential)//diff > 0 左转
+/*
+ * 绕过增量式 PI，直接设置 PWM 和方向（供 car_trun 使用）。
+ * pwm 正值=正转，负值=反转，范围 ±999。
+ */
+void MOTOR_RAW(int A, int B, int C, int D)
 {
-	int base_speed = base_speed_pct * 4;   /* 0-100% → 0-400mm/s */
-    int differential_all = differential * 4;   /* 0-100% → 0-400mm/s */
-	int left_speed = base_speed - differential_all / 2;
-	int right_speed = base_speed + differential_all / 2;
-	if(left_speed > 400)left_speed = 400;
-	else if(left_speed < -400)left_speed = -400;
-	if(right_speed > 400)right_speed = 400;
-	else if(right_speed < -400)right_speed = -400;
-    MOTOR_CONTROL(right_speed, right_speed,
-                        left_speed, left_speed);//pi增量控制,ControlVelocity_A = Velocity_A(right_speed, get_encoder_count('A'));
+    #define RAW_SET(INST, CH, VAL, IN1_PORT, IN1_PIN, IN2_PORT, IN2_PIN)  \
+    do {                                                                    \
+        int v = (VAL);                                                      \
+        if (v > 0) {                                                        \
+            DL_GPIO_setPins(IN2_PORT, IN2_PIN);                             \
+            DL_GPIO_clearPins(IN1_PORT, IN1_PIN);                           \
+        } else if (v < 0) {                                                 \
+            DL_GPIO_clearPins(IN2_PORT, IN2_PIN);                           \
+            DL_GPIO_setPins(IN1_PORT, IN1_PIN);                             \
+            v = -(v);                                                       \
+        } else {                                                            \
+            DL_GPIO_clearPins(IN1_PORT, IN1_PIN);                           \
+            DL_GPIO_clearPins(IN2_PORT, IN2_PIN);                           \
+        }                                                                   \
+        if (v > 999) v = 999;                                               \
+        DL_TimerG_setCaptureCompareValue(INST, v, CH);                      \
+    } while(0)
+
+    /* 车头换向后 MOTOR_CONTROL 极性已全部反转，MOTOR_RAW 需同步：
+     *   A 新极性: IN1 高前进 → 对调 IN1/IN2 参数
+     *   B 新极性: IN2 高前进 → 不对调（恢复原样）
+     *   C 新极性: IN2 高前进 → 不对调（恢复原样）
+     *   D 新极性: IN1 高前进 → 对调 IN1/IN2 参数
+     * RAW_SET 宏 v>0 时 "宏IN2" 置高，所以把物理上要高的那个引脚
+     * 放到宏的 IN2 位置（第6,7参数）。 */
+    RAW_SET(PWMA_INST, GPIO_PWMA_C0_IDX, A,
+           GPIO_MOTOR_AIN2_PORT, GPIO_MOTOR_AIN2_PIN,
+           GPIO_MOTOR_AIN1_PORT, GPIO_MOTOR_AIN1_PIN);
+    RAW_SET(PWMB_INST, GPIO_PWMB_C1_IDX, B,
+           GPIO_MOTOR_BIN1_PORT, GPIO_MOTOR_BIN1_PIN,
+           GPIO_MOTOR_BIN2_PORT, GPIO_MOTOR_BIN2_PIN);
+    RAW_SET(PWMC_INST, GPIO_PWMC_C1_IDX, C,
+           GPIO_MOTOR_CIN1_PORT, GPIO_MOTOR_CIN1_PIN,
+           GPIO_MOTOR_CIN2_PORT, GPIO_MOTOR_CIN2_PIN);
+    RAW_SET(PWMD_INST, GPIO_PWMD_C1_IDX, D,
+           GPIO_MOTOR_DIN2_PORT, GPIO_MOTOR_DIN2_PIN,
+           GPIO_MOTOR_DIN1_PORT, GPIO_MOTOR_DIN1_PIN);
+    #undef RAW_SET
 }
+
+void car_run(int base_speed_pct, float differential)
+{
+    int base_speed = base_speed_pct * 4;
+    //浮点运算保证精度，最后再转int
+    float left_speed_f  = base_speed - differential / 2.0f;
+    float right_speed_f = base_speed + differential / 2.0f;
+
+    int left_speed  = (int)left_speed_f;
+    int right_speed = (int)right_speed_f;
+
+    //限幅不变
+    if(left_speed > 400) left_speed = 400;
+    else if(left_speed < -400) left_speed = -400;
+    if(right_speed > 400) right_speed = 400;
+    else if(right_speed < -400) right_speed = -400;
+
+    /* 车头换向后电机位置变更：A,B=左轮, C,D=右轮（原 A,B=右, C,D=左）。
+     * MOTOR_CONTROL 参数顺序固定为 (A,B,C,D)，所以左轮目标传给 A,B，
+     * 右轮目标传给 C,D。MOTOR_CONTROL 内部方向极性已测试正确，不动。 */
+    MOTOR_CONTROL(left_speed, left_speed, right_speed, right_speed);
+}
+
 void car_stop()
 {
 	car_run(0, 0);

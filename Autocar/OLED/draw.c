@@ -15,13 +15,13 @@
 bool   stop_flag = true;
 
 float pid_rate = 0.1;
-float kp = 7.0;
+float kp = 18.0;
 float ki = 0.2;
 float kd = 0.5;
 
 int8_t id[DIRECTORY][2];
 int8_t directory_flag = 0;//当前处于几级目录:-2为二级控制,-1为二级显示,0为主目录,1为二级目录
-uint8_t base_speed = 50;   /* 速度百分比 0-100, 默认50% */
+uint8_t base_speed = 30;   /* 速度百分比 0-100, 默认50% */
 int8_t differential = 0;
 uint8_t number_of_turns = 1;
 uint8_t xspeed = 50;      /* 速度百分比 0-100, 默认50% */

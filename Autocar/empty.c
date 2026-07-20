@@ -165,8 +165,8 @@ int main(void)
                 sprintf(buf,
                     "S:%d%d%d%d%d%d%d%d L:%.0f R:%.0f mm/s Y:%.1f\r\n",
                     s1, s2, s3, s4, s5, s6, s7, s8,
-                    calculate_motor_speed('C'),
                     calculate_motor_speed('A'),
+                    calculate_motor_speed('C'),
                     d->yaw_deg);
                 USART_SendString((unsigned char*)buf);
             }
