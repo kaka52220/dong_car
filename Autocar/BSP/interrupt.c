@@ -5,6 +5,11 @@
 
 int nextway=0;
 
+/* IMU 采样标志：ISR 里只设标志，主循环里做 I2C + 融合。
+ * 原方案在 ISR 里直接调 mpu6050_update() 做 I2C（阻塞15ms）+ 浮点运算，
+ * 导致 SysTick 卡死、tick_ms 不准、dt 异常 → yaw 漂移。 */
+volatile bool g_imu_update_flag = false;
+
 static ENCODER_RES motor_encoderA,motor_encoderB,motor_encoderC,motor_encoderD;//定义static类型,仅本文件可访问提供三个函数给其他文件访问
 
 //获取编码器的值
@@ -60,14 +65,14 @@ void SysTick_Handler(void)
 {
     tick_ms++;
 
-    /* 方案2：SysTick 每 5ms 在中断中直接采样 IMU。
-     * mpu6050_update() 耗时 < 1ms，不影响 1ms SysTick 精度。
-     * 内部有 g_bus.i2c==NULL 保护，未初始化时直接返回。 */
+    /* 每 5ms 设标志，主循环检测后调 mpu6050_update()。
+     * 不在 ISR 里做 I2C（阻塞15ms会卡死 SysTick → tick_ms/dt 不准 → yaw 漂）。
+     * mpu6050_update() 内部有 g_bus.i2c==NULL 保护，未初始化时直接返回。 */
     static uint8_t imu_tick = 0;
     if (++imu_tick >= 5)
     {
         imu_tick = 0;
-        mpu6050_update();
+        g_imu_update_flag = true;
     }
 }
 

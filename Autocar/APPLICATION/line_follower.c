@@ -110,7 +110,7 @@ float line_folower(float kp, float ki, float kd)
                 if (tick_ms - last_warn_ms >= 500)
                 {
                     last_warn_ms = tick_ms;
-                    USART_SendString((unsigned char*)"[WARN] All-white detected, entering turn mode\r\n");
+                    // USART_SendString((unsigned char*)"[WARN] All-white detected, entering turn mode\r\n");  /* VOFA 调试中，注释掉 */
                 }
             }
         }
@@ -174,19 +174,14 @@ void car_trun(int trun_pwm)
         MOTOR_RAW(trun_pwm, trun_pwm, -trun_pwm/2, -trun_pwm/2);
     }
 
-    /* 退出转弯：中心传感器 s4,s5 都看到线（s=0 为黑线）才退出。
-     * 退出时重置 CV：转弯用 MOTOR_RAW 绕过 PI，CV 停留在旧值，
-     * 退出回到 car_run 时 CV 和新 target 不匹配 → 电机过度驱动 → 小冲一段。
-     * 重置到匹配 base_speed 的初值，PI 平滑接管。
-     * 注意：倒退的轮子此时 CV 被重置为正值（前进），方向切回前进。 */
-    if (!s4 && !s5)
+    /* 退出转弯：中间四个传感器(s3~s6)任意一个看到线（s=0 为黑线）就退出。
+     * 原条件 !s4&&!s5（s4和s5都有线）太严格，车体歪时可能只扫到s3或s6→不退出→转过头。
+     * 用 s3~s6 而非 s1~s8：外侧传感器在转弯时可能误扫到旁边线（十字/平行线），
+     * 中间四个覆盖车体正前方，车转到大致对准线时才触发，既不误触发也不太严格。 */
+    if (!s3 || !s4 || !s5 || !s6)
     {
          trun_flage = false;
          Velocity_ResetAll(base_speed * 4);
-    }
-    else
-    {
-        turn_exit_cnt = 0;
     }
 }
 

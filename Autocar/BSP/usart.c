@@ -89,7 +89,7 @@ void UART_0_INST_IRQHandler(void)
 	{
 		case DL_UART_IIDX_RX://如果是接收中断			
 			receivedData = DL_UART_Main_receiveData(UART_0_INST);
-		USART_SendData(receivedData);
+		// USART_SendData(receivedData);  /* 关闭回显，避免干扰 VOFA JustFloat */
 			// 检查缓冲区是否已满	Check if the buffer is full
 			if (recv0_length < RE_0_BUFF_LEN_MAX - 1)
 			{

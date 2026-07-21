@@ -99,9 +99,10 @@ int main(void)
     u8g2Init(&u8g2);
     DL_GPIO_setPins(GPIO_MOTOR_STBY_PORT, GPIO_MOTOR_STBY_PIN);
 
-    USART_SendString((unsigned char*)"Encoder Test\r\n");
+    // USART_SendString((unsigned char*)"Encoder Test\r\n");
 
-    // /* MPU6050 初始化（I2C1: SDA=PA30, SCL=PA15, 不启用VOFA波形输出） */
+    /* MPU6050 初始化（I2C1: SDA=PA30, SCL=PA15, 不启用VOFA波形输出）。
+     * 必须调用，否则 g_bus.i2c==NULL，mpu6050_update() 直接返回，IMU 不工作。 */
     {
         Mpu6050Status mpu_status = mpu6050_service_init(
             DL_GPIO_PIN_30, DL_GPIO_PIN_15, false);
@@ -147,61 +148,37 @@ int main(void)
 
     while (1)
     {
-        // mpu6050_update();
+        /* IMU 更新：SysTick ISR 每 5ms 设标志，主循环里做 I2C + 融合。
+         * 放在 OLED 之前，优先于耗时 30-50ms 的 OLED 刷新。
+         * 不在 ISR 里做，避免 I2C 阻塞导致 tick_ms/dt 不准。 */
+        if (g_imu_update_flag)
+        {
+            g_imu_update_flag = false;
+            mpu6050_update();
+        }
+
         OLED_SHOW(&u8g2);
 
         line_follower_update();
         if(stop_flag) car_stop();
-         else CAR_CONTROL();  
+         else CAR_CONTROL();
 
         /* ===== 每1秒打印一次传感器数据 ===== */
-        {
-            static uint32_t last_sensor_ms = 0;
-            if (tick_ms - last_sensor_ms >= 1000)
-            {
-                last_sensor_ms = tick_ms;
-                const Mpu6050Data *d = mpu6050_get_data();
-                char buf[80];
-                sprintf(buf,
-                    "S:%d%d%d%d%d%d%d%d L:%.0f R:%.0f mm/s Y:%.1f\r\n",
-                    s1, s2, s3, s4, s5, s6, s7, s8,
-                    calculate_motor_speed('A'),
-                    calculate_motor_speed('C'),
-                    d->yaw_deg);
-                USART_SendString((unsigned char*)buf);
-            }
-        }
-    }
-}
-
-        //CAR_CONTROL();
-        //delay_ms(20);
-
-        // // ========== VOFA+ 波形模式 (每100ms发一帧) ==========
         // {
-        //     static uint8_t cnt = 0;
-        //     cnt++;
-        //     if (cnt >= 5) {  // 20ms×5 = 100ms
-        //         cnt = 0;
-        //         float vofa_data[8];
-        //         vofa_data[0] = calculate_motor_speed('A');
-        //         vofa_data[1] = calculate_motor_speed('B');
-        //         vofa_data[2] = calculate_motor_speed('C');
-        //         vofa_data[3] = calculate_motor_speed('D');
-        //         // 预留 PWM 通道, 目前填 0
-        //         vofa_data[4] = 0;
-        //         vofa_data[5] = 0;
-        //         vofa_data[6] = 0;
-        //         vofa_data[7] = 0;
-        //         VOFA_SendFrame(vofa_data, 8);
+        //     static uint32_t last_sensor_ms = 0;
+        //     if (tick_ms - last_sensor_ms >= 1000)
+        //     {
+        //         last_sensor_ms = tick_ms;
+        //         const Mpu6050Data *d = mpu6050_get_data();
+        //         char buf[80];
+        //         sprintf(buf,
+        //             "S:%d%d%d%d%d%d%d%d L:%.0f R:%.0f mm/s Y:%.1f\r\n",
+        //             s1, s2, s3, s4, s5, s6, s7, s8,
+        //             calculate_motor_speed('A'),
+        //             calculate_motor_speed('C'),
+        //             d->yaw_deg);
+        //         USART_SendString((unsigned char*)buf);
         //     }
         // }
-
-        // // ========== 文本调试模式 (二选一, 用VOFA时注释掉下面) ==========
-        // char buf[100];
-        // sprintf(buf, "A:%d/%.0f B:%d/%.0f C:%d/%.0f D:%d/%.0f\r\n",
-        //     get_encoder_count('A'), calculate_motor_speed('A'),
-        //     get_encoder_count('B'), calculate_motor_speed('B'),
-        //     get_encoder_count('C'), calculate_motor_speed('C'),
-        //     get_encoder_count('D'), calculate_motor_speed('D'));
-        // USART_SendString((unsigned char*)buf);
+    }
+}

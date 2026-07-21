@@ -382,10 +382,5 @@ void OLED_SHOW(u8g2_t *u8g2)
     u8g2_FirstPage(u8g2);   // 开始分页渲染
     do {
         HOME_directory(u8g2);
-        /*
-         * 方案1：IMU 解算已移到主循环固定 5ms 周期，OLED 不再触发采样。
-         * 避免两轮 OLED_SHOW 之间 dt 过大导致 Mahony 积分遗漏。
-         */
-        // mpu6050_update();  /* 已移至主循环 */
     } while(u8g2_NextPage(u8g2)); // 分页渲染完成
 }

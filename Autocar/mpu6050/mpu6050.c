@@ -463,34 +463,36 @@ static void update_euler_and_yaw(float dt)
     const float q2 = g_filter.q2;
     const float q3 = g_filter.q3;
     const float sin_pitch = 2.0f * (q0 * q2 - q3 * q1);
-    const float accel_norm = sqrtf(g_data.accel_g[0] * g_data.accel_g[0] +
-        g_data.accel_g[1] * g_data.accel_g[1] +
-        g_data.accel_g[2] * g_data.accel_g[2]);
-    float vertical_rate_dps = 0.0f;
+    float yaw_rate_dps;
 
     g_data.roll_deg = atan2f(2.0f * (q0 * q1 + q2 * q3),
         1.0f - 2.0f * (q1 * q1 + q2 * q2)) * MPU6050_RAD_TO_DEG;
     g_data.pitch_deg = asinf(fmaxf(-1.0f, fminf(1.0f, sin_pitch))) *
                        MPU6050_RAD_TO_DEG;
 
-    /*
-     * MPU6050 没有磁力计，yaw 只能由陀螺积分得到。将机体系角速度
-     * 投影到重力方向，可避免俯仰/横滚修正误差被误算成 yaw。
-     */
-    if (accel_norm > 0.5f)
-    {
-        vertical_rate_dps =
-            (g_data.gyro_dps[0] * g_data.accel_g[0] +
-             g_data.gyro_dps[1] * g_data.accel_g[1] +
-             g_data.gyro_dps[2] * g_data.accel_g[2]) / accel_norm;
-    }
+    /* yaw 直接用 Z 轴陀螺积分。
+     * 原方案用 vertical_rate 投影 (gyro·accel/|accel|) 把角速度投影到
+     * 重力方向，但小车加速/刹车时 accel 不只是重力，投影被噪声污染 → 不准。
+     * 小车在水平面上跑，Z 轴近似垂直，直接用 gz 更简单更准。
+     * 若后续有爬坡/倾斜需求再改回投影方案。 */
+    yaw_rate_dps = g_data.gyro_dps[2];
 
     if (g_data.stationary ||
-        (fabsf(vertical_rate_dps) < MPU6050_YAW_RATE_DEADBAND_DPS))
+        (fabsf(yaw_rate_dps) < MPU6050_YAW_RATE_DEADBAND_DPS))
     {
-        vertical_rate_dps = 0.0f;
+        yaw_rate_dps = 0.0f;
     }
-    g_data.yaw_deg += vertical_rate_dps * dt;
+    g_data.yaw_deg += yaw_rate_dps * dt;
+
+    /* 归一化到 ±180°，避免无限累积。 */
+    if (g_data.yaw_deg > 180.0f)
+    {
+        g_data.yaw_deg -= 360.0f;
+    }
+    else if (g_data.yaw_deg < -180.0f)
+    {
+        g_data.yaw_deg += 360.0f;
+    }
 }
 
 Mpu6050Status mpu6050_init(const Mpu6050BusConfig *config)
@@ -584,7 +586,10 @@ bool mpu6050_update(void)
     now = tick_ms;
     dt = (float)(uint32_t)(now - g_filter.last_update_ms) * 0.001f;
     g_filter.last_update_ms = now;
-    if ((dt < 0.004f) || (dt > 0.05f))
+    /* dt 限幅：下限 4ms 防过小，上限 100ms 适应主循环被 OLED 阻塞的情况。
+     * 原上限 50ms 太严，主循环周期 50-80ms 时 dt 被钳为 10ms，
+     * 导致 yaw 积分只有实际的 1/5~1/8（转90°只显示11°）。 */
+    if ((dt < 0.004f) || (dt > 0.1f))
     {
         dt = 0.01f;
     }

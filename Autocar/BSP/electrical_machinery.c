@@ -228,6 +228,22 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     //    }
     //}
 
+    // ===== VOFA+ 速度 PI 调试 (A电机, 每 20ms 一帧) =====
+       {
+           static uint32_t last_vofa = 0;
+           if (tick_ms - last_vofa >= 20)
+           {
+               last_vofa = tick_ms;
+               float vofa[4];
+               int speedA = (int)calculate_motor_speed('A');
+               vofa[0] = (float)TargetVelocity_A;
+               vofa[1] = (float)speedA;
+               vofa[2] = (float)ControlVelocity_A;
+               vofa[3] = (float)(TargetVelocity_A - speedA);
+               VOFA_SendFrame(vofa, 4);
+           }
+       }
+
     DL_TimerG_setCaptureCompareValue(PWMA_INST, ControlVelocity_A, GPIO_PWMA_C0_IDX);
 	DL_TimerG_setCaptureCompareValue(PWMB_INST, ControlVelocity_B, GPIO_PWMB_C1_IDX);
 	DL_TimerG_setCaptureCompareValue(PWMC_INST, ControlVelocity_C, GPIO_PWMC_C1_IDX);
