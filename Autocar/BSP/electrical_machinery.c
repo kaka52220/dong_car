@@ -129,10 +129,10 @@ void Velocity_ResetAll(int seed_target)
     if (seed_cv > 800)  seed_cv = 800;
     if (seed_cv < -800) seed_cv = -800;
 
-    cv_A = seed_cv;  lb_A = 0;
-    cv_B = seed_cv;  lb_B = 0;
-    cv_C = seed_cv;  lb_C = 0;
-    cv_D = seed_cv;  lb_D = 0;
+    cv_A = seed_cv;  lb_A = seed_target;  /* Last_bias=seed_target 消除瞬态冲量 */
+    cv_B = seed_cv;  lb_B = seed_target;
+    cv_C = seed_cv;  lb_C = seed_target;
+    cv_D = seed_cv;  lb_D = seed_target;
 }
 
 void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocity_C, int TargetVelocity_D)

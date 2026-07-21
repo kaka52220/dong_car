@@ -96,14 +96,12 @@ float line_folower(float kp, float ki, float kd)
         if (out_num >= 2)                        /* 原 >= 3，减少直行窗口 */
         {
             trun_flage = true;
-            /* 用丢线前 last_error 的符号锁定直角转弯方向。
-             * last_error 是丢线前最后一次有效巡线的误差，综合了所有传感器：
-             *   > 0 → 线在左侧 → 左转去找线
-             *   < 0 → 线在右侧 → 右转去找线
-             * 加阈值避免 error 在 0 附近抖动导致方向乱切。
-             * |last_error| 较小时保持上次的 turn_dir_locked。 */
-            if (last_error > 1.0f)       turn_dir_locked = true;
-            else if (last_error < -1.0f) turn_dir_locked = false;
+            /* 方向锁定：用 left_flage（正常巡线时持续更新的方向记忆）。
+             * left_flage 基于 s1,s2 vs s7,s8 对比，不受中间传感器干扰。
+             * 原方案用 last_error（所有传感器加权平均），锐角弯时 s3/s4
+             * 权重为正会干扰方向判断 → 转反。left_flage 只看最外侧，更可靠。
+             * 丢线时 left_flage 保持最后的值（丢线不进第3步，不更新）。 */
+            turn_dir_locked = left_flage;
             turn_exit_cnt = 0;
             {
                 static uint32_t last_warn_ms = 0;
@@ -122,8 +120,17 @@ float line_folower(float kp, float ki, float kd)
     out_num = 0;
     error   = (float)sum_w / (float)black_cnt;  /* 浮点除法，加权平均 */
 
-    if (!s1)       left_flage = true;
-    else if (!s8)  left_flage = false;
+    /* 方向记忆：用最外侧 s1,s2 vs s7,s8 对比，不受中间 s3/s4/s5/s6 干扰。
+     * 原方案只看 s1/s8（if-else if 互斥），单传感器噪声易翻转。
+     * 现在两侧各统计2个传感器数量，更稳定。
+     * 正常巡线时持续更新，丢线时保持最后的值供 turn_dir_locked 使用。 */
+    {
+        int left_cnt  = (!s1) + (!s2);   /* 左侧 s1,s2 有线数量 (0-2) */
+        int right_cnt = (!s7) + (!s8);   /* 右侧 s7,s8 有线数量 (0-2) */
+        if (left_cnt > right_cnt)       left_flage = true;   /* 线偏左 */
+        else if (right_cnt > left_cnt)  left_flage = false;  /* 线偏右 */
+        /* 相等时保持上次 left_flage */
+    }
 
     /* ══════════════ 第4步：误差死区（|error|<2 → 0，抑制直行抖动） ══════════════ */
     if (error > -1 && error < 1) error = 0;
@@ -165,13 +172,15 @@ void car_trun(int trun_pwm)
      * 的前进值，倒退的轮子切回前进时 PI 从正确初值开始，不会冲。 */
     if (turn_dir_locked)
     {
-        /* 左转：右轮 C,D 正常前进，左轮 A,B 一半速度倒退 */
-        MOTOR_RAW(-trun_pwm/2, -trun_pwm/2, trun_pwm, trun_pwm);
+        /* 左转：右轮 C,D 正常前进，左轮 A,B 2/3 速度倒退。
+         * 原用 /2（PWM=100）低于电机死区，某些轮子转不动。
+         * 改用 *2/3（PWM=133）确保超过死区，四个轮子都动。 */
+        MOTOR_RAW(-trun_pwm*2/3, -trun_pwm*2/3, trun_pwm, trun_pwm);
     }
     else
     {
-        /* 右转：左轮 A,B 正常前进，右轮 C,D 一半速度倒退 */
-        MOTOR_RAW(trun_pwm, trun_pwm, -trun_pwm/2, -trun_pwm/2);
+        /* 右转：左轮 A,B 正常前进，右轮 C,D 2/3 速度倒退 */
+        MOTOR_RAW(trun_pwm, trun_pwm, -trun_pwm*2/3, -trun_pwm*2/3);
     }
 
     /* 退出转弯：中间四个传感器(s3~s6)任意一个看到线（s=0 为黑线）就退出。
@@ -181,7 +190,7 @@ void car_trun(int trun_pwm)
     if (!s3 || !s4 || !s5 || !s6)
     {
          trun_flage = false;
-         Velocity_ResetAll(base_speed * 4);
+         Velocity_ResetAll(base_speed * 4);//，和 car_run 内部的换算一致
     }
 }
 
