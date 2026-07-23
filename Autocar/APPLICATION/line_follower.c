@@ -155,8 +155,22 @@ float line_folower(float kp, float ki, float kd)
     }
 
     last_valid_diff = output;   /* 保存有效差速，供丢线续行用 */
+    
+       {
+           static uint32_t last_vofa = 0;
+           if (tick_ms - last_vofa >= 20)
+           {
+               last_vofa = tick_ms;
+               float vofa[1];
+              // int speedA = (int)calculate_motor_speed('A');
+               vofa[0] =output;
+            //    vofa[1] = (float)speedA;
+            //    vofa[2] = (float)ControlVelocity_A;
+            //    vofa[3] = (float)(TargetVelocity_A - speedA);
+               VOFA_SendFrame(vofa,1);
+           }
+       }
     return output;
-
 }
 
 void car_trun(int trun_pwm)

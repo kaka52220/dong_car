@@ -229,20 +229,20 @@ void MOTOR_CONTROL(int TargetVelocity_A, int TargetVelocity_B, int TargetVelocit
     //}
 
     // ===== VOFA+ 速度 PI 调试 (A电机, 每 20ms 一帧) =====
-       {
-           static uint32_t last_vofa = 0;
-           if (tick_ms - last_vofa >= 20)
-           {
-               last_vofa = tick_ms;
-               float vofa[4];
-               int speedA = (int)calculate_motor_speed('A');
-               vofa[0] = (float)TargetVelocity_A;
-               vofa[1] = (float)speedA;
-               vofa[2] = (float)ControlVelocity_A;
-               vofa[3] = (float)(TargetVelocity_A - speedA);
-               VOFA_SendFrame(vofa, 4);
-           }
-       }
+    //    {
+    //        static uint32_t last_vofa = 0;
+    //        if (tick_ms - last_vofa >= 20)
+    //        {
+    //            last_vofa = tick_ms;
+    //            float vofa[4];
+    //            int speedA = (int)calculate_motor_speed('A');
+    //            vofa[0] = (float)TargetVelocity_A;
+    //            vofa[1] = (float)speedA;
+    //            vofa[2] = (float)ControlVelocity_A;
+    //            vofa[3] = (float)(TargetVelocity_A - speedA);
+    //            VOFA_SendFrame(vofa, 4);
+    //        }
+    //    }
 
     DL_TimerG_setCaptureCompareValue(PWMA_INST, ControlVelocity_A, GPIO_PWMA_C0_IDX);
 	DL_TimerG_setCaptureCompareValue(PWMB_INST, ControlVelocity_B, GPIO_PWMB_C1_IDX);
@@ -300,8 +300,12 @@ void car_run(int base_speed_pct, float differential)
 {
     int base_speed = base_speed_pct * 4;
     //浮点运算保证精度，最后再转int
-    float left_speed_f  = base_speed - differential / 2.0f;
-    float right_speed_f = base_speed + differential / 2.0f;
+    float differential_A = differential * 2;
+    // float left_speed_f  = base_speed - differential / 2.0f;
+    // float right_speed_f = base_speed + differential / 2.0f;
+    
+    float left_speed_f  = base_speed - differential_A;
+    float right_speed_f = base_speed + differential_A;
 
     int left_speed  = (int)left_speed_f;
     int right_speed = (int)right_speed_f;
@@ -320,5 +324,7 @@ void car_run(int base_speed_pct, float differential)
 
 void car_stop()
 {
-	car_run(0, 0);
+	// car_run(0, 0);
+    MOTOR_RAW(0, 0, 0, 0);    // 直接停，不走 PI
+    Velocity_ResetAll(0);      // CV 清零，防止残留
 }
